@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Local source">
+      <UniqueIdentifier>{efb2f717-7595-435f-bc92-0eac8048cf5d}</UniqueIdentifier>
+      <Extensions>cpp;h;</Extensions>
+    </Filter>
+    <Filter Include="Shared">
+      <UniqueIdentifier>{1a259d42-e3bc-4dba-b7a3-a352351f9350}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shared\FileIO">
+      <UniqueIdentifier>{1d1fda66-c833-4f3c-b6b8-cf9ac37aa790}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shared\FileIO\XML">
+      <UniqueIdentifier>{759d0449-db77-4c0e-888b-16f78217e3aa}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="DllMain.cpp">
+      <Filter>Local source</Filter>
+    </ClCompile>
+    <ClCompile Include="RornSceneExporter.cpp">
+      <Filter>Local source</Filter>
+    </ClCompile>
+    <ClCompile Include="RornSceneExporterClassDesc.cpp">
+      <Filter>Local source</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneEnumerator.cpp">
+      <Filter>Local source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Shared\FileIO\XML\XMLDocumentBuilder.cpp">
+      <Filter>Shared\FileIO\XML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Shared\FileIO\XML\XMLElement.cpp">
+      <Filter>Shared\FileIO\XML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Shared\FileIO\XML\XMLElementAttribute.cpp">
+      <Filter>Shared\FileIO\XML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Shared\FileIO\XML\XMLHierarchyElement.cpp">
+      <Filter>Shared\FileIO\XML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Shared\FileIO\XML\XMLValueElement.cpp">
+      <Filter>Shared\FileIO\XML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Shared\FileIO\XML\XMLWriter.cpp">
+      <Filter>Shared\FileIO\XML</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="RornSceneExporter.h">
+      <Filter>Local source</Filter>
+    </ClInclude>
+    <ClInclude Include="RornSceneExporterClassDesc.h">
+      <Filter>Local source</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneEnumerator.h">
+      <Filter>Local source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Shared\FileIO\XML\XMLDocumentBuilder.h">
+      <Filter>Shared\FileIO\XML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Shared\FileIO\XML\XMLElement.h">
+      <Filter>Shared\FileIO\XML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Shared\FileIO\XML\XMLElementAttribute.h">
+      <Filter>Shared\FileIO\XML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Shared\FileIO\XML\XMLHierarchyElement.h">
+      <Filter>Shared\FileIO\XML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Shared\FileIO\XML\XMLValueElement.h">
+      <Filter>Shared\FileIO\XML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Shared\FileIO\XML\XMLWriter.h">
+      <Filter>Shared\FileIO\XML</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SceneExporter.def">
+      <Filter>Local source</Filter>
+    </None>
+  </ItemGroup>
+</Project>
