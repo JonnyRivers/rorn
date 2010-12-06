@@ -17,7 +17,6 @@ public:
 protected:
 	virtual void SerializeDerived(XMLWriter& writer) const;
 private:
-	std::vector<XMLHierarchyElement> childHierarchyElements_;
-	std::vector<XMLValueElement> childValueElements_;
+	std::vector<std::shared_ptr<XMLElement>> childElements_;
 };
 

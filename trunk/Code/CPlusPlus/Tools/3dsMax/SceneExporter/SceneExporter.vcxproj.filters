@@ -25,9 +25,6 @@
     <ClCompile Include="RornSceneExporterClassDesc.cpp">
       <Filter>Local source</Filter>
     </ClCompile>
-    <ClCompile Include="SceneEnumerator.cpp">
-      <Filter>Local source</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Shared\FileIO\XML\XMLDocumentBuilder.cpp">
       <Filter>Shared\FileIO\XML</Filter>
     </ClCompile>
@@ -52,9 +49,6 @@
       <Filter>Local source</Filter>
     </ClInclude>
     <ClInclude Include="RornSceneExporterClassDesc.h">
-      <Filter>Local source</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneEnumerator.h">
       <Filter>Local source</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Shared\FileIO\XML\XMLDocumentBuilder.h">
