@@ -335,7 +335,6 @@
     <ClCompile Include="DllMain.cpp" />
     <ClCompile Include="RornSceneExporter.cpp" />
     <ClCompile Include="RornSceneExporterClassDesc.cpp" />
-    <ClCompile Include="SceneEnumerator.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Shared\FileIO\XML\XMLDocumentBuilder.h" />
@@ -346,7 +345,6 @@
     <ClInclude Include="..\..\..\Shared\FileIO\XML\XMLWriter.h" />
     <ClInclude Include="RornSceneExporter.h" />
     <ClInclude Include="RornSceneExporterClassDesc.h" />
-    <ClInclude Include="SceneEnumerator.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SceneExporter.def" />
