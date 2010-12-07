@@ -73,9 +73,7 @@ int RornSceneExporter::DoExport(const TCHAR* filename,
 {
 	XMLDocumentBuilder xmlDocBuilder("Scene");
 	INode* rootNode = maxInterface->GetRootNode();
-	std::set<Mtl*> materialsToExport;
-	ExportNodeRecursive(rootNode, xmlDocBuilder.GetRootElement(), materialsToExport);
-	ExportMaterials(materialsToExport, xmlDocBuilder.GetRootElement());
+	ExportNodeRecursive(rootNode, xmlDocBuilder.GetRootElement());
 	xmlDocBuilder.Save(filename);
 
 	return IMPEXP_SUCCESS;
@@ -88,17 +86,17 @@ BOOL RornSceneExporter::SupportsOptions(int ext, DWORD options)
 	return(options == SCENE_EXPORT_SELECTED) ? TRUE : FALSE;
 }
 
-/*static*/ void RornSceneExporter::ExportNodeRecursive(INode* parentNode, XMLHierarchyElement& parentElement, std::set<Mtl*>& materialsToExport)
+/*static*/ void RornSceneExporter::ExportNodeRecursive(INode* parentNode, XMLHierarchyElement& parentElement)
 {
 	if(parentNode != GetCOREInterface()->GetRootNode())
 	{
 		XMLHierarchyElement& newNodeElement = parentElement.AddChildHierarchyElement("Node");
 
-		ExportNode(parentNode, newNodeElement, materialsToExport);
+		ExportNode(parentNode, newNodeElement);
 
 		for(int childIndex = 0 ; childIndex < parentNode->NumberOfChildren() ; ++childIndex)
 		{
-			ExportNodeRecursive(parentNode->GetChildNode(childIndex), newNodeElement, materialsToExport);
+			ExportNodeRecursive(parentNode->GetChildNode(childIndex), newNodeElement);
 		}
 	}
 	else
@@ -106,31 +104,44 @@ BOOL RornSceneExporter::SupportsOptions(int ext, DWORD options)
 		// The root node is a special case, here we just pass the root element through to its children
 		for(int childIndex = 0 ; childIndex < parentNode->NumberOfChildren() ; ++childIndex)
 		{
-			ExportNodeRecursive(parentNode->GetChildNode(childIndex), parentElement, materialsToExport);
+			ExportNodeRecursive(parentNode->GetChildNode(childIndex), parentElement);
 		}
 	}
 }
 
-/*static*/ void RornSceneExporter::ExportNode(INode* node, XMLHierarchyElement& nodeElement, std::set<Mtl*>& materialsToExport)
+/*static*/ void RornSceneExporter::ExportNode(INode* node, XMLHierarchyElement& nodeElement)
 {
 	nodeElement.AddChildValueElement("Name", node->GetName());
+	ExportMaterial(node->GetMtl(), nodeElement);
 
-	bool addMaterial = false;
 	Object* nodeObject = node->EvalWorldState(0).obj;
 	if (nodeObject->CanConvertToType(triObjectClassID))// is it a mesh?
 	{
-		addMaterial = true;
 		TriObject* triObject = (TriObject*)nodeObject->ConvertToType(0, triObjectClassID);
 		Mesh& mesh = triObject->GetMesh();
 		XMLHierarchyElement& meshElement = nodeElement.AddChildHierarchyElement("Mesh");
 		ExportMesh(mesh, meshElement);
 	}
+}
 
-	if(addMaterial)
+/*static*/ void RornSceneExporter::ExportMaterial(Mtl* material, XMLHierarchyElement& parentElement)
+{
+	if(material == NULL)
+		return;// nothing to export!
+
+	if(material->IsMultiMtl())
 	{
-		Mtl* nodeMaterial = node->GetMtl();
-		if( materialsToExport.find(nodeMaterial) == materialsToExport.end() )
-			materialsToExport.insert(nodeMaterial);
+		XMLHierarchyElement& multiMtl = parentElement.AddChildHierarchyElement("MultiMtl");
+		for(int childMtlIndex = 0 ; childMtlIndex != material->NumSubMtls() ; ++childMtlIndex)
+		{
+			Mtl* childMaterial = material->GetSubMtl(childMtlIndex);
+			ExportMaterial(childMaterial, parentElement);
+		}
+	}
+	else
+	{
+		parentElement.AddChildValueElement("Name", material->GetName());
+		// TODO - We want to export colours and texture information
 	}
 }
 
@@ -151,6 +162,8 @@ BOOL RornSceneExporter::SupportsOptions(int ext, DWORD options)
 
 		ExportFace(name.str().c_str(), mesh.faces[faceIndex], meshElement);
 	}
+
+	// TODO - We also want to export UVs, colours and normals
 }
 /*static*/ void RornSceneExporter::ExportPoint(const char* name, const Point3& point, XMLHierarchyElement& meshElement)
 {
@@ -188,19 +201,4 @@ BOOL RornSceneExporter::SupportsOptions(int ext, DWORD options)
 	std::stringstream matIdValue;
 	matIdValue << face.getMatID();
 	faceElement.AddChildValueElement("MatId", matIdValue.str().c_str());
-}
-
-/*static*/ void RornSceneExporter::ExportMaterials(const std::set<Mtl*>& materialsToExport, XMLHierarchyElement& parentElement)
-{
-	std::set<Mtl*>::const_iterator it;
-	for(it = materialsToExport.cbegin() ; it != materialsToExport.cend() ; ++it)
-	{
-		XMLHierarchyElement& newMaterialElement = parentElement.AddChildHierarchyElement("Material");
-		ExportMaterial(*it, newMaterialElement);
-	}
-}
-
-/*static*/ void RornSceneExporter::ExportMaterial(Mtl* materialToExport, XMLHierarchyElement& materialElement)
-{
-	materialElement.AddChildValueElement("Name", materialToExport->GetName());
 }
