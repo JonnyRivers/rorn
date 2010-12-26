@@ -1,10 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Local source">
-      <UniqueIdentifier>{efb2f717-7595-435f-bc92-0eac8048cf5d}</UniqueIdentifier>
-      <Extensions>cpp;h;</Extensions>
-    </Filter>
     <Filter Include="Shared">
       <UniqueIdentifier>{1a259d42-e3bc-4dba-b7a3-a352351f9350}</UniqueIdentifier>
     </Filter>
@@ -14,16 +10,26 @@
     <Filter Include="Shared\FileIO\XML">
       <UniqueIdentifier>{759d0449-db77-4c0e-888b-16f78217e3aa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shared\3DSMax">
+      <UniqueIdentifier>{5661ae13-35b1-4611-96dd-24cebe91dcab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Max SDK Interop">
+      <UniqueIdentifier>{efb2f717-7595-435f-bc92-0eac8048cf5d}</UniqueIdentifier>
+      <Extensions>cpp;h;</Extensions>
+    </Filter>
+    <Filter Include="Local source">
+      <UniqueIdentifier>{6daccbc8-4307-4a07-9442-748d65ef7acc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DllMain.cpp">
-      <Filter>Local source</Filter>
+      <Filter>Max SDK Interop</Filter>
     </ClCompile>
     <ClCompile Include="RornSceneExporter.cpp">
-      <Filter>Local source</Filter>
+      <Filter>Max SDK Interop</Filter>
     </ClCompile>
     <ClCompile Include="RornSceneExporterClassDesc.cpp">
-      <Filter>Local source</Filter>
+      <Filter>Max SDK Interop</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\Shared\FileIO\XML\XMLDocumentBuilder.cpp">
       <Filter>Shared\FileIO\XML</Filter>
@@ -43,13 +49,22 @@
     <ClCompile Include="..\..\..\Shared\FileIO\XML\XMLWriter.cpp">
       <Filter>Shared\FileIO\XML</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Shared\3DSMax\SDKHelper.cpp">
+      <Filter>Shared\3DSMax</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneValidator.cpp">
+      <Filter>Local source</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneExporter.cpp">
+      <Filter>Local source</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RornSceneExporter.h">
-      <Filter>Local source</Filter>
+      <Filter>Max SDK Interop</Filter>
     </ClInclude>
     <ClInclude Include="RornSceneExporterClassDesc.h">
-      <Filter>Local source</Filter>
+      <Filter>Max SDK Interop</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Shared\FileIO\XML\XMLDocumentBuilder.h">
       <Filter>Shared\FileIO\XML</Filter>
@@ -69,10 +84,19 @@
     <ClInclude Include="..\..\..\Shared\FileIO\XML\XMLWriter.h">
       <Filter>Shared\FileIO\XML</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\Shared\3DSMax\SDKHelper.h">
+      <Filter>Shared\3DSMax</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneValidator.h">
+      <Filter>Local source</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneExporter.h">
+      <Filter>Local source</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="SceneExporter.def">
-      <Filter>Local source</Filter>
+      <Filter>Max SDK Interop</Filter>
     </None>
   </ItemGroup>
 </Project>
