@@ -1,11 +1,14 @@
 #pragma once
 
-#include <set>
+#include <string>
+#include <vector>
 
 #include <Max.h>
 
 #include "..\..\..\Shared\FileIO\XML\XMLDocumentBuilder.h"
 
+// This class simply satisfies the Max SDK requirement to derive from SceneExport.
+// All of the real work is farmed out to SceneValidator and SceneExporter.
 class RornSceneExporter : public SceneExport
 {
 public:
@@ -22,9 +25,10 @@ public:
 	const TCHAR* OtherMessage2();
 	unsigned int Version();
 	void ShowAbout(HWND hWnd);
-	int DoExport(const TCHAR* name, ExpInterface* ei, Interface* i, BOOL suppressPrompts, DWORD options);
+	int DoExport(const TCHAR* filename, ExpInterface* expInterface, Interface* maxInterface, BOOL suppressPrompts, DWORD options);
 	BOOL SupportsOptions(int ext, DWORD options);
 private:
+	static void ExportScene(const TCHAR* filename, Interface* maxInterface);
 	static void ExportNodeRecursive(INode* parentNode, XMLHierarchyElement& parentElement);
 	static void ExportNode(INode* node, XMLHierarchyElement& nodeElement);
 	static void ExportMaterial(Mtl* material, XMLHierarchyElement& parentElement);

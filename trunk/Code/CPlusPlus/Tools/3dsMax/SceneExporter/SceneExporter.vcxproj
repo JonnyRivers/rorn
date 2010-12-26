@@ -326,6 +326,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Shared\3DSMax\SDKHelper.cpp" />
     <ClCompile Include="..\..\..\Shared\FileIO\XML\XMLDocumentBuilder.cpp" />
     <ClCompile Include="..\..\..\Shared\FileIO\XML\XMLElement.cpp" />
     <ClCompile Include="..\..\..\Shared\FileIO\XML\XMLElementAttribute.cpp" />
@@ -335,8 +336,11 @@
     <ClCompile Include="DllMain.cpp" />
     <ClCompile Include="RornSceneExporter.cpp" />
     <ClCompile Include="RornSceneExporterClassDesc.cpp" />
+    <ClCompile Include="SceneExporter.cpp" />
+    <ClCompile Include="SceneValidator.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Shared\3DSMax\SDKHelper.h" />
     <ClInclude Include="..\..\..\Shared\FileIO\XML\XMLDocumentBuilder.h" />
     <ClInclude Include="..\..\..\Shared\FileIO\XML\XMLElement.h" />
     <ClInclude Include="..\..\..\Shared\FileIO\XML\XMLElementAttribute.h" />
@@ -345,6 +349,8 @@
     <ClInclude Include="..\..\..\Shared\FileIO\XML\XMLWriter.h" />
     <ClInclude Include="RornSceneExporter.h" />
     <ClInclude Include="RornSceneExporterClassDesc.h" />
+    <ClInclude Include="SceneExporter.h" />
+    <ClInclude Include="SceneValidator.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SceneExporter.def" />
