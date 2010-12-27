@@ -327,12 +327,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\Shared\3DSMax\SDKHelper.cpp" />
-    <ClCompile Include="..\..\..\Shared\FileIO\XML\XMLDocumentBuilder.cpp" />
-    <ClCompile Include="..\..\..\Shared\FileIO\XML\XMLElement.cpp" />
-    <ClCompile Include="..\..\..\Shared\FileIO\XML\XMLElementAttribute.cpp" />
-    <ClCompile Include="..\..\..\Shared\FileIO\XML\XMLHierarchyElement.cpp" />
-    <ClCompile Include="..\..\..\Shared\FileIO\XML\XMLValueElement.cpp" />
-    <ClCompile Include="..\..\..\Shared\FileIO\XML\XMLWriter.cpp" />
+    <ClCompile Include="..\..\..\Shared\FileIO\XML\DocumentBuilder.cpp" />
+    <ClCompile Include="..\..\..\Shared\FileIO\XML\Element.cpp" />
+    <ClCompile Include="..\..\..\Shared\FileIO\XML\ElementAttribute.cpp" />
+    <ClCompile Include="..\..\..\Shared\FileIO\XML\HierarchyElement.cpp" />
+    <ClCompile Include="..\..\..\Shared\FileIO\XML\ValueElement.cpp" />
+    <ClCompile Include="..\..\..\Shared\FileIO\XML\Writer.cpp" />
     <ClCompile Include="DllMain.cpp" />
     <ClCompile Include="RornSceneExporter.cpp" />
     <ClCompile Include="RornSceneExporterClassDesc.cpp" />
@@ -341,12 +341,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Shared\3DSMax\SDKHelper.h" />
-    <ClInclude Include="..\..\..\Shared\FileIO\XML\XMLDocumentBuilder.h" />
-    <ClInclude Include="..\..\..\Shared\FileIO\XML\XMLElement.h" />
-    <ClInclude Include="..\..\..\Shared\FileIO\XML\XMLElementAttribute.h" />
-    <ClInclude Include="..\..\..\Shared\FileIO\XML\XMLHierarchyElement.h" />
-    <ClInclude Include="..\..\..\Shared\FileIO\XML\XMLValueElement.h" />
-    <ClInclude Include="..\..\..\Shared\FileIO\XML\XMLWriter.h" />
+    <ClInclude Include="..\..\..\Shared\FileIO\XML\DocumentBuilder.h" />
+    <ClInclude Include="..\..\..\Shared\FileIO\XML\Element.h" />
+    <ClInclude Include="..\..\..\Shared\FileIO\XML\ElementAttribute.h" />
+    <ClInclude Include="..\..\..\Shared\FileIO\XML\HierarchyElement.h" />
+    <ClInclude Include="..\..\..\Shared\FileIO\XML\ValueElement.h" />
+    <ClInclude Include="..\..\..\Shared\FileIO\XML\Writer.h" />
     <ClInclude Include="RornSceneExporter.h" />
     <ClInclude Include="RornSceneExporterClassDesc.h" />
     <ClInclude Include="SceneExporter.h" />

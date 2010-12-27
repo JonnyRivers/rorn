@@ -1,16 +1,18 @@
-#include "XMLElement.h"
+#include "Element.h"
 
-XMLElement::XMLElement(const char* name)
+using namespace Rorn::XML;
+
+Element::Element(const char* name)
 	: name_(name)
 {
 	
 }
 
-void XMLElement::Serialize(XMLWriter& writer) const
+void Element::Serialize(Writer& writer) const
 {
 	writer.WriteText("<");
 	writer.WriteText(name_.c_str());
-	for(std::vector<XMLElementAttribute>::const_iterator it = attributes_.begin() ; it != attributes_.end() ; ++it)
+	for(std::vector<ElementAttribute>::const_iterator it = attributes_.begin() ; it != attributes_.end() ; ++it)
 	{
 		writer.WriteText(" ");
 		it->Serialize(writer);
@@ -22,5 +24,4 @@ void XMLElement::Serialize(XMLWriter& writer) const
 	writer.WriteText("</");
 	writer.WriteText(name_.c_str());
 	writer.WriteText(">");
-	writer.WriteLine();
 }

@@ -1,10 +1,16 @@
 #include "SceneExporter.h"
 
+#include <sstream>
+
+#include "../../../Shared/3DSMax/SDKHelper.h"
 
 SceneExporter::SceneExporter(Interface* maxInterface)
+	: maxInterface_(maxInterface),
+	  xmlDocBuilder_("Scene"),
+	  numNodesExported_(0),
+	  numMaterialsExported_(0)
 {
 }
-
 
 SceneExporter::~SceneExporter(void)
 {
@@ -12,25 +18,25 @@ SceneExporter::~SceneExporter(void)
 
 void SceneExporter::ExportScene(const std::string& filename)
 {
+	// Reset the state (to allow multiple uses)
+	xmlDocBuilder_ = Rorn::XML::DocumentBuilder("Scene");
+	materials_.clear();
+	orderedMaterials_.clear();
+	numNodesExported_ = 0;
+	numMaterialsExported_ = 0;
+
+	xmlDocBuilder_.GetRootElement().AddChildValueElement("Source", "3DS Max 2010");
+	INode* rootNode = maxInterface_->GetRootNode();
+	ExportNodeRecursive(rootNode, xmlDocBuilder_.GetRootElement());// materials_ is built up here
+	ExportMaterials(xmlDocBuilder_.GetRootElement());
+	xmlDocBuilder_.Save(filename.c_str());
 }
 
-// DEPRECATED CODE - KILL WHEN FINISHED
-
-/*
-void RornSceneExporter::ExportScene(const TCHAR* filename, Interface* maxInterface)
-{
-	XMLDocumentBuilder xmlDocBuilder("Scene");
-	INode* rootNode = maxInterface->GetRootNode();
-	ExportNodeRecursive(rootNode, xmlDocBuilder.GetRootElement());
-	xmlDocBuilder.GetRootElement().AddChildValueElement("Source", "3DS Max 2010");
-	xmlDocBuilder.Save(filename);
-}
-
-void RornSceneExporter::ExportNodeRecursive(INode* parentNode, XMLHierarchyElement& parentElement)
+void SceneExporter::ExportNodeRecursive(INode* parentNode, Rorn::XML::HierarchyElement& parentElement)
 {
 	if(parentNode != GetCOREInterface()->GetRootNode())
 	{
-		XMLHierarchyElement& newNodeElement = parentElement.AddChildHierarchyElement("Node");
+		Rorn::XML::HierarchyElement& newNodeElement = parentElement.AddChildHierarchyElement("Node");
 
 		ExportNode(parentNode, newNodeElement);
 
@@ -49,93 +55,102 @@ void RornSceneExporter::ExportNodeRecursive(INode* parentNode, XMLHierarchyEleme
 	}
 }
 
-void RornSceneExporter::ExportNode(INode* node, XMLHierarchyElement& nodeElement)
+
+void SceneExporter::ExportNode(INode* node, Rorn::XML::HierarchyElement& nodeElement)
 {
 	nodeElement.AddChildValueElement("Name", node->GetName());
-	ExportMaterial(node->GetMtl(), nodeElement);
+	std::stringstream idStream;
+	idStream << numNodesExported_++;
+	nodeElement.AddChildValueElement("Id", idStream.str().c_str());
 
-	Object* nodeObject = node->EvalWorldState(0).obj;
-	if (nodeObject->CanConvertToType(triObjectClassID))// is it a mesh?
+	if(Rorn::Max::IsMeshNode(node))
 	{
-		TriObject* triObject = (TriObject*)nodeObject->ConvertToType(0, triObjectClassID);
-		Mesh& mesh = triObject->GetMesh();
-		XMLHierarchyElement& meshElement = nodeElement.AddChildHierarchyElement("Mesh");
-		ExportMesh(mesh, meshElement);
+		Mesh& mesh = Rorn::Max::GetMeshFromNode(node);
+		Rorn::XML::HierarchyElement& meshElement = nodeElement.AddChildHierarchyElement("Mesh");
+		ExportMesh(node, mesh, meshElement);
 	}
 }
 
-void RornSceneExporter::ExportMaterial(Mtl* material, XMLHierarchyElement& parentElement)
-{
-	if(material == NULL)
-		return;// nothing to export!
-
-	if(material->IsMultiMtl())
-	{
-		XMLHierarchyElement& multiMtl = parentElement.AddChildHierarchyElement("MultiMtl");
-		for(int childMtlIndex = 0 ; childMtlIndex != material->NumSubMtls() ; ++childMtlIndex)
-		{
-			Mtl* childMaterial = material->GetSubMtl(childMtlIndex);
-			ExportMaterial(childMaterial, parentElement);
-		}
-	}
-	else
-	{
-		parentElement.AddChildValueElement("Name", material->GetName());
-		// TODO - We want to export colours and texture information
-	}
-}
-
-void RornSceneExporter::ExportMesh(Mesh& mesh, XMLHierarchyElement& meshElement)
+void SceneExporter::ExportMesh(INode* node, Mesh& mesh, Rorn::XML::HierarchyElement& meshElement)
 {
 	mesh.buildNormals();
 
-	for(int vertIndex = 0 ; vertIndex < mesh.numVerts ; ++vertIndex)
-	{
-		std::stringstream name;
-		name  << "Vertex" << vertIndex;
-		XMLHierarchyElement& vertexElement = meshElement.AddChildHierarchyElement(name.str().c_str());
-
-		ExportPoint("Position", mesh.verts[vertIndex], vertexElement);
-		ExportPoint("Normal", mesh.gfxNormals[vertIndex], vertexElement);
-	}
-
+	// Export vertices
+	int vertsExported = 0;
 	for(int faceIndex = 0 ; faceIndex < mesh.numFaces ; ++faceIndex)
 	{
-		std::stringstream name;
-		name  << "Face" << faceIndex;
-
-		ExportFace(name.str().c_str(), mesh.faces[faceIndex], meshElement);
+		for(int vertIndex = 0 ; vertIndex < 3 ; ++vertIndex)
+		{
+			Rorn::XML::HierarchyElement& vertexElement = meshElement.AddChildHierarchyElement("Vertex");
+			std::stringstream indexStream;
+			indexStream << vertsExported++;
+			vertexElement.AddChildValueElement("Index", indexStream.str().c_str());
+			ExportPoint3("Position", mesh.verts[mesh.faces[faceIndex].v[vertIndex]], vertexElement);
+			ExportPoint3("Normal", mesh.getFaceNormal(faceIndex), vertexElement);
+		}
 	}
 
+	// export triangles
+	vertsExported = 0; 
+	for(int faceIndex = 0 ; faceIndex < mesh.numFaces ; ++faceIndex)
+	{
+		// Get the material for this face and add it to our collection (if necessary)
+		Mtl* material = Rorn::Max::GetNodeMaterial(node, mesh.faces[faceIndex].getMatID());
+		std::map<Mtl*, int>::const_iterator findIter = materials_.find(material);
+		int materialId;
+		if( findIter != materials_.end())
+		{
+			materialId = findIter->second;// get the id
+		}
+		else
+		{
+			materialId = materials_[material] = numMaterialsExported_++;// add it to the collection
+			orderedMaterials_.push_back(material);// to allow ordered export
+		}
+
+		std::stringstream valueStream;
+		valueStream << vertsExported << "," << vertsExported + 1 << "," << vertsExported + 2 << "," << materialId;
+		vertsExported += 3;
+		meshElement.AddChildValueElement("Triangle", valueStream.str().c_str());
+	}
+}
+
+void SceneExporter::ExportPoint3(const char* name, const Point3& point, Rorn::XML::HierarchyElement& parentElement)
+{
+	std::stringstream valueStream;
+	valueStream << point.x << "," << point.y << "," << point.z;
+	parentElement.AddChildValueElement(name, valueStream.str().c_str());
+}
+
+void SceneExporter::ExportMaterials(Rorn::XML::HierarchyElement& parentElement)
+{
+	// Use our orderedMaterials_ container to export in id order
+	std::vector<Mtl*>::const_iterator materialIter;
+	for(materialIter = orderedMaterials_.begin() ; materialIter != orderedMaterials_.end() ; ++materialIter)
+	{
+		// find the entry in the map to pull ou the index (could iterate, but this feels tighter)
+		std::map<Mtl*, int>::const_iterator findIter = materials_.find(*materialIter);
+		Rorn::XML::HierarchyElement& materialElement = parentElement.AddChildHierarchyElement("Material");
+		ExportMaterial(findIter->first, findIter->second, materialElement);
+	}
+}
+
+void SceneExporter::ExportMaterial(Mtl* material, int id, Rorn::XML::HierarchyElement& materialElement)
+{
+	std::stringstream idStream;
+	idStream << id;
+	materialElement.AddChildValueElement("Id", idStream.str().c_str());
+	ExportPoint3("AmbientColor", material->GetAmbient(), materialElement);
+	ExportPoint3("DiffuseColor", material->GetDiffuse(), materialElement);
+	ExportPoint3("SpecularColor", material->GetSpecular(), materialElement);
 	
+	if(Rorn::Max::IsStandardMaterial(material))
+	{
+		ExportStandardMaterial(static_cast<StdMat*>(material), materialElement);
+	}
 }
 
-void RornSceneExporter::ExportPoint(const char* name, const Point3& point, XMLHierarchyElement& meshElement)
+void SceneExporter::ExportStandardMaterial(StdMat* material, Rorn::XML::HierarchyElement& materialElement)
 {
-	XMLHierarchyElement& pointElement = meshElement.AddChildHierarchyElement(name);
-
-	std::stringstream value;
-	value << point.x << "," << point.y << "," << point.z;
-	pointElement.AddChildValueElement(name, value.str().c_str());
+	// Nothing additional to export atm
 }
-
-void RornSceneExporter::ExportFace(const char* name, Face& face, XMLHierarchyElement& meshElement)
-{
-	XMLHierarchyElement& faceElement = meshElement.AddChildHierarchyElement(name);
-
-	std::stringstream oneValue;
-	oneValue << face.v[0];
-	faceElement.AddChildValueElement("One", oneValue.str().c_str());
-
-	std::stringstream twovalue;
-	twovalue << face.v[1];
-	faceElement.AddChildValueElement("Two", twovalue.str().c_str());
-
-	std::stringstream threeValue;
-	threeValue << face.v[2];
-	faceElement.AddChildValueElement("Three", threeValue.str().c_str());
-
-	std::stringstream matIdValue;
-	matIdValue << face.getMatID();
-	faceElement.AddChildValueElement("MatId", matIdValue.str().c_str());
-}*/

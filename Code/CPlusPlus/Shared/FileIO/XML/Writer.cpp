@@ -1,34 +1,35 @@
-#include "XMLWriter.h"
+#include "Writer.h"
 
+using namespace Rorn::XML;
 
-XMLWriter::XMLWriter(const char* fileName)
+Writer::Writer(const char* fileName)
 	: ofs_(fileName), indentLevel_(0)
 {
 }
 
-XMLWriter::~XMLWriter()
+Writer::~Writer()
 {
 	ofs_.close();
 }
 
-void XMLWriter::WriteText(const char* text)
+void Writer::WriteText(const char* text)
 {
 	ofs_ << text;
 }
 
-void XMLWriter::WriteLine()
+void Writer::WriteLine()
 {
 	ofs_ << std::endl;
 	for(unsigned int indent = 0 ; indent < indentLevel_ ; ++indent)
 		ofs_ << '\t';
 }
 
-void XMLWriter::IncreaseIndentLevel()
+void Writer::IncreaseIndentLevel()
 {
 	++indentLevel_;
 }
 
-void XMLWriter::DecreaseIndentLevel()
+void Writer::DecreaseIndentLevel()
 {
 	--indentLevel_;
 }

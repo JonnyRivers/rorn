@@ -31,24 +31,6 @@
     <ClCompile Include="RornSceneExporterClassDesc.cpp">
       <Filter>Max SDK Interop</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Shared\FileIO\XML\XMLDocumentBuilder.cpp">
-      <Filter>Shared\FileIO\XML</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Shared\FileIO\XML\XMLElement.cpp">
-      <Filter>Shared\FileIO\XML</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Shared\FileIO\XML\XMLElementAttribute.cpp">
-      <Filter>Shared\FileIO\XML</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Shared\FileIO\XML\XMLHierarchyElement.cpp">
-      <Filter>Shared\FileIO\XML</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Shared\FileIO\XML\XMLValueElement.cpp">
-      <Filter>Shared\FileIO\XML</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Shared\FileIO\XML\XMLWriter.cpp">
-      <Filter>Shared\FileIO\XML</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Shared\3DSMax\SDKHelper.cpp">
       <Filter>Shared\3DSMax</Filter>
     </ClCompile>
@@ -58,6 +40,24 @@
     <ClCompile Include="SceneExporter.cpp">
       <Filter>Local source</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Shared\FileIO\XML\DocumentBuilder.cpp">
+      <Filter>Shared\FileIO\XML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Shared\FileIO\XML\Element.cpp">
+      <Filter>Shared\FileIO\XML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Shared\FileIO\XML\ElementAttribute.cpp">
+      <Filter>Shared\FileIO\XML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Shared\FileIO\XML\HierarchyElement.cpp">
+      <Filter>Shared\FileIO\XML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Shared\FileIO\XML\ValueElement.cpp">
+      <Filter>Shared\FileIO\XML</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Shared\FileIO\XML\Writer.cpp">
+      <Filter>Shared\FileIO\XML</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RornSceneExporter.h">
@@ -65,24 +65,6 @@
     </ClInclude>
     <ClInclude Include="RornSceneExporterClassDesc.h">
       <Filter>Max SDK Interop</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Shared\FileIO\XML\XMLDocumentBuilder.h">
-      <Filter>Shared\FileIO\XML</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Shared\FileIO\XML\XMLElement.h">
-      <Filter>Shared\FileIO\XML</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Shared\FileIO\XML\XMLElementAttribute.h">
-      <Filter>Shared\FileIO\XML</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Shared\FileIO\XML\XMLHierarchyElement.h">
-      <Filter>Shared\FileIO\XML</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Shared\FileIO\XML\XMLValueElement.h">
-      <Filter>Shared\FileIO\XML</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\Shared\FileIO\XML\XMLWriter.h">
-      <Filter>Shared\FileIO\XML</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\Shared\3DSMax\SDKHelper.h">
       <Filter>Shared\3DSMax</Filter>
@@ -92,6 +74,24 @@
     </ClInclude>
     <ClInclude Include="SceneExporter.h">
       <Filter>Local source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Shared\FileIO\XML\DocumentBuilder.h">
+      <Filter>Shared\FileIO\XML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Shared\FileIO\XML\Element.h">
+      <Filter>Shared\FileIO\XML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Shared\FileIO\XML\ElementAttribute.h">
+      <Filter>Shared\FileIO\XML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Shared\FileIO\XML\HierarchyElement.h">
+      <Filter>Shared\FileIO\XML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Shared\FileIO\XML\ValueElement.h">
+      <Filter>Shared\FileIO\XML</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Shared\FileIO\XML\Writer.h">
+      <Filter>Shared\FileIO\XML</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
