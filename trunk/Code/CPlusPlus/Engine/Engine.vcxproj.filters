@@ -12,9 +12,15 @@
     <ClCompile Include="Subsystems\RenderManager\RenderManager.cpp">
       <Filter>Subsystems\RenderManager</Filter>
     </ClCompile>
+    <ClCompile Include="Subsystems\RenderManager\Camera.cpp">
+      <Filter>Subsystems\RenderManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Subsystems\RenderManager\RenderManager.h">
+      <Filter>Subsystems\RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\RenderManager\Camera.h">
       <Filter>Subsystems\RenderManager</Filter>
     </ClInclude>
   </ItemGroup>
