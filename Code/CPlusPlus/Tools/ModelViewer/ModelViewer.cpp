@@ -108,12 +108,13 @@ ATOM MyRegisterClass(HINSTANCE hInstance)
 //
 BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 {
-   HWND hWnd;
-
    hInst = hInstance; // Store instance handle in our global variable
-
-   hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-      CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, NULL, NULL, hInstance, NULL);
+   
+   // Create window
+   RECT rc = { 0, 0, 800, 600 };
+   AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, TRUE );
+   HWND hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
+		CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, NULL, NULL, hInstance, NULL);
 
    if (!hWnd)
    {
@@ -124,6 +125,12 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    UpdateWindow(hWnd);
 
    Rorn::Engine::RenderManager::GetInstance().Startup(hWnd);
+
+   XMVECTOR eye = XMVectorSet( 0.0f, 4.0f, -10.0f, 0.0f );
+   XMVECTOR at = XMVectorSet( 0.0f, 1.0f, 0.0f, 0.0f );
+   XMVECTOR up = XMVectorSet( 0.0f, 1.0f, 0.0f, 0.0f );
+   Rorn::Engine::Camera& camera = Rorn::Engine::RenderManager::GetInstance().CreateCamera(eye, at, up);
+   Rorn::Engine::RenderManager::GetInstance().SetCurrentCamera(camera);
 
    return TRUE;
 }
