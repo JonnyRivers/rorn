@@ -4,15 +4,18 @@
     <Filter Include="Subsystems">
       <UniqueIdentifier>{e37e9a6e-4d7e-4f3d-a88c-dc36008656b4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Subsystems\RenderManager">
+      <UniqueIdentifier>{14ad3a17-91e6-4484-8d4d-25f2bb3f131a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Subsystems\RenderManager.cpp">
-      <Filter>Subsystems</Filter>
+    <ClCompile Include="Subsystems\RenderManager\RenderManager.cpp">
+      <Filter>Subsystems\RenderManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Subsystems\RenderManager.h">
-      <Filter>Subsystems</Filter>
+    <ClInclude Include="Subsystems\RenderManager\RenderManager.h">
+      <Filter>Subsystems\RenderManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

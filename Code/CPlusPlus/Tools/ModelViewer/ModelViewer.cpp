@@ -4,7 +4,7 @@
 #include "stdafx.h"
 #include "ModelViewer.h"
 
-#include "..\..\Engine\Subsystems\RenderManager.h"
+#include "../../Engine/Subsystems/RenderManager/RenderManager.h"
 
 #define MAX_LOADSTRING 100
 

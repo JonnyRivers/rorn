@@ -11,10 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Subsystems\RenderManager.h" />
+    <ClInclude Include="Subsystems\RenderManager\RenderManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Subsystems\RenderManager.cpp" />
+    <ClCompile Include="Subsystems\RenderManager\RenderManager.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3324AF49-C7A6-411C-8BD7-A2E7EFC38498}</ProjectGuid>
