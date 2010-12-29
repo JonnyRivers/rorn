@@ -15,12 +15,48 @@
     <ClCompile Include="Subsystems\RenderManager\Camera.cpp">
       <Filter>Subsystems\RenderManager</Filter>
     </ClCompile>
+    <ClCompile Include="Subsystems\RenderManager\Model.cpp">
+      <Filter>Subsystems\RenderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\RenderManager\ModelInstance.cpp">
+      <Filter>Subsystems\RenderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\RenderManager\RenderCommand.cpp">
+      <Filter>Subsystems\RenderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\RenderManager\SurfaceFormat.cpp">
+      <Filter>Subsystems\RenderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\RenderManager\UntexturedSurfaceFormat.cpp">
+      <Filter>Subsystems\RenderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\RenderManager\ShaderCompiler.cpp">
+      <Filter>Subsystems\RenderManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Subsystems\RenderManager\RenderManager.h">
       <Filter>Subsystems\RenderManager</Filter>
     </ClInclude>
     <ClInclude Include="Subsystems\RenderManager\Camera.h">
+      <Filter>Subsystems\RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\RenderManager\Model.h">
+      <Filter>Subsystems\RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\RenderManager\ModelInstance.h">
+      <Filter>Subsystems\RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\RenderManager\RenderCommand.h">
+      <Filter>Subsystems\RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\RenderManager\SurfaceFormat.h">
+      <Filter>Subsystems\RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\RenderManager\UntexturedSurfaceFormat.h">
+      <Filter>Subsystems\RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\RenderManager\ShaderCompiler.h">
       <Filter>Subsystems\RenderManager</Filter>
     </ClInclude>
   </ItemGroup>

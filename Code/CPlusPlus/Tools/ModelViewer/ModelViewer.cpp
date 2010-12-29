@@ -37,6 +37,7 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
 	// Perform application initialization:
 	if (!InitInstance (hInstance, nCmdShow))
 	{
+		ExitInstance();
 		return FALSE;
 	}
 
@@ -124,13 +125,19 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    ShowWindow(hWnd, nCmdShow);
    UpdateWindow(hWnd);
 
-   Rorn::Engine::RenderManager::GetInstance().Startup(hWnd);
+   HRESULT hr = Rorn::Engine::RenderManager::GetInstance().Startup(hWnd);
+   if( FAILED(hr) )
+	   return FALSE;
 
+   // This MUST be done by the client.  So, should we make it part of the Startup()?
    XMVECTOR eye = XMVectorSet( 0.0f, 4.0f, -10.0f, 0.0f );
    XMVECTOR at = XMVectorSet( 0.0f, 1.0f, 0.0f, 0.0f );
    XMVECTOR up = XMVectorSet( 0.0f, 1.0f, 0.0f, 0.0f );
    Rorn::Engine::Camera& camera = Rorn::Engine::RenderManager::GetInstance().CreateCamera(eye, at, up);
    Rorn::Engine::RenderManager::GetInstance().SetCurrentCamera(camera);
+   // TODO:
+   // load/create a model
+   // create an instance
 
    return TRUE;
 }

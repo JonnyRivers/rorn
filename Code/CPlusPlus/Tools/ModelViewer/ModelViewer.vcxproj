@@ -80,6 +80,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="..\..\..\..\Toolchain\Untextured.fx" />
     <None Include="ModelViewer.ico" />
     <None Include="small.ico" />
   </ItemGroup>
