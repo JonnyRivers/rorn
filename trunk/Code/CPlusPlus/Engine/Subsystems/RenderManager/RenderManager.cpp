@@ -2,6 +2,11 @@
 
 #include <cassert>
 
+#include "Camera.h"
+#include "Model.h"
+#include "ModelInstance.h"
+#include "UntexturedSurfaceFormat.h"
+
 using namespace Rorn::Engine;
 
 /*static*/ RenderManager& RenderManager::instance_ = RenderManager();// init static instance
@@ -16,15 +21,95 @@ RenderManager::RenderManager(void)
 }
 
 
-void RenderManager::Startup(HWND hwnd)
+HRESULT RenderManager::Startup(HWND hwnd)
 {
-    RECT rc;
+	SetupScreenCoordinates(hwnd);
+
+	HRESULT hr = SetupDeviceAndSwapChain(hwnd);
+	if ( FAILED(hr) )
+		return hr;
+
+	hr = SetupRenderTargetView();
+	if ( FAILED(hr) )
+		return hr;
+
+    SetupViewport();
+
+	hr = SetupSurfaceFormats();
+	if ( FAILED(hr) )
+		return hr;
+
+	return S_OK;
+}
+
+void RenderManager::Shutdown()
+{
+	std::map<SurfaceFormat::Type, std::unique_ptr<SurfaceFormat>>::const_iterator surfaceFormatIter;
+	for(surfaceFormatIter = surfaceFormats_.begin() ; surfaceFormatIter != surfaceFormats_.end() ; ++surfaceFormatIter)
+		surfaceFormatIter->second->Shutdown();
+
+	if( deviceContext_ ) 
+		deviceContext_->ClearState();
+
+    if( renderTargetView_ ) 
+		renderTargetView_->Release();
+
+    if( swapChain_ ) 
+		swapChain_->Release();
+
+    if( deviceContext_ ) 
+		deviceContext_->Release();
+
+    if( device_ ) 
+		device_->Release();
+}
+
+Camera& RenderManager::CreateCamera(XMVECTOR eye, XMVECTOR target, XMVECTOR up)
+{
+	cameras_.push_back(Camera(eye, target, up));
+	return cameras_.back();
+}
+
+void RenderManager::SetCurrentCamera(Camera& camera)
+{
+	currentCamera_ = &camera;
+}
+
+void RenderManager::Step()
+{
+	// Just clear the backbuffer
+    float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; //red,green,blue,alpha
+    deviceContext_->ClearRenderTargetView( renderTargetView_, ClearColor );
+
+	// Draw all of the registered mesh instances using the registered camera and light(s)
+	
+	// Setup the world_to_view and view_to_projection matrices based on the current camera (& other settings)
+	assert(currentCamera_ != NULL);
+	XMMATRIX worldToViewMatrix = XMMatrixLookAtLH( currentCamera_->Eye, currentCamera_->Target, currentCamera_->Up );
+	XMMATRIX viewToProjectionMatrix = XMMatrixPerspectiveFovLH( XM_PIDIV4, aspectRatio_, 0.01f, 100.0f );
+	XMMATRIX worldToProjectionMatrix = XMMatrixMultiply(worldToViewMatrix, viewToProjectionMatrix);
+
+	std::list<ModelInstance>::const_iterator instanceIter;
+	for(instanceIter = modelInstances_.cbegin() ; instanceIter != modelInstances_.cend() ; ++instanceIter)
+	{
+		instanceIter->Draw(deviceContext_, worldToProjectionMatrix);
+	}
+
+    swapChain_->Present( 0, 0 );
+}
+
+void RenderManager::SetupScreenCoordinates(HWND hwnd)
+{
+	RECT rc;
     GetClientRect( hwnd, &rc );
     outputWidth_ = rc.right - rc.left;
     outputHeight_ = rc.bottom - rc.top;
 	aspectRatio_ = static_cast<FLOAT>(outputWidth_) / static_cast<FLOAT>(outputHeight_);
+}
 
-    UINT createDeviceFlags = 0;
+HRESULT RenderManager::SetupDeviceAndSwapChain(HWND hwnd)
+{
+	UINT createDeviceFlags = 0;
 #ifdef _DEBUG
     createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
 #endif
@@ -66,13 +151,16 @@ void RenderManager::Startup(HWND hwnd)
         hr = D3D11CreateDeviceAndSwapChain( NULL, driverType_, NULL, createDeviceFlags, featureLevels, numFeatureLevels,
                                             D3D11_SDK_VERSION, &sd, &swapChain_, &device_, &featureLevel_, &deviceContext_ );
         if( SUCCEEDED( hr ) )
-            break;
+            return hr;
     }
-    // TODO throw on fail
+    
+	return hr;
+}
 
-    // Create a render target view
-    ID3D11Texture2D* backBuffer = NULL;
-    hr = swapChain_->GetBuffer( 0, __uuidof( ID3D11Texture2D ), ( LPVOID* )&backBuffer );
+HRESULT RenderManager::SetupRenderTargetView()
+{
+	ID3D11Texture2D* backBuffer = NULL;
+    HRESULT hr = swapChain_->GetBuffer( 0, __uuidof( ID3D11Texture2D ), ( LPVOID* )&backBuffer );
     // TODO throw on fail
 
     hr = device_->CreateRenderTargetView( backBuffer, NULL, &renderTargetView_ );
@@ -81,8 +169,12 @@ void RenderManager::Startup(HWND hwnd)
 
     deviceContext_->OMSetRenderTargets( 1, &renderTargetView_, NULL );
 
-    // Setup the viewport
-    D3D11_VIEWPORT vp;
+	return hr;
+}
+
+void RenderManager::SetupViewport()
+{
+	D3D11_VIEWPORT vp;
     vp.Width = (FLOAT)outputWidth_;
     vp.Height = (FLOAT)outputHeight_;
     vp.MinDepth = 0.0f;
@@ -92,57 +184,12 @@ void RenderManager::Startup(HWND hwnd)
     deviceContext_->RSSetViewports( 1, &vp );
 }
 
-void RenderManager::Shutdown()
+HRESULT RenderManager::SetupSurfaceFormats()
 {
-	if( deviceContext_ ) 
-		deviceContext_->ClearState();
+	surfaceFormats_[SurfaceFormat::Untextured] = std::unique_ptr<SurfaceFormat>(new UntexturedSurfaceFormat());
+	HRESULT hr = surfaceFormats_[SurfaceFormat::Untextured]->Startup(device_);
+	if( FAILED(hr) )
+		return hr;
 
-    if( renderTargetView_ ) 
-		renderTargetView_->Release();
-
-    if( swapChain_ ) 
-		swapChain_->Release();
-
-    if( deviceContext_ ) 
-		deviceContext_->Release();
-
-    if( device_ ) 
-		device_->Release();
-}
-
-Camera& RenderManager::CreateCamera(XMVECTOR eye, XMVECTOR target, XMVECTOR up)
-{
-	cameras_.push_back(Camera(eye, target, up));
-	return cameras_.back();
-}
-
-void RenderManager::SetCurrentCamera(Camera& camera)
-{
-	currentCamera_ = &camera;
-}
-
-void RenderManager::Step()
-{
-	// Just clear the backbuffer
-    float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; //red,green,blue,alpha
-    deviceContext_->ClearRenderTargetView( renderTargetView_, ClearColor );
-
-	// Draw all of the registered mesh instances using the registered camera and light(s)
-	
-	// Setup the world_to_view and view_to_projection matrices based on the current camera (& other settings)
-	assert(currentCamera_ != NULL);
-	worldToViewMatrix_ = XMMatrixLookAtLH( currentCamera_->Eye, currentCamera_->Target, currentCamera_->Up );
-	viewToProjectionMatrix_ = XMMatrixPerspectiveFovLH( XM_PIDIV4, aspectRatio_, 0.01f, 100.0f );
-
-	// for each mesh instance
-		// set the mesh_to_world matrix
-		// for each render command
-			// set vertex_shader
-			// set vertex_shader_constant_buffers
-			// set pixel_shader
-			// set pixel_shader_constant_buffers
-			// set the primitive_type
-			// draw the primitives
-
-    swapChain_->Present( 0, 0 );
+	return S_OK;
 }

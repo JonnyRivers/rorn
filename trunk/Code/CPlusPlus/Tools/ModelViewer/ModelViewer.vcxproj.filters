@@ -21,6 +21,7 @@
     <None Include="ModelViewer.ico">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="..\..\..\..\Toolchain\Untextured.fx" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
