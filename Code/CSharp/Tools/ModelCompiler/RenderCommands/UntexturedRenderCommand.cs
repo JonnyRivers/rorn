@@ -34,14 +34,20 @@ namespace Rorn.Tools.ModelCompiler
             indices_.Add(indices_.Count);
         }
 
-        internal UntexturedVertex ParseAndTransformVertex(Matrix3 nodeToModelMatrix, XElement vertexElement)
+        internal override void Save(System.IO.BinaryWriter binaryWriter)
         {
-            Vector3 position = Vector3.Parse(vertexElement.Element("Position").Value);
-            position = nodeToModelMatrix * position;
-            Vector3 normal = Vector3.Parse(vertexElement.Element("Normal").Value);
-            normal = nodeToModelMatrix.WithoutTranslation() * normal;
+            binaryWriter.Write((int)RenderCommand.Type.Untextured);
+            binaryWriter.Write((int)RenderCommand.PrimitiveType.TriangleList);
 
-            return new UntexturedVertex(position, normal);
+            ambientColor_.Save(binaryWriter);
+            diffuseColor_.Save(binaryWriter);
+            specularColor_.Save(binaryWriter);
+
+            foreach (UntexturedVertex vertex in vertices_)
+                vertex.Save(binaryWriter);
+
+            foreach (int index in indices_)
+                binaryWriter.Write(index);
         }
 
         internal override void Transform(Matrix3 transformMatrix)
@@ -50,6 +56,16 @@ namespace Rorn.Tools.ModelCompiler
             {
                 vertex.Transform(transformMatrix);
             }
+        }
+
+        private UntexturedVertex ParseAndTransformVertex(Matrix3 nodeToModelMatrix, XElement vertexElement)
+        {
+            Vector3 position = Vector3.Parse(vertexElement.Element("Position").Value);
+            position = nodeToModelMatrix * position;
+            Vector3 normal = Vector3.Parse(vertexElement.Element("Normal").Value);
+            normal = nodeToModelMatrix.WithoutTranslation() * normal;
+
+            return new UntexturedVertex(position, normal);
         }
 
         private Vector3 ambientColor_;

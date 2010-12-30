@@ -23,6 +23,13 @@ namespace Rorn.Tools.Maths
                 float.Parse(vectorElements[2]));
         }
 
+        public void Save(System.IO.BinaryWriter binaryWriter)
+        {
+            binaryWriter.Write(X);
+            binaryWriter.Write(Y);
+            binaryWriter.Write(Z);
+        }
+
         public float X;
         public float Y;
         public float Z;

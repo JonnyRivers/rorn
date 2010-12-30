@@ -10,15 +10,24 @@ namespace Rorn.Tools.ModelCompiler
         static void Main(string[] args)
         {
             if (args.Length != 2)
+            {
                 DisplayHelpOnCommandLine("Insufficient argumnents");
+                return;
+            }
 
             string sourcePathName = args[0];
             string destinationPathName = args[1];
 
             try
             {
+                var stopwatch = System.Diagnostics.Stopwatch.StartNew();
+
                 ModelCompiler modelCompiler = new ModelCompiler();
                 modelCompiler.Compile(sourcePathName, destinationPathName);
+
+                stopwatch.Stop();
+                Console.WriteLine("Successfully wrote model to '{0}' in {1} ms.",
+                    destinationPathName, stopwatch.ElapsedMilliseconds);
             }
             catch (Exception ex)
             {
