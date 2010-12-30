@@ -77,28 +77,30 @@ namespace Rorn.Tools.ModelCompiler
 
         private void CompileMesh(Matrix3 nodeToSceneMatrix, XElement meshElement)
         {
+            // Break the vertex elements out into an indexed list, otherwise we'll be here all day!
+            Dictionary<int, XElement> indexedVertexElements = new Dictionary<int, XElement>();
+            foreach (var vertexElement in meshElement.Elements("Vertex"))
+            {
+                indexedVertexElements.Add(
+                    int.Parse(vertexElement.Element("Index").Value),
+                    vertexElement);
+            }
+
             foreach (var triangleElement in meshElement.Elements("Triangle"))
             {
                 // Parse triangle data
                 string[] triangleData = triangleElement.Value.Split(',');
-                int v0 = int.Parse(triangleData[0]);
-                int v1 = int.Parse(triangleData[1]);
-                int v2 = int.Parse(triangleData[2]);
+                int vert0Index = int.Parse(triangleData[0]);
+                int vert1Index = int.Parse(triangleData[1]);
+                int vert2Index = int.Parse(triangleData[2]);
                 int materialId = int.Parse(triangleData[3]);
 
-                // Pull out the vertex elements we need using a LINQ query
-                var v0Element = (from vertexElement in meshElement.Elements("Vertex")
-                                 where int.Parse(vertexElement.Element("Index").Value) == v0
-                                 select vertexElement).First();
-                var v1Element = (from vertexElement in meshElement.Elements("Vertex")
-                                 where int.Parse(vertexElement.Element("Index").Value) == v1
-                                 select vertexElement).First();
-                var v2Element = (from vertexElement in meshElement.Elements("Vertex")
-                                 where int.Parse(vertexElement.Element("Index").Value) == v2
-                                 select vertexElement).First();
-
                 // Compile this triangle (using the appropriately typed render command)
-                renderCommands_[materialId].ParseAndTransformTriangle(nodeToSceneMatrix, v0Element, v1Element, v2Element);
+                renderCommands_[materialId].ParseAndTransformTriangle(
+                    nodeToSceneMatrix,
+                    indexedVertexElements[vert0Index],
+                    indexedVertexElements[vert1Index],
+                    indexedVertexElements[vert2Index]);
             }
         }
 
