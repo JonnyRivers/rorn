@@ -40,6 +40,10 @@ namespace Rorn.Tools.ModelCompiler
             }
 
             // write to disk
+            SaveModel(destinationPathName);
+
+            // flush data
+            renderCommands_.Clear();
         }
 
         private void CompileMaterial(XElement materialElement)
@@ -95,6 +99,18 @@ namespace Rorn.Tools.ModelCompiler
 
                 // Compile this triangle (using the appropriately typed render command)
                 renderCommands_[materialId].ParseAndTransformTriangle(nodeToSceneMatrix, v0Element, v1Element, v2Element);
+            }
+        }
+
+        private void SaveModel(string destinationPathName)
+        {
+            using (var binaryWriter = new System.IO.BinaryWriter(System.IO.File.Create(destinationPathName)))
+            {
+                binaryWriter.Write(renderCommands_.Count);
+                foreach (KeyValuePair<int, RenderCommand> kvp in renderCommands_)
+                {
+                    kvp.Value.Save(binaryWriter);
+                }
             }
         }
 

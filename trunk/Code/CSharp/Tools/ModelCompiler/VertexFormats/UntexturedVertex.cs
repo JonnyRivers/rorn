@@ -15,6 +15,12 @@ namespace Rorn.Tools.ModelCompiler
             normal_ = normal;
         }
 
+        internal void Save(System.IO.BinaryWriter binaryWriter)
+        {
+            position_.Save(binaryWriter);
+            normal_.Save(binaryWriter);
+        }
+
         internal void Transform(Matrix3 transformMatrix)
         {
             position_ = transformMatrix * position_;
