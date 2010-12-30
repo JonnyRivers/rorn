@@ -11,6 +11,7 @@ namespace Rorn
 {
 	namespace Engine
 	{
+		// This will become a singleton with no inheritance
 		class UntexturedSurfaceFormat : public SurfaceFormat
 		{
 		public:

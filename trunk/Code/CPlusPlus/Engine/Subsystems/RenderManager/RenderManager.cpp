@@ -75,6 +75,23 @@ void RenderManager::SetCurrentCamera(Camera& camera)
 	currentCamera_ = &camera;
 }
 
+Model& RenderManager::LoadOrGetModel(const char* modelPathName)
+{
+	Model* newModel = new Model();
+	newModel->LoadFromFile(modelPathName);
+	models_.push_back(std::unique_ptr<Model>(newModel));
+
+	return *newModel;
+}
+
+ModelInstance& RenderManager::CreateModelInstance(Model& model, CXMMATRIX instanceToWorldMatrix)
+{
+	ModelInstance* newModelInstance = new ModelInstance(model, instanceToWorldMatrix);
+	modelInstances_.push_back(std::unique_ptr<ModelInstance>(newModelInstance));
+
+	return *newModelInstance;
+}
+
 void RenderManager::Step()
 {
 	// Just clear the backbuffer
@@ -89,10 +106,10 @@ void RenderManager::Step()
 	XMMATRIX viewToProjectionMatrix = XMMatrixPerspectiveFovLH( XM_PIDIV4, aspectRatio_, 0.01f, 100.0f );
 	XMMATRIX worldToProjectionMatrix = XMMatrixMultiply(worldToViewMatrix, viewToProjectionMatrix);
 
-	std::list<ModelInstance>::const_iterator instanceIter;
+	std::list<std::unique_ptr<ModelInstance>>::const_iterator instanceIter;
 	for(instanceIter = modelInstances_.cbegin() ; instanceIter != modelInstances_.cend() ; ++instanceIter)
 	{
-		instanceIter->Draw(deviceContext_, worldToProjectionMatrix);
+		(*instanceIter)->Draw(deviceContext_, worldToProjectionMatrix);
 	}
 
     swapChain_->Present( 0, 0 );

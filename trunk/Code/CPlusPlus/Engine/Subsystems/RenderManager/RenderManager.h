@@ -18,6 +18,7 @@ namespace Rorn
 		class Model;
 		class ModelInstance;
 
+		// This is getting big already.  Need a strategy to break it up...
 		class RenderManager
 		{
 		public:
@@ -28,6 +29,9 @@ namespace Rorn
 
 			Camera& CreateCamera(XMVECTOR eye, XMVECTOR target, XMVECTOR up);
 			void SetCurrentCamera(Camera& camera);
+
+			Model& LoadOrGetModel(const char* modelPathName);
+			ModelInstance& CreateModelInstance(Model& model, CXMMATRIX instanceToWorldMatrix);
 
 			void Step();
 		private:
@@ -57,8 +61,8 @@ namespace Rorn
 
 			// Geometry
 			std::map<SurfaceFormat::Type, std::unique_ptr<SurfaceFormat>> surfaceFormats_;
-			std::list<Model> models_;
-			std::list<ModelInstance>  modelInstances_;
+			std::list<std::unique_ptr<Model>> models_;
+			std::list<std::unique_ptr<ModelInstance>>  modelInstances_;
 		};
 	}
 }

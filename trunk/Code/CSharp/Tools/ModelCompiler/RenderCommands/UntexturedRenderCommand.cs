@@ -43,9 +43,11 @@ namespace Rorn.Tools.ModelCompiler
             diffuseColor_.Save(binaryWriter);
             specularColor_.Save(binaryWriter);
 
+            binaryWriter.Write(vertices_.Count);
             foreach (UntexturedVertex vertex in vertices_)
                 vertex.Save(binaryWriter);
 
+            binaryWriter.Write(indices_.Count);
             foreach (int index in indices_)
                 binaryWriter.Write(index);
         }
