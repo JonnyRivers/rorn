@@ -62,6 +62,7 @@ void SceneExporter::ExportNode(INode* node, Rorn::XML::HierarchyElement& nodeEle
 	std::stringstream idStream;
 	idStream << numNodesExported_++;
 	nodeElement.AddChildValueElement("Id", idStream.str().c_str());
+	ExportMatrix3("NodeToSceneMatrix", node->GetNodeTM(0), nodeElement);
 
 	if(Rorn::Max::IsMeshNode(node))
 	{
@@ -69,6 +70,16 @@ void SceneExporter::ExportNode(INode* node, Rorn::XML::HierarchyElement& nodeEle
 		Rorn::XML::HierarchyElement& meshElement = nodeElement.AddChildHierarchyElement("Mesh");
 		ExportMesh(node, mesh, meshElement);
 	}
+}
+
+void SceneExporter::ExportMatrix3(const char* name, const Matrix3& matrix, Rorn::XML::HierarchyElement& parentElement)
+{
+	std::stringstream valueStream;
+	valueStream << matrix.GetRow(0).x << "," << matrix.GetRow(0).y << "," << matrix.GetRow(0).z << ","
+				<< matrix.GetRow(1).x << "," << matrix.GetRow(1).y << "," << matrix.GetRow(1).z << ","
+				<< matrix.GetRow(2).x << "," << matrix.GetRow(2).y << "," << matrix.GetRow(2).z << ","
+				<< matrix.GetRow(3).x << "," << matrix.GetRow(3).y << "," << matrix.GetRow(3).z;
+	parentElement.AddChildValueElement(name, valueStream.str().c_str());
 }
 
 void SceneExporter::ExportMesh(INode* node, Mesh& mesh, Rorn::XML::HierarchyElement& meshElement)

@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModelCompiler", "ModelCompiler.csproj", "{9AE7F4B5-0D3B-4490-87E3-3E09DBDF6101}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C80012F1-30C7-4411-9129-03662AF0E9D7} = {C80012F1-30C7-4411-9129-03662AF0E9D7}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rorn.Tools.Maths", "..\Rorn.Tools.Maths\Rorn.Tools.Maths.csproj", "{C80012F1-30C7-4411-9129-03662AF0E9D7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9AE7F4B5-0D3B-4490-87E3-3E09DBDF6101}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9AE7F4B5-0D3B-4490-87E3-3E09DBDF6101}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9AE7F4B5-0D3B-4490-87E3-3E09DBDF6101}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9AE7F4B5-0D3B-4490-87E3-3E09DBDF6101}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C80012F1-30C7-4411-9129-03662AF0E9D7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C80012F1-30C7-4411-9129-03662AF0E9D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C80012F1-30C7-4411-9129-03662AF0E9D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C80012F1-30C7-4411-9129-03662AF0E9D7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
