@@ -14,6 +14,11 @@ namespace Rorn
 		class RenderCommand
 		{
 		public:
+			enum PrimitiveType
+			{
+				TriangleList = 0
+			};
+
 			RenderCommand(const SurfaceFormat* surfaceFormat);
 			~RenderCommand(void);
 

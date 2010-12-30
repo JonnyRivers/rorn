@@ -11,6 +11,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Subsystems\FileManager\FileManager.h" />
+    <ClInclude Include="Subsystems\FileManager\FileReader.h" />
     <ClInclude Include="Subsystems\RenderManager\Camera.h" />
     <ClInclude Include="Subsystems\RenderManager\ShaderCompiler.h" />
     <ClInclude Include="Subsystems\RenderManager\SurfaceFormat.h" />
@@ -18,9 +20,12 @@
     <ClInclude Include="Subsystems\RenderManager\ModelInstance.h" />
     <ClInclude Include="Subsystems\RenderManager\RenderCommand.h" />
     <ClInclude Include="Subsystems\RenderManager\RenderManager.h" />
+    <ClInclude Include="Subsystems\RenderManager\UntexturedRenderCommand.h" />
     <ClInclude Include="Subsystems\RenderManager\UntexturedSurfaceFormat.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Subsystems\FileManager\FileManager.cpp" />
+    <ClCompile Include="Subsystems\FileManager\FileReader.cpp" />
     <ClCompile Include="Subsystems\RenderManager\Camera.cpp" />
     <ClCompile Include="Subsystems\RenderManager\ShaderCompiler.cpp" />
     <ClCompile Include="Subsystems\RenderManager\SurfaceFormat.cpp" />
@@ -28,6 +33,7 @@
     <ClCompile Include="Subsystems\RenderManager\ModelInstance.cpp" />
     <ClCompile Include="Subsystems\RenderManager\RenderCommand.cpp" />
     <ClCompile Include="Subsystems\RenderManager\RenderManager.cpp" />
+    <ClCompile Include="Subsystems\RenderManager\UntexturedRenderCommand.cpp" />
     <ClCompile Include="Subsystems\RenderManager\UntexturedSurfaceFormat.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

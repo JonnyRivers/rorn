@@ -15,14 +15,17 @@ namespace Rorn
 
 		class Model
 		{
+			friend class RenderManager;
+
 		public:
-			Model(void);
 			~Model(void);
 
 			void Draw(ID3D11DeviceContext* deviceContext, 
 				const XMMATRIX& instanceToWorldMatrix, const XMMATRIX& worldToProjectionMatrix) const;
 		private:
-			std::list<RenderCommand> renderCommands_;
+			Model(void);
+			void LoadFromFile(const char* modelPathName);
+			std::list<std::unique_ptr<RenderCommand>> renderCommands_;
 		};
 	}
 }

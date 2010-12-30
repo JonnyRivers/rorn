@@ -9,6 +9,7 @@ namespace Rorn
 {
 	namespace Engine
 	{
+		// This has to die
 		class SurfaceFormat
 		{
 		public:

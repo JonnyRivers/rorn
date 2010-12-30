@@ -7,6 +7,9 @@
     <Filter Include="Subsystems\RenderManager">
       <UniqueIdentifier>{14ad3a17-91e6-4484-8d4d-25f2bb3f131a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Subsystems\FileManager">
+      <UniqueIdentifier>{fae890fc-1782-4ee2-ae02-9d205c1e70e7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Subsystems\RenderManager\RenderManager.cpp">
@@ -33,6 +36,15 @@
     <ClCompile Include="Subsystems\RenderManager\ShaderCompiler.cpp">
       <Filter>Subsystems\RenderManager</Filter>
     </ClCompile>
+    <ClCompile Include="Subsystems\FileManager\FileManager.cpp">
+      <Filter>Subsystems\FileManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\FileManager\FileReader.cpp">
+      <Filter>Subsystems\FileManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\RenderManager\UntexturedRenderCommand.cpp">
+      <Filter>Subsystems\RenderManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Subsystems\RenderManager\RenderManager.h">
@@ -57,6 +69,15 @@
       <Filter>Subsystems\RenderManager</Filter>
     </ClInclude>
     <ClInclude Include="Subsystems\RenderManager\ShaderCompiler.h">
+      <Filter>Subsystems\RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\FileManager\FileManager.h">
+      <Filter>Subsystems\FileManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\FileManager\FileReader.h">
+      <Filter>Subsystems\FileManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\RenderManager\UntexturedRenderCommand.h">
       <Filter>Subsystems\RenderManager</Filter>
     </ClInclude>
   </ItemGroup>

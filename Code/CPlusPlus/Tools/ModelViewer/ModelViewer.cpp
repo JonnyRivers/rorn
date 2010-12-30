@@ -135,9 +135,16 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    XMVECTOR up = XMVectorSet( 0.0f, 1.0f, 0.0f, 0.0f );
    Rorn::Engine::Camera& camera = Rorn::Engine::RenderManager::GetInstance().CreateCamera(eye, at, up);
    Rorn::Engine::RenderManager::GetInstance().SetCurrentCamera(camera);
-   // TODO:
-   // load/create a model
-   // create an instance
+
+   // Create a light
+
+   // Setup ambient light
+
+   Rorn::Engine::Model& model = Rorn::Engine::RenderManager::GetInstance().LoadOrGetModel("teapot.rorn.model");
+
+   XMMATRIX instanceToWorldMatrix = XMMatrixIdentity();
+   Rorn::Engine::ModelInstance& modelInstance = 
+	   Rorn::Engine::RenderManager::GetInstance().CreateModelInstance(model, instanceToWorldMatrix);
 
    return TRUE;
 }
