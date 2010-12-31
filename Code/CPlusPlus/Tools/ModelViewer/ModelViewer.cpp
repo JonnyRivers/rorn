@@ -112,7 +112,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
    hInst = hInstance; // Store instance handle in our global variable
    
    // Create window
-   RECT rc = { 0, 0, 800, 600 };
+   RECT rc = { 0, 0, 1024, 768 };
    AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, TRUE );
    HWND hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, NULL, NULL, hInstance, NULL);
@@ -130,7 +130,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	   return FALSE;
 
    // This MUST be done by the client.  So, should we make it part of the Startup()?
-   XMVECTOR eye = XMVectorSet( 0.0f, 4.0f, -10.0f, 0.0f );
+   XMVECTOR eye = XMVectorSet( 0.0f, 150.0f, -200.0f, 0.0f );
    XMVECTOR at = XMVectorSet( 0.0f, 1.0f, 0.0f, 0.0f );
    XMVECTOR up = XMVectorSet( 0.0f, 1.0f, 0.0f, 0.0f );
    Rorn::Engine::Camera& camera = Rorn::Engine::RenderManager::GetInstance().CreateCamera(eye, at, up);

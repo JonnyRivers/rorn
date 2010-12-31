@@ -12,6 +12,7 @@ namespace Rorn
 			FileReader(const char* pathName);
 			~FileReader();
 
+			void ReadData(void* buffer, int length);
 			int ReadInt();
 			float ReadFloat();
 		private:

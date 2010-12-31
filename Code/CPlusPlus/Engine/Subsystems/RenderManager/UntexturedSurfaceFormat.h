@@ -5,36 +5,40 @@
 #include <d3d11.h>
 #include <xnamath.h>
 
-#include "SurfaceFormat.h"
-
 namespace Rorn
 {
 	namespace Engine
 	{
-		// This will become a singleton with no inheritance
-		class UntexturedSurfaceFormat : public SurfaceFormat
+		class UntexturedSurfaceFormat
 		{
 		public:
-			UntexturedSurfaceFormat(void);
-			~UntexturedSurfaceFormat(void);
+			static UntexturedSurfaceFormat& GetInstance();
 
-			virtual HRESULT Startup(ID3D11Device* device);
-			virtual void Shutdown();
+			virtual HRESULT Initialize(ID3D11Device* device);
+			virtual void Release();
 
-			virtual void SetupGPU(ID3D11DeviceContext* deviceContext, 
-				CXMMATRIX instanceToWorldMatrix, CXMMATRIX worldToProjectionMatrix) const;
+			virtual void SetupGPU(
+				ID3D11DeviceContext* deviceContext, 
+				CXMMATRIX instanceToWorldMatrix, 
+				CXMMATRIX worldToProjectionMatrix,
+				const XMFLOAT4& ambientColor,
+				const XMFLOAT4& diffuseColor,
+				const XMFLOAT4& specularColor);
 		private:
-			struct SimpleVertex
-			{
-				XMFLOAT3 Position;
-				XMFLOAT3 Normal;
-				XMFLOAT4 Color;
-			};
+			static UntexturedSurfaceFormat& instance_;
 
+			UntexturedSurfaceFormat(void);
+
+			// This should be split up between the vertex shader and pixel shader
 			struct ConstantBuffer
 			{
 				XMMATRIX ModelToWorldMatrix;
 				XMMATRIX WorldToProjectionMatrix;
+				XMFLOAT4 AmbientColor;
+				XMFLOAT4 DiffuseColor;
+				XMFLOAT4 SpecularColor;
+				XMFLOAT4 LightDir;
+				XMFLOAT4 LightColor;
 			};
 
 			ID3D11VertexShader* vertexShader_;

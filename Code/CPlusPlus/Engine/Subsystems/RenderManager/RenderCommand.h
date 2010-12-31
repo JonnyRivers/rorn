@@ -9,8 +9,6 @@ namespace Rorn
 {
 	namespace Engine
 	{
-		class SurfaceFormat;
-
 		class RenderCommand
 		{
 		public:
@@ -19,13 +17,14 @@ namespace Rorn
 				TriangleList = 0
 			};
 
-			RenderCommand(const SurfaceFormat* surfaceFormat);
+			RenderCommand(void);
 			~RenderCommand(void);
 
-			void Draw(ID3D11DeviceContext* deviceContext, const XMMATRIX& instanceToWorldMatrix, const XMMATRIX& worldToProjectionMatrix) const;
+			virtual void Draw(ID3D11DeviceContext* deviceContext, 
+				CXMMATRIX instanceToWorldMatrix, CXMMATRIX worldToProjectionMatrix) = 0;
+
+			virtual void Release() = 0;
 		private:
-			const SurfaceFormat* surfaceFormat_;
-			D3D_PRIMITIVE_TOPOLOGY primitiveType_;
 		};
 	}
 }

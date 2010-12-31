@@ -4,12 +4,19 @@
 
 using namespace Rorn::Engine;
 
+/*static*/ UntexturedSurfaceFormat& UntexturedSurfaceFormat::instance_ = UntexturedSurfaceFormat();// init static instance
+
+/*static*/ UntexturedSurfaceFormat& UntexturedSurfaceFormat::GetInstance()
+{
+	return instance_;
+}
+
 UntexturedSurfaceFormat::UntexturedSurfaceFormat()
 	: vertexShader_(NULL), pixelShader_(NULL), vertexLayout_(NULL), constantBuffer_(NULL)
 {
 }
 
-/*virtual*/ HRESULT UntexturedSurfaceFormat::Startup(ID3D11Device* device)
+/*virtual*/ HRESULT UntexturedSurfaceFormat::Initialize(ID3D11Device* device)
 {
 	// Compile the vertex shader
     ID3DBlob* pVSBlob = NULL;
@@ -33,8 +40,7 @@ UntexturedSurfaceFormat::UntexturedSurfaceFormat()
     D3D11_INPUT_ELEMENT_DESC layout[] =
     {
         { "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-        { "NORMAL",	0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "COLOR",	0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 24, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+        { "NORMAL",	0, DXGI_FORMAT_R32G32B32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 }
 	};
 	UINT numElements = ARRAYSIZE( layout );
 
@@ -75,31 +81,49 @@ UntexturedSurfaceFormat::UntexturedSurfaceFormat()
 	return S_OK;
 }
 
-/*virtual*/ void UntexturedSurfaceFormat::Shutdown()
+/*virtual*/ void UntexturedSurfaceFormat::Release()
 {
-	if (constantBuffer_)
+	if (constantBuffer_ != NULL)
 		constantBuffer_->Release();
 
-	if (pixelShader_)
+	if (pixelShader_ != NULL)
 		pixelShader_->Release();
 
-	if (vertexLayout_)
+	if (vertexLayout_ != NULL)
 		vertexLayout_->Release();
 
-	if (vertexShader_)
+	if (vertexShader_ != NULL)
 		vertexShader_->Release();
 }
 
-/*virtual*/ void UntexturedSurfaceFormat::SetupGPU(ID3D11DeviceContext* deviceContext,
-	CXMMATRIX instanceToWorldMatrix, CXMMATRIX worldToProjectionMatrix) const
+/*virtual*/ void UntexturedSurfaceFormat::SetupGPU(
+	ID3D11DeviceContext* deviceContext,
+	CXMMATRIX instanceToWorldMatrix, 
+	CXMMATRIX worldToProjectionMatrix,
+	const XMFLOAT4& ambientColor,
+	const XMFLOAT4& diffuseColor,
+	const XMFLOAT4& specularColor)
 {
     ConstantBuffer constantBuffer;
 	constantBuffer.ModelToWorldMatrix = XMMatrixTranspose( instanceToWorldMatrix );
 	constantBuffer.WorldToProjectionMatrix = XMMatrixTranspose( worldToProjectionMatrix );
+	constantBuffer.AmbientColor = ambientColor;
+	constantBuffer.DiffuseColor = diffuseColor;
+	constantBuffer.SpecularColor = specularColor;
+	// lighting is hard coded for now
+	constantBuffer.LightDir.x = 0.0f;
+	constantBuffer.LightDir.y = 0.7071f;
+	constantBuffer.LightDir.z = -0.7071f;
+	constantBuffer.LightDir.w = 0.0f;
+	constantBuffer.LightColor.x = 0.7f;
+	constantBuffer.LightColor.y = 0.7f;
+	constantBuffer.LightColor.z = 0.7f;
+	constantBuffer.LightColor.w = 1.0f;
 	deviceContext->UpdateSubresource( constantBuffer_, 0, NULL, &constantBuffer, 0, 0 );
 
     deviceContext->IASetInputLayout( vertexLayout_ );
 	deviceContext->VSSetShader( vertexShader_, NULL, 0 );
 	deviceContext->VSSetConstantBuffers( 0, 1, &constantBuffer_ );
 	deviceContext->PSSetShader( pixelShader_, NULL, 0 );
+	deviceContext->PSSetConstantBuffers( 0, 1, &constantBuffer_ );
 }
