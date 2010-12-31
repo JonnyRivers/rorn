@@ -36,12 +36,18 @@
     <ClInclude Include="ModelViewer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ModelViewerApp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ModelViewer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ModelViewerApp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

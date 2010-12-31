@@ -25,11 +25,11 @@ namespace Rorn
 			HRESULT Startup(HWND hwnd);
 			void Shutdown();
 
-			Camera& CreateCamera(XMVECTOR eye, XMVECTOR target, XMVECTOR up);
-			void SetCurrentCamera(Camera& camera);
+			Camera* CreateCamera(XMVECTOR eye, XMVECTOR target, XMVECTOR up);
+			void SetCurrentCamera(Camera* camera);
 
-			Model& LoadOrGetModel(const char* modelPathName);
-			ModelInstance& CreateModelInstance(Model& model, CXMMATRIX instanceToWorldMatrix);
+			Model* LoadOrGetModel(const char* modelPathName);
+			ModelInstance* CreateModelInstance(Model* model, CXMMATRIX instanceToWorldMatrix);
 
 			void Step();
 		private:
@@ -54,7 +54,7 @@ namespace Rorn
 			UINT outputHeight_;
 			FLOAT aspectRatio_;
 
-			std::list<Camera> cameras_;
+			std::list<std::unique_ptr<Camera>> cameras_;
 			Camera* currentCamera_;
 
 			// Geometry

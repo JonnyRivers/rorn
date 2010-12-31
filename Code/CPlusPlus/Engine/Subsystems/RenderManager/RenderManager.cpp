@@ -70,32 +70,35 @@ void RenderManager::Shutdown()
 		device_->Release();
 }
 
-Camera& RenderManager::CreateCamera(XMVECTOR eye, XMVECTOR target, XMVECTOR up)
+Camera* RenderManager::CreateCamera(XMVECTOR eye, XMVECTOR target, XMVECTOR up)
 {
-	cameras_.push_back(Camera(eye, target, up));
-	return cameras_.back();
+	Camera* newCamera = new Camera(eye, target, up);
+	cameras_.push_back(std::unique_ptr<Camera>(newCamera));
+
+	return newCamera;
 }
 
-void RenderManager::SetCurrentCamera(Camera& camera)
+void RenderManager::SetCurrentCamera(Camera* camera)
 {
-	currentCamera_ = &camera;
+	// Could check to see if it's a camera we know about
+	currentCamera_ = camera;
 }
 
-Model& RenderManager::LoadOrGetModel(const char* modelPathName)
+Model* RenderManager::LoadOrGetModel(const char* modelPathName)
 {
 	Model* newModel = new Model();
 	newModel->LoadFromFile(modelPathName, device_);
 	models_.push_back(std::unique_ptr<Model>(newModel));
 
-	return *newModel;
+	return newModel;
 }
 
-ModelInstance& RenderManager::CreateModelInstance(Model& model, CXMMATRIX instanceToWorldMatrix)
+ModelInstance* RenderManager::CreateModelInstance(Model* model, CXMMATRIX instanceToWorldMatrix)
 {
 	ModelInstance* newModelInstance = new ModelInstance(model, instanceToWorldMatrix);
 	modelInstances_.push_back(std::unique_ptr<ModelInstance>(newModelInstance));
 
-	return *newModelInstance;
+	return newModelInstance;
 }
 
 void RenderManager::Step()

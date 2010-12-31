@@ -5,43 +5,26 @@
 #include "ModelViewer.h"
 
 #include "../../Engine/Subsystems/RenderManager/RenderManager.h"
+#include "../../Engine/Subsystems/TimeManager/TimeManager.h"
 
-#define MAX_LOADSTRING 100
+#include "ModelViewerApp.h"
 
-// Global Variables:
-HINSTANCE hInst;								// current instance
-TCHAR szTitle[MAX_LOADSTRING];					// The title bar text
-TCHAR szWindowClass[MAX_LOADSTRING];			// the main window class name
-
-// Forward declarations of functions included in this code module:
-ATOM				MyRegisterClass(HINSTANCE hInstance);
-BOOL				InitInstance(HINSTANCE, int);
-VOID				ExitInstance();
-VOID				Step();
-LRESULT CALLBACK	WndProc(HWND, UINT, WPARAM, LPARAM);
-INT_PTR CALLBACK	About(HWND, UINT, WPARAM, LPARAM);
-
-int APIENTRY _tWinMain(HINSTANCE hInstance,
-                     HINSTANCE hPrevInstance,
-                     LPTSTR    lpCmdLine,
-                     int       nCmdShow)
+int APIENTRY _tWinMain(HINSTANCE instanceHandle,
+                       HINSTANCE previousInstanceHandle,
+                       LPTSTR commandLine,
+                       int cmdShow)
 {
-	UNREFERENCED_PARAMETER(hPrevInstance);
-	UNREFERENCED_PARAMETER(lpCmdLine);
+	UNREFERENCED_PARAMETER(previousInstanceHandle);
+	UNREFERENCED_PARAMETER(commandLine);
 
-	// Initialize global strings
-	LoadString(hInstance, IDS_APP_TITLE, szTitle, MAX_LOADSTRING);
-	LoadString(hInstance, IDC_MODELVIEWER, szWindowClass, MAX_LOADSTRING);
-	MyRegisterClass(hInstance);
-
-	// Perform application initialization:
-	if (!InitInstance (hInstance, nCmdShow))
+	ModelViewerApp application;
+	if (!application.InitInstance(instanceHandle, cmdShow))
 	{
-		ExitInstance();
+		application.ExitInstance();
 		return FALSE;
 	}
 
-	HACCEL hAccelTable = LoadAccelerators(hInstance, MAKEINTRESOURCE(IDC_MODELVIEWER));
+	LoadAccelerators(instanceHandle, MAKEINTRESOURCE(IDC_MODELVIEWER));
 
 	// Main message loop
     MSG msg = {0};
@@ -54,175 +37,11 @@ int APIENTRY _tWinMain(HINSTANCE hInstance,
         }
         else
         {
-            Step();
+            application.Step();
         }
     }
 
-	ExitInstance();
+	application.ExitInstance();
 
 	return (int) msg.wParam;
-}
-
-//
-//  FUNCTION: MyRegisterClass()
-//
-//  PURPOSE: Registers the window class.
-//
-//  COMMENTS:
-//
-//    This function and its usage are only necessary if you want this code
-//    to be compatible with Win32 systems prior to the 'RegisterClassEx'
-//    function that was added to Windows 95. It is important to call this function
-//    so that the application will get 'well formed' small icons associated
-//    with it.
-//
-ATOM MyRegisterClass(HINSTANCE hInstance)
-{
-	WNDCLASSEX wcex;
-
-	wcex.cbSize = sizeof(WNDCLASSEX);
-
-	wcex.style			= CS_HREDRAW | CS_VREDRAW;
-	wcex.lpfnWndProc	= WndProc;
-	wcex.cbClsExtra		= 0;
-	wcex.cbWndExtra		= 0;
-	wcex.hInstance		= hInstance;
-	wcex.hIcon			= LoadIcon(hInstance, MAKEINTRESOURCE(IDI_MODELVIEWER));
-	wcex.hCursor		= LoadCursor(NULL, IDC_ARROW);
-	wcex.hbrBackground	= (HBRUSH)(COLOR_WINDOW+1);
-	wcex.lpszMenuName	= MAKEINTRESOURCE(IDC_MODELVIEWER);
-	wcex.lpszClassName	= szWindowClass;
-	wcex.hIconSm		= LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
-
-	return RegisterClassEx(&wcex);
-}
-
-//
-//   FUNCTION: InitInstance(HINSTANCE, int)
-//
-//   PURPOSE: Saves instance handle and creates main window
-//
-//   COMMENTS:
-//
-//        In this function, we save the instance handle in a global variable and
-//        create and display the main program window.
-//
-BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
-{
-   hInst = hInstance; // Store instance handle in our global variable
-   
-   // Create window
-   RECT rc = { 0, 0, 1024, 768 };
-   AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, TRUE );
-   HWND hWnd = CreateWindow(szWindowClass, szTitle, WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT, CW_USEDEFAULT, rc.right - rc.left, rc.bottom - rc.top, NULL, NULL, hInstance, NULL);
-
-   if (!hWnd)
-   {
-      return FALSE;
-   }
-
-   ShowWindow(hWnd, nCmdShow);
-   UpdateWindow(hWnd);
-
-   HRESULT hr = Rorn::Engine::RenderManager::GetInstance().Startup(hWnd);
-   if( FAILED(hr) )
-	   return FALSE;
-
-   // This MUST be done by the client.  So, should we make it part of the Startup()?
-   XMVECTOR eye = XMVectorSet( 0.0f, 150.0f, -200.0f, 0.0f );
-   XMVECTOR at = XMVectorSet( 0.0f, 1.0f, 0.0f, 0.0f );
-   XMVECTOR up = XMVectorSet( 0.0f, 1.0f, 0.0f, 0.0f );
-   Rorn::Engine::Camera& camera = Rorn::Engine::RenderManager::GetInstance().CreateCamera(eye, at, up);
-   Rorn::Engine::RenderManager::GetInstance().SetCurrentCamera(camera);
-
-   // Create a light
-
-   // Setup ambient light
-
-   Rorn::Engine::Model& model = Rorn::Engine::RenderManager::GetInstance().LoadOrGetModel("teapot.rorn.model");
-
-   XMMATRIX instanceToWorldMatrix = XMMatrixIdentity();
-   Rorn::Engine::ModelInstance& modelInstance = 
-	   Rorn::Engine::RenderManager::GetInstance().CreateModelInstance(model, instanceToWorldMatrix);
-
-   return TRUE;
-}
-
-VOID ExitInstance()
-{
-	Rorn::Engine::RenderManager::GetInstance().Shutdown();
-}
-
-VOID Step()
-{
-	Rorn::Engine::RenderManager::GetInstance().Step();
-}
-
-//
-//  FUNCTION: WndProc(HWND, UINT, WPARAM, LPARAM)
-//
-//  PURPOSE:  Processes messages for the main window.
-//
-//  WM_COMMAND	- process the application menu
-//  WM_PAINT	- Paint the main window
-//  WM_DESTROY	- post a quit message and return
-//
-//
-LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	int wmId, wmEvent;
-	PAINTSTRUCT ps;
-	HDC hdc;
-
-	switch (message)
-	{
-	case WM_COMMAND:
-		wmId    = LOWORD(wParam);
-		wmEvent = HIWORD(wParam);
-		// Parse the menu selections:
-		switch (wmId)
-		{
-		case IDM_ABOUT:
-			DialogBox(hInst, MAKEINTRESOURCE(IDD_ABOUTBOX), hWnd, About);
-			break;
-		case IDM_EXIT:
-			DestroyWindow(hWnd);
-			break;
-		default:
-			return DefWindowProc(hWnd, message, wParam, lParam);
-		}
-		break;
-	case WM_PAINT:
-		hdc = BeginPaint(hWnd, &ps);
-		// TODO: Add any drawing code here...
-		EndPaint(hWnd, &ps);
-		break;
-	case WM_DESTROY:
-		PostQuitMessage(0);
-		break;
-	default:
-		return DefWindowProc(hWnd, message, wParam, lParam);
-	}
-	return 0;
-}
-
-// Message handler for about box.
-INT_PTR CALLBACK About(HWND hDlg, UINT message, WPARAM wParam, LPARAM lParam)
-{
-	UNREFERENCED_PARAMETER(lParam);
-	switch (message)
-	{
-	case WM_INITDIALOG:
-		return (INT_PTR)TRUE;
-
-	case WM_COMMAND:
-		if (LOWORD(wParam) == IDOK || LOWORD(wParam) == IDCANCEL)
-		{
-			EndDialog(hDlg, LOWORD(wParam));
-			return (INT_PTR)TRUE;
-		}
-		break;
-	}
-	return (INT_PTR)FALSE;
 }

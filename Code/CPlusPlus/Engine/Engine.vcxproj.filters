@@ -10,6 +10,9 @@
     <Filter Include="Subsystems\FileManager">
       <UniqueIdentifier>{fae890fc-1782-4ee2-ae02-9d205c1e70e7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Subsystems\TimeManager">
+      <UniqueIdentifier>{dee123ca-d015-4d47-ab72-f38582d5a5af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Subsystems\RenderManager\RenderManager.cpp">
@@ -42,6 +45,9 @@
     <ClCompile Include="Subsystems\RenderManager\UntexturedRenderCommand.cpp">
       <Filter>Subsystems\RenderManager</Filter>
     </ClCompile>
+    <ClCompile Include="Subsystems\TimeManager\TimeManager.cpp">
+      <Filter>Subsystems\TimeManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Subsystems\RenderManager\RenderManager.h">
@@ -73,6 +79,9 @@
     </ClInclude>
     <ClInclude Include="Subsystems\RenderManager\UntexturedRenderCommand.h">
       <Filter>Subsystems\RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\TimeManager\TimeManager.h">
+      <Filter>Subsystems\TimeManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

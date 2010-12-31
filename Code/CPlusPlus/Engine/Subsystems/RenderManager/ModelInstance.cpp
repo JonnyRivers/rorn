@@ -4,7 +4,7 @@
 
 using namespace Rorn::Engine;
 
-ModelInstance::ModelInstance(const Model& model, CXMMATRIX instanceToWorldMatrix)
+ModelInstance::ModelInstance(const Model* model, CXMMATRIX instanceToWorldMatrix)
 	: model_(model), instanceToWorldMatrix_(instanceToWorldMatrix)
 {
 }
@@ -15,5 +15,11 @@ ModelInstance::~ModelInstance(void)
 
 void ModelInstance::Draw(ID3D11DeviceContext* deviceContext, CXMMATRIX worldToProjectionMatrix) const
 {
-	model_.Draw(deviceContext, instanceToWorldMatrix_, worldToProjectionMatrix);
+	model_->Draw(deviceContext, instanceToWorldMatrix_, worldToProjectionMatrix);
+}
+
+void ModelInstance::RotateY(float angle)
+{
+	XMMATRIX rotationMatrix = XMMatrixRotationY(angle);
+	instanceToWorldMatrix_ = XMMatrixMultiply(instanceToWorldMatrix_, rotationMatrix);
 }
