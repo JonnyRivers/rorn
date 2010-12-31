@@ -27,9 +27,6 @@
     <ClCompile Include="Subsystems\RenderManager\RenderCommand.cpp">
       <Filter>Subsystems\RenderManager</Filter>
     </ClCompile>
-    <ClCompile Include="Subsystems\RenderManager\SurfaceFormat.cpp">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClCompile>
     <ClCompile Include="Subsystems\RenderManager\UntexturedSurfaceFormat.cpp">
       <Filter>Subsystems\RenderManager</Filter>
     </ClCompile>
@@ -60,9 +57,6 @@
       <Filter>Subsystems\RenderManager</Filter>
     </ClInclude>
     <ClInclude Include="Subsystems\RenderManager\RenderCommand.h">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\RenderManager\SurfaceFormat.h">
       <Filter>Subsystems\RenderManager</Filter>
     </ClInclude>
     <ClInclude Include="Subsystems\RenderManager\UntexturedSurfaceFormat.h">

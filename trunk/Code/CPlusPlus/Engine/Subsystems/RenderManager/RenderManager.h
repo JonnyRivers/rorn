@@ -8,8 +8,6 @@
 #include <d3d11.h>
 #include <xnamath.h>
 
-#include "SurfaceFormat.h"
-
 namespace Rorn
 {
 	namespace Engine
@@ -60,7 +58,6 @@ namespace Rorn
 			Camera* currentCamera_;
 
 			// Geometry
-			std::map<SurfaceFormat::Type, std::unique_ptr<SurfaceFormat>> surfaceFormats_;
 			std::list<std::unique_ptr<Model>> models_;
 			std::list<std::unique_ptr<ModelInstance>>  modelInstances_;
 		};

@@ -19,11 +19,16 @@ FileReader::~FileReader()
 	CloseHandle(fileHandle_);
 }
 
+void FileReader::ReadData(void* buffer, int length)
+{
+	DWORD bytesRead;
+	ReadFile(fileHandle_, buffer, length, &bytesRead, NULL);
+}
+
 int FileReader::ReadInt()
 {
 	int value;
-	DWORD bytesRead;
-	ReadFile(fileHandle_, &value, sizeof(value), &bytesRead, NULL);
+	ReadData(&value, sizeof(value));
 
 	return value;
 }
@@ -31,8 +36,7 @@ int FileReader::ReadInt()
 float FileReader::ReadFloat()
 {
 	float value;
-	DWORD bytesRead;
-	ReadFile(fileHandle_, &value, sizeof(value), &bytesRead, NULL);
+	ReadData(&value, sizeof(value));
 
 	return value;
 }

@@ -15,11 +15,11 @@ using namespace Rorn::Engine;
 {
 	return instance_;
 }
+
 RenderManager::RenderManager(void)
 {
 	currentCamera_ = NULL;
 }
-
 
 HRESULT RenderManager::Startup(HWND hwnd)
 {
@@ -44,9 +44,15 @@ HRESULT RenderManager::Startup(HWND hwnd)
 
 void RenderManager::Shutdown()
 {
-	std::map<SurfaceFormat::Type, std::unique_ptr<SurfaceFormat>>::const_iterator surfaceFormatIter;
-	for(surfaceFormatIter = surfaceFormats_.begin() ; surfaceFormatIter != surfaceFormats_.end() ; ++surfaceFormatIter)
-		surfaceFormatIter->second->Shutdown();
+	std::list<std::unique_ptr<Model>>::iterator modelIter;
+	for(modelIter = models_.begin() ; modelIter != models_ .end() ; ++modelIter)
+		(*modelIter)->Release();
+
+	models_.clear();
+	modelInstances_.clear();
+	cameras_.clear();
+
+	UntexturedSurfaceFormat::GetInstance().Release();
 
 	if( deviceContext_ ) 
 		deviceContext_->ClearState();
@@ -78,7 +84,7 @@ void RenderManager::SetCurrentCamera(Camera& camera)
 Model& RenderManager::LoadOrGetModel(const char* modelPathName)
 {
 	Model* newModel = new Model();
-	newModel->LoadFromFile(modelPathName);
+	newModel->LoadFromFile(modelPathName, device_);
 	models_.push_back(std::unique_ptr<Model>(newModel));
 
 	return *newModel;
@@ -103,7 +109,7 @@ void RenderManager::Step()
 	// Setup the world_to_view and view_to_projection matrices based on the current camera (& other settings)
 	assert(currentCamera_ != NULL);
 	XMMATRIX worldToViewMatrix = XMMatrixLookAtLH( currentCamera_->Eye, currentCamera_->Target, currentCamera_->Up );
-	XMMATRIX viewToProjectionMatrix = XMMatrixPerspectiveFovLH( XM_PIDIV4, aspectRatio_, 0.01f, 100.0f );
+	XMMATRIX viewToProjectionMatrix = XMMatrixPerspectiveFovLH( XM_PIDIV4, aspectRatio_, 0.01f, 10000.0f );
 	XMMATRIX worldToProjectionMatrix = XMMatrixMultiply(worldToViewMatrix, viewToProjectionMatrix);
 
 	std::list<std::unique_ptr<ModelInstance>>::const_iterator instanceIter;
@@ -203,8 +209,7 @@ void RenderManager::SetupViewport()
 
 HRESULT RenderManager::SetupSurfaceFormats()
 {
-	surfaceFormats_[SurfaceFormat::Untextured] = std::unique_ptr<SurfaceFormat>(new UntexturedSurfaceFormat());
-	HRESULT hr = surfaceFormats_[SurfaceFormat::Untextured]->Startup(device_);
+	HRESULT hr = UntexturedSurfaceFormat::GetInstance().Initialize(device_);
 	if( FAILED(hr) )
 		return hr;
 
