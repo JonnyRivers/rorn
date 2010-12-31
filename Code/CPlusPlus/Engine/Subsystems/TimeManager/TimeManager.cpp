@@ -21,8 +21,8 @@ void TimeManager::Step(float& timePassed)
 	{
 		LARGE_INTEGER timeAtThisStep;
 		::QueryPerformanceCounter(&timeAtThisStep);
-		timePassed = static_cast<float>(timerFrequency_.QuadPart) / 
-			static_cast<float>(timeAtThisStep.QuadPart - timeAtLastStep_.QuadPart);
+		timePassed = static_cast<float>(timeAtThisStep.QuadPart - timeAtLastStep_.QuadPart) /
+			static_cast<float>(timerFrequency_.QuadPart);
 		timeAtLastStep_ = timeAtThisStep;
 
 		// check for debugger induced massive frame times
