@@ -17,8 +17,14 @@ using namespace Rorn::Engine;
 }
 
 RenderManager::RenderManager(void)
+	: device_(NULL), 
+	deviceContext_(NULL), 
+	swapChain_(NULL), 
+	renderTargetView_(NULL), 
+	depthStencil_(NULL), 
+	depthStencilView_(NULL),
+	currentCamera_(NULL)
 {
-	currentCamera_ = NULL;
 }
 
 HRESULT RenderManager::Startup(HWND hwnd)
@@ -54,19 +60,25 @@ void RenderManager::Shutdown()
 
 	UntexturedSurfaceFormat::GetInstance().Release();
 
-	if( deviceContext_ ) 
+	if( depthStencil_ != NULL )
+		depthStencil_->Release();
+
+	if( depthStencilView_ != NULL )
+		depthStencilView_->Release();
+
+	if( deviceContext_ != NULL )
 		deviceContext_->ClearState();
 
-    if( renderTargetView_ ) 
+    if( renderTargetView_ != NULL )
 		renderTargetView_->Release();
 
-    if( swapChain_ ) 
+    if( swapChain_ != NULL )
 		swapChain_->Release();
 
-    if( deviceContext_ ) 
+    if( deviceContext_ != NULL )
 		deviceContext_->Release();
 
-    if( device_ ) 
+    if( device_ != NULL )
 		device_->Release();
 }
 
@@ -106,6 +118,9 @@ void RenderManager::Step()
 	// Just clear the backbuffer
     float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; //red,green,blue,alpha
     deviceContext_->ClearRenderTargetView( renderTargetView_, ClearColor );
+
+	// Clear the depth buffer to 1.0 (max depth)
+	deviceContext_->ClearDepthStencilView( depthStencilView_, D3D11_CLEAR_DEPTH, 1.0f, 0 );
 
 	// Draw all of the registered mesh instances using the registered camera and light(s)
 	
@@ -187,13 +202,43 @@ HRESULT RenderManager::SetupRenderTargetView()
 {
 	ID3D11Texture2D* backBuffer = NULL;
     HRESULT hr = swapChain_->GetBuffer( 0, __uuidof( ID3D11Texture2D ), ( LPVOID* )&backBuffer );
-    // TODO throw on fail
+    if( FAILED( hr ) )
+        return hr;
 
     hr = device_->CreateRenderTargetView( backBuffer, NULL, &renderTargetView_ );
     backBuffer->Release();
-    // TODO throw on fail
+    if( FAILED( hr ) )
+        return hr;
 
-    deviceContext_->OMSetRenderTargets( 1, &renderTargetView_, NULL );
+	// Create depth stencil texture
+    D3D11_TEXTURE2D_DESC descDepth;
+	ZeroMemory( &descDepth, sizeof(descDepth) );
+    descDepth.Width = outputWidth_;
+    descDepth.Height = outputHeight_;
+    descDepth.MipLevels = 1;
+    descDepth.ArraySize = 1;
+    descDepth.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
+    descDepth.SampleDesc.Count = 1;
+    descDepth.SampleDesc.Quality = 0;
+    descDepth.Usage = D3D11_USAGE_DEFAULT;
+    descDepth.BindFlags = D3D11_BIND_DEPTH_STENCIL;
+    descDepth.CPUAccessFlags = 0;
+    descDepth.MiscFlags = 0;
+    hr = device_->CreateTexture2D( &descDepth, NULL, &depthStencil_ );
+    if( FAILED( hr ) )
+        return hr;
+
+    // Create the depth stencil view
+    D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
+	ZeroMemory( &descDSV, sizeof(descDSV) );
+    descDSV.Format = descDepth.Format;
+    descDSV.ViewDimension = D3D11_DSV_DIMENSION_TEXTURE2D;
+    descDSV.Texture2D.MipSlice = 0;
+    hr = device_->CreateDepthStencilView( depthStencil_, &descDSV, &depthStencilView_ );
+    if( FAILED( hr ) )
+        return hr;
+
+    deviceContext_->OMSetRenderTargets( 1, &renderTargetView_, depthStencilView_ );
 
 	return hr;
 }
