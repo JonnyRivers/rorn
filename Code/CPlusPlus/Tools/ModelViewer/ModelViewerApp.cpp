@@ -42,8 +42,8 @@ BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, int cmdShow)
 		return FALSE;
 
 	// This MUST be done by the client.  So, should we make it part of the Startup()?
-	XMVECTOR eye = XMVectorSet( 0.0f, 140.0f, -160.0f, 0.0f );
-	XMVECTOR at = XMVectorSet( 0.0f, 1.0f, 0.0f, 0.0f );
+	XMVECTOR eye = XMVectorSet( 0.0f, 110.0f, -160.0f, 0.0f );
+	XMVECTOR at = XMVectorSet( 0.0f, 40.0f, 0.0f, 0.0f );
 	XMVECTOR up = XMVectorSet( 0.0f, 1.0f, 0.0f, 0.0f );
 	camera_ = Rorn::Engine::RenderManager::GetInstance().CreateCamera(eye, at, up);
 	Rorn::Engine::RenderManager::GetInstance().SetCurrentCamera(camera_);

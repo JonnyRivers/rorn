@@ -97,13 +97,16 @@ void SceneExporter::ExportMesh(INode* node, Mesh& mesh, Rorn::XML::HierarchyElem
 			indexStream << vertsExported++;
 			vertexElement.AddChildValueElement("Index", indexStream.str().c_str());
 			ExportPoint3("Position", mesh.verts[mesh.faces[faceIndex].v[vertIndex]], vertexElement);
-			if( mesh.gfxNormals != NULL )
+
+			// Export normal
+			RVertex& rVertex = mesh.getRVert(mesh.faces[faceIndex].v[vertIndex]);
+			if(rVertex.ern == NULL)
 			{
-				ExportPoint3("Normal", mesh.gfxNormals[mesh.faces[faceIndex].v[vertIndex]], vertexElement);
+				ExportPoint3("Normal", rVertex.rn.getNormal(), vertexElement);
 			}
 			else
 			{
-				ExportPoint3("Normal", mesh.getFaceNormal(faceIndex), vertexElement);
+				ExportPoint3("Normal", rVertex.rn.getNormal().Normalize(), vertexElement);
 			}
 		}
 	}
