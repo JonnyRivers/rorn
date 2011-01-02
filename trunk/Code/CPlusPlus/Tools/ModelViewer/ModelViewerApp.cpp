@@ -52,7 +52,7 @@ BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, int cmdShow)
 
 	// Setup ambient light
 
-	model_ = Rorn::Engine::RenderManager::GetInstance().LoadOrGetModel("teapot.rorn.model");
+	model_ = Rorn::Engine::RenderManager::GetInstance().LoadOrGetModel("cylinder.rorn.model");
 
 	XMMATRIX instanceToWorldMatrix = XMMatrixIdentity();
 	modelInstance_ = Rorn::Engine::RenderManager::GetInstance().CreateModelInstance(model_, instanceToWorldMatrix);

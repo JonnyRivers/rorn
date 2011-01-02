@@ -102,11 +102,26 @@ void SceneExporter::ExportMesh(INode* node, Mesh& mesh, Rorn::XML::HierarchyElem
 			RVertex& rVertex = mesh.getRVert(mesh.faces[faceIndex].v[vertIndex]);
 			if(rVertex.ern == NULL)
 			{
+				// If ern is NULL then there is only one computed normal.  What could be easier?
 				ExportPoint3("Normal", rVertex.rn.getNormal(), vertexElement);
 			}
 			else
 			{
-				ExportPoint3("Normal", rVertex.rn.getNormal().Normalize(), vertexElement);
+				// Here we have multiple normals for this vertex so we have to take the normal with the matching
+				// smoothing group
+				bool foundNormal = false;
+				DWORD faceSmGroup = mesh.faces[faceIndex].getSmGroup();
+				int normalIndex = 0;
+				while(!foundNormal)
+				{
+					if(rVertex.ern[normalIndex].getSmGroup() == faceSmGroup)
+					{
+						ExportPoint3("Normal", rVertex.ern[normalIndex].getNormal(), vertexElement);
+						foundNormal = true;
+					}
+
+					++normalIndex;
+				}
 			}
 		}
 	}
