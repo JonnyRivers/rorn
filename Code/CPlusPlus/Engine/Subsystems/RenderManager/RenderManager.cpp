@@ -3,6 +3,7 @@
 #include <cassert>
 
 #include "Camera.h"
+#include "Light.h"
 #include "Model.h"
 #include "ModelInstance.h"
 #include "UntexturedSurfaceFormat.h"
@@ -23,7 +24,9 @@ RenderManager::RenderManager(void)
 	renderTargetView_(NULL), 
 	depthStencil_(NULL), 
 	depthStencilView_(NULL),
-	currentCamera_(NULL)
+	currentCamera_(NULL),
+	mainLight_(NULL),
+	ambientLightColor_(0.0f, 0.0f, 0.0f, 1.0f)
 {
 }
 
@@ -82,6 +85,16 @@ void RenderManager::Shutdown()
 		device_->Release();
 }
 
+XMFLOAT4 RenderManager::GetAmbientLightColor()
+{
+	return ambientLightColor_;
+}
+
+void RenderManager::SetAmbientLightColor(const XMFLOAT4& color)
+{
+	ambientLightColor_ = color;
+}
+
 Camera* RenderManager::CreateCamera(XMVECTOR eye, XMVECTOR target, XMVECTOR up)
 {
 	Camera* newCamera = new Camera(eye, target, up);
@@ -92,11 +105,28 @@ Camera* RenderManager::CreateCamera(XMVECTOR eye, XMVECTOR target, XMVECTOR up)
 
 void RenderManager::SetCurrentCamera(Camera* camera)
 {
-	// Could check to see if it's a camera we know about
 	currentCamera_ = camera;
 }
 
-Model* RenderManager::LoadOrGetModel(const char* modelPathName)
+Light* RenderManager::CreateLight(const XMFLOAT4& direction, const XMFLOAT4& color)
+{
+	Light* newLight = new Light(direction, color);
+	lights_.push_back(std::unique_ptr<Light>(newLight));
+
+	return newLight;
+}
+
+Light* RenderManager::GetMainLight()
+{
+	return mainLight_;
+}
+
+void RenderManager::SetMainLight(Light* light)
+{
+	mainLight_ = light;
+}
+
+Model* RenderManager::LoadOrGetModel(LPCTSTR modelPathName)
 {
 	Model* newModel = new Model();
 	newModel->LoadFromFile(modelPathName, device_);

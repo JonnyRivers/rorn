@@ -18,7 +18,7 @@ ModelViewerApp::~ModelViewerApp(void)
 {
 }
 
-BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, int cmdShow)
+BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, LPCTSTR commandLine, int cmdShow)
 {
 	instanceHandle_ = instanceHandle; // Store instance handle in our global variable
 	::LoadString(instanceHandle_, IDS_APP_TITLE, title_, maxLoadString_);
@@ -48,11 +48,17 @@ BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, int cmdShow)
 	camera_ = Rorn::Engine::RenderManager::GetInstance().CreateCamera(eye, at, up);
 	Rorn::Engine::RenderManager::GetInstance().SetCurrentCamera(camera_);
 
-	// Create a light
+	// This also MUST be done by the client.  So, should we make it part of the Startup()?
+	XMFLOAT4 mainLightDirection(0, -.7071f, 0.7071f, 1.0f);
+	XMFLOAT4 mainLightColor(0.5f, 0.5f, 0.5f, 1.0f);
+	light_ = Rorn::Engine::RenderManager::GetInstance().CreateLight(mainLightDirection, mainLightColor);
+	Rorn::Engine::RenderManager::GetInstance().SetMainLight(light_);
 
-	// Setup ambient light
+	// Setup ambient lighting
+	XMFLOAT4 ambientLightColor(0.3f, 0.3f, 0.3f, 1.0f);
+	Rorn::Engine::RenderManager::GetInstance().SetAmbientLightColor(ambientLightColor);
 
-	model_ = Rorn::Engine::RenderManager::GetInstance().LoadOrGetModel("cylinder.rorn.model");
+	model_ = Rorn::Engine::RenderManager::GetInstance().LoadOrGetModel(commandLine);
 
 	XMMATRIX instanceToWorldMatrix = XMMatrixIdentity();
 	modelInstance_ = Rorn::Engine::RenderManager::GetInstance().CreateModelInstance(model_, instanceToWorldMatrix);
