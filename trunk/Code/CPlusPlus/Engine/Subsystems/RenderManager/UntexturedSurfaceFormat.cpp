@@ -1,5 +1,7 @@
 #include "UntexturedSurfaceFormat.h"
 
+#include "Light.h"
+#include "RenderManager.h"
 #include "ShaderCompiler.h"
 
 using namespace Rorn::Engine;
@@ -110,15 +112,9 @@ UntexturedSurfaceFormat::UntexturedSurfaceFormat()
 	constantBuffer.AmbientColor = ambientColor;
 	constantBuffer.DiffuseColor = diffuseColor;
 	constantBuffer.SpecularColor = specularColor;
-	// lighting is hard coded for now
-	constantBuffer.LightDir.x = 0.0f;
-	constantBuffer.LightDir.y = 0.7071f;
-	constantBuffer.LightDir.z = -0.7071f;
-	constantBuffer.LightDir.w = 0.0f;
-	constantBuffer.LightColor.x = 0.7f;
-	constantBuffer.LightColor.y = 0.7f;
-	constantBuffer.LightColor.z = 0.7f;
-	constantBuffer.LightColor.w = 1.0f;
+	constantBuffer.AmbientLightColor = RenderManager::GetInstance().GetAmbientLightColor();
+	constantBuffer.MainLightDir = RenderManager::GetInstance().GetMainLight()->Direction;
+	constantBuffer.MainLightColor = RenderManager::GetInstance().GetMainLight()->Color;
 	deviceContext->UpdateSubresource( constantBuffer_, 0, NULL, &constantBuffer, 0, 0 );
 
     deviceContext->IASetInputLayout( vertexLayout_ );

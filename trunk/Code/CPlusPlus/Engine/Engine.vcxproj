@@ -14,6 +14,7 @@
     <ClInclude Include="Subsystems\FileManager\FileManager.h" />
     <ClInclude Include="Subsystems\FileManager\FileReader.h" />
     <ClInclude Include="Subsystems\RenderManager\Camera.h" />
+    <ClInclude Include="Subsystems\RenderManager\Light.h" />
     <ClInclude Include="Subsystems\RenderManager\ShaderCompiler.h" />
     <ClInclude Include="Subsystems\RenderManager\Model.h" />
     <ClInclude Include="Subsystems\RenderManager\ModelInstance.h" />
@@ -27,6 +28,7 @@
     <ClCompile Include="Subsystems\FileManager\FileManager.cpp" />
     <ClCompile Include="Subsystems\FileManager\FileReader.cpp" />
     <ClCompile Include="Subsystems\RenderManager\Camera.cpp" />
+    <ClCompile Include="Subsystems\RenderManager\Light.cpp" />
     <ClCompile Include="Subsystems\RenderManager\ShaderCompiler.cpp" />
     <ClCompile Include="Subsystems\RenderManager\Model.cpp" />
     <ClCompile Include="Subsystems\RenderManager\ModelInstance.cpp" />

@@ -13,6 +13,7 @@ namespace Rorn
 	namespace Engine
 	{
 		class Camera;
+		class Light;
 		class Model;
 		class ModelInstance;
 
@@ -28,7 +29,14 @@ namespace Rorn
 			Camera* CreateCamera(XMVECTOR eye, XMVECTOR target, XMVECTOR up);
 			void SetCurrentCamera(Camera* camera);
 
-			Model* LoadOrGetModel(const char* modelPathName);
+			XMFLOAT4 GetAmbientLightColor();
+			void SetAmbientLightColor(const XMFLOAT4& color);
+
+			Light* CreateLight(const XMFLOAT4& direction, const XMFLOAT4& color);
+			Light* GetMainLight();
+			void SetMainLight(Light* light);
+
+			Model* LoadOrGetModel(LPCTSTR modelPathName);
 			ModelInstance* CreateModelInstance(Model* model, CXMMATRIX instanceToWorldMatrix);
 
 			void Step();
@@ -56,8 +64,14 @@ namespace Rorn
 			UINT outputHeight_;
 			FLOAT aspectRatio_;
 
+			// Cameras
 			std::list<std::unique_ptr<Camera>> cameras_;
 			Camera* currentCamera_;
+
+			// Lights
+			XMFLOAT4 ambientLightColor_;
+			std::list<std::unique_ptr<Light>> lights_;
+			Light* mainLight_;
 
 			// Geometry
 			std::list<std::unique_ptr<Model>> models_;

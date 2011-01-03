@@ -15,10 +15,9 @@ int APIENTRY _tWinMain(HINSTANCE instanceHandle,
                        int cmdShow)
 {
 	UNREFERENCED_PARAMETER(previousInstanceHandle);
-	UNREFERENCED_PARAMETER(commandLine);
 
 	ModelViewerApp application;
-	if (!application.InitInstance(instanceHandle, cmdShow))
+	if (!application.InitInstance(instanceHandle, commandLine, cmdShow))
 	{
 		application.ExitInstance();
 		return FALSE;

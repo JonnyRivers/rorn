@@ -29,7 +29,7 @@ namespace Rorn
 
 			UntexturedSurfaceFormat(void);
 
-			// This should be split up between the vertex shader and pixel shader
+			// This could be split up between the vertex shader and pixel shader
 			struct ConstantBuffer
 			{
 				XMMATRIX ModelToWorldMatrix;
@@ -37,8 +37,9 @@ namespace Rorn
 				XMFLOAT4 AmbientColor;
 				XMFLOAT4 DiffuseColor;
 				XMFLOAT4 SpecularColor;
-				XMFLOAT4 LightDir;
-				XMFLOAT4 LightColor;
+				XMFLOAT4 AmbientLightColor;
+				XMFLOAT4 MainLightDir;
+				XMFLOAT4 MainLightColor;
 			};
 
 			ID3D11VertexShader* vertexShader_;

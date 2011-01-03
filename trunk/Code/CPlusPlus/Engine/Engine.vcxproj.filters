@@ -48,6 +48,9 @@
     <ClCompile Include="Subsystems\TimeManager\TimeManager.cpp">
       <Filter>Subsystems\TimeManager</Filter>
     </ClCompile>
+    <ClCompile Include="Subsystems\RenderManager\Light.cpp">
+      <Filter>Subsystems\RenderManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Subsystems\RenderManager\RenderManager.h">
@@ -82,6 +85,9 @@
     </ClInclude>
     <ClInclude Include="Subsystems\TimeManager\TimeManager.h">
       <Filter>Subsystems\TimeManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\RenderManager\Light.h">
+      <Filter>Subsystems\RenderManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

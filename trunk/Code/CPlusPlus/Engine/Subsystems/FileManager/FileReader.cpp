@@ -2,9 +2,9 @@
 
 using namespace Rorn::Engine;
 
-FileReader::FileReader(const char* pathName)
+FileReader::FileReader(LPCTSTR pathName)
 {
-	fileHandle_ = ::CreateFileA(
+	fileHandle_ = ::CreateFile(
 		pathName,
 		GENERIC_READ,
 		FILE_SHARE_READ,

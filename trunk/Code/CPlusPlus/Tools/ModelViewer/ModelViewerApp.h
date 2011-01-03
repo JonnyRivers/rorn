@@ -10,7 +10,7 @@ public:
 	ModelViewerApp(void);
 	~ModelViewerApp(void);
 
-	BOOL InitInstance(HINSTANCE instanceHandle, int cmdShow);
+	BOOL InitInstance(HINSTANCE instanceHandle, LPCTSTR commandLine, int cmdShow);
 	VOID ExitInstance();
 	VOID Step();
 private:
@@ -26,6 +26,7 @@ private:
 	HWND windowHandle_;
 
 	Rorn::Engine::Camera* camera_;
+	Rorn::Engine::Light* light_;
 	Rorn::Engine::Model* model_;
 	Rorn::Engine::ModelInstance* modelInstance_;
 };

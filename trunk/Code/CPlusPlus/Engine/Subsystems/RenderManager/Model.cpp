@@ -14,7 +14,7 @@ Model::~Model(void)
 {
 }
 
-void Model::LoadFromFile(const char* modelPathName, ID3D11Device* device)
+void Model::LoadFromFile(LPCTSTR modelPathName, ID3D11Device* device)
 {
 	FileReader fileReader(modelPathName);
 
