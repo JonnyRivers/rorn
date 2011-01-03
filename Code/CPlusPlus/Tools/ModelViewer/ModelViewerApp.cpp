@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "ModelViewerApp.h"
 
+#include <fstream>
+
 #include "../../Engine/Subsystems/RenderManager/RenderManager.h"
 #include "../../Engine/Subsystems/RenderManager/ModelInstance.h"
 #include "../../Engine/Subsystems/TimeManager/TimeManager.h"
@@ -131,6 +133,18 @@ LRESULT CALLBACK ModelViewerApp::WndProc(HWND windowHandle, UINT message, WPARAM
 	case WM_DESTROY:
 		PostQuitMessage(0);
 		break;
+	case WM_KEYDOWN:
+		{
+			if( wParam == VK_F1 )
+			{
+				float fps = Rorn::Engine::TimeManager::GetInstance().GetFPS();
+				std::ofstream ofsLog("fps.txt", std::ios::ate);
+				ofsLog << fps << std::endl;
+				ofsLog.close();
+			}
+			break;
+		}
+
 	default:
 		return DefWindowProc(windowHandle, message, wParam, lParam);
 	}

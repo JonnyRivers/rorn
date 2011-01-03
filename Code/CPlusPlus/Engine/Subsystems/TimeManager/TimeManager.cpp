@@ -1,5 +1,7 @@
 #include "TimeManager.h"
 
+#include <algorithm>
+
 using namespace Rorn::Engine;
 
 /*static*/ TimeManager& TimeManager::instance_ = TimeManager();// init static instance
@@ -28,6 +30,11 @@ void TimeManager::Step(float& timePassed)
 		// check for debugger induced massive frame times
 		if(timePassed > 0.1f)
 			timePassed = 0.1f;
+
+		// update previous frames cache
+		if(previousFrameTimes_.size() == maxFramesRecorded_)
+			previousFrameTimes_.pop_front();
+		previousFrameTimes_.push_back(timePassed);
 	}
 	else
 	{
@@ -38,4 +45,19 @@ void TimeManager::Step(float& timePassed)
 		firstStep_ = false;
 		timePassed = 0.0f;
 	}
+}
+
+float TimeManager::GetFPS() const
+{
+	if(previousFrameTimes_.empty())
+		return 0.0f;
+
+	float totalFrameTimes = 0.0f;
+	std::deque<float>::const_iterator frameTimeIter;
+	for(frameTimeIter = previousFrameTimes_.cbegin() ; frameTimeIter != previousFrameTimes_.cend() ; ++frameTimeIter)
+		totalFrameTimes += *frameTimeIter;
+
+	float fps = static_cast<float>(maxFramesRecorded_) / totalFrameTimes;
+
+	return fps;
 }
