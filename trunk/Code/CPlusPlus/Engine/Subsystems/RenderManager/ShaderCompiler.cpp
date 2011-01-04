@@ -1,11 +1,15 @@
 #include "ShaderCompiler.h"
 
+#include "../DiagnosticsManager/DiagnosticsManager.h"
+
+#include <tchar.h>
+
 #include <d3dcompiler.h>
 #include <d3dx11async.h>
 
 using namespace Rorn::Engine;
 
-/*static*/ HRESULT ShaderCompiler::CompileShaderFromFile(WCHAR* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut)
+/*static*/ HRESULT ShaderCompiler::CompileShaderFromFile(const char* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut)
 {
 	HRESULT hr = S_OK;
 
@@ -18,16 +22,31 @@ using namespace Rorn::Engine;
     dwShaderFlags |= D3DCOMPILE_DEBUG;
 #endif
     ID3DBlob* pErrorBlob;
-    hr = D3DX11CompileFromFile( szFileName, NULL, NULL, szEntryPoint, szShaderModel, 
+    hr = D3DX11CompileFromFileA( szFileName, NULL, NULL, szEntryPoint, szShaderModel, 
         dwShaderFlags, 0, NULL, ppBlobOut, &pErrorBlob, NULL );
     if( FAILED(hr) )
     {
+		DiagnosticsManager::GetInstance().ReportError(hr, _T("Error during shader compilation"));
+
         if( pErrorBlob != NULL )
-            OutputDebugStringA( (char*)pErrorBlob->GetBufferPointer() );
-        if( pErrorBlob ) pErrorBlob->Release();
+		{
+			std::ofstream& loggingStream = DiagnosticsManager::GetInstance().GetLoggingStream();
+			loggingStream << "Error during compilation of shader '" << szEntryPoint << "' in file '" << szFileName << 
+				"' using shader model '" << szShaderModel << "'." << std::endl;
+			loggingStream << "Shader compiler reported error as " << 
+				static_cast<const char*>(pErrorBlob->GetBufferPointer()) << std::endl;
+
+			pErrorBlob->Release();
+		}
+
         return hr;
     }
-    if( pErrorBlob ) pErrorBlob->Release();
+
+    if( pErrorBlob ) 
+		pErrorBlob->Release();
+
+	DiagnosticsManager::GetInstance().GetLoggingStream() << "Successfully compiled shader shader '" << szEntryPoint << 
+		"' in file '" << szFileName << "' using shader model '" << szShaderModel << "'." << std::endl;
 
     return S_OK;
 }

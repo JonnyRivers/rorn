@@ -1,5 +1,7 @@
 #include "UntexturedSurfaceFormat.h"
 
+#include "../DiagnosticsManager/DiagnosticsManager.h"
+
 #include "Light.h"
 #include "RenderManager.h"
 #include "ShaderCompiler.h"
@@ -22,13 +24,9 @@ UntexturedSurfaceFormat::UntexturedSurfaceFormat()
 {
 	// Compile the vertex shader
     ID3DBlob* pVSBlob = NULL;
-    HRESULT hr = ShaderCompiler::CompileShaderFromFile( L"Untextured.fx", "VS", "vs_4_0", &pVSBlob );
+    HRESULT hr = ShaderCompiler::CompileShaderFromFile( "Untextured.fx", "VS", "vs_4_0", &pVSBlob );
     if( FAILED( hr ) )
-    {
-        MessageBox( NULL,
-                    L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK );
-        return hr;
-    }
+		return hr;
 
 	// Create the vertex shader
 	hr = device->CreateVertexShader( pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), NULL, &vertexShader_ );
@@ -55,13 +53,9 @@ UntexturedSurfaceFormat::UntexturedSurfaceFormat()
 
 	// Compile the pixel shader
 	ID3DBlob* pPSBlob = NULL;
-	hr = ShaderCompiler::CompileShaderFromFile( L"Untextured.fx", "PS", "ps_4_0", &pPSBlob );
+	hr = ShaderCompiler::CompileShaderFromFile( "Untextured.fx", "PS", "ps_4_0", &pPSBlob );
     if( FAILED( hr ) )
-    {
-        MessageBox( NULL,
-                    L"The FX file cannot be compiled.  Please run this executable from the directory that contains the FX file.", L"Error", MB_OK );
-        return hr;
-    }
+		return hr;
 
 	// Create the pixel shader
 	hr = device->CreatePixelShader( pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, &pixelShader_ );

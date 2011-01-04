@@ -3,6 +3,7 @@
 
 #include <fstream>
 
+#include "../../Engine/Subsystems/DiagnosticsManager/DiagnosticsManager.h"
 #include "../../Engine/Subsystems/RenderManager/RenderManager.h"
 #include "../../Engine/Subsystems/RenderManager/ModelInstance.h"
 #include "../../Engine/Subsystems/TimeManager/TimeManager.h"
@@ -39,7 +40,11 @@ BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, LPCTSTR commandLine,
 	ShowWindow(windowHandle_, cmdShow);
 	UpdateWindow(windowHandle_);
 
-	HRESULT hr = Rorn::Engine::RenderManager::GetInstance().Startup(windowHandle_);
+	HRESULT hr = Rorn::Engine::DiagnosticsManager::GetInstance().Startup(windowHandle_);
+	if( FAILED(hr) )
+		return FALSE;
+
+	hr = Rorn::Engine::RenderManager::GetInstance().Startup(windowHandle_);
 	if( FAILED(hr) )
 		return FALSE;
 
@@ -71,6 +76,7 @@ BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, LPCTSTR commandLine,
 VOID ModelViewerApp::ExitInstance()
 {
 	Rorn::Engine::RenderManager::GetInstance().Shutdown();
+	Rorn::Engine::DiagnosticsManager::GetInstance().Shutdown();
 }
 
 VOID ModelViewerApp::Step()
