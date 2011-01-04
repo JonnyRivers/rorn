@@ -11,6 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Subsystems\DiagnosticsManager\DiagnosticsManager.h" />
     <ClInclude Include="Subsystems\FileManager\FileManager.h" />
     <ClInclude Include="Subsystems\FileManager\FileReader.h" />
     <ClInclude Include="Subsystems\RenderManager\Camera.h" />
@@ -25,6 +26,7 @@
     <ClInclude Include="Subsystems\TimeManager\TimeManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Subsystems\DiagnosticsManager\DiagnosticsManager.cpp" />
     <ClCompile Include="Subsystems\FileManager\FileManager.cpp" />
     <ClCompile Include="Subsystems\FileManager\FileReader.cpp" />
     <ClCompile Include="Subsystems\RenderManager\Camera.cpp" />

@@ -13,6 +13,9 @@
     <Filter Include="Subsystems\TimeManager">
       <UniqueIdentifier>{dee123ca-d015-4d47-ab72-f38582d5a5af}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Subsystems\DiagnosticsManager">
+      <UniqueIdentifier>{c5c97769-5a33-4688-9d53-e6476a00a4b8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Subsystems\RenderManager\RenderManager.cpp">
@@ -51,6 +54,9 @@
     <ClCompile Include="Subsystems\RenderManager\Light.cpp">
       <Filter>Subsystems\RenderManager</Filter>
     </ClCompile>
+    <ClCompile Include="Subsystems\DiagnosticsManager\DiagnosticsManager.cpp">
+      <Filter>Subsystems\DiagnosticsManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Subsystems\RenderManager\RenderManager.h">
@@ -88,6 +94,9 @@
     </ClInclude>
     <ClInclude Include="Subsystems\RenderManager\Light.h">
       <Filter>Subsystems\RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\DiagnosticsManager\DiagnosticsManager.h">
+      <Filter>Subsystems\DiagnosticsManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

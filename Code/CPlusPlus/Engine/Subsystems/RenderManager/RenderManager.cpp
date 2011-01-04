@@ -1,6 +1,9 @@
 #include "RenderManager.h"
 
 #include <cassert>
+#include <tchar.h>
+
+#include "../DiagnosticsManager/DiagnosticsManager.h"
 
 #include "Camera.h"
 #include "Light.h"
@@ -32,6 +35,8 @@ RenderManager::RenderManager(void)
 
 HRESULT RenderManager::Startup(HWND hwnd)
 {
+	DiagnosticsManager::GetInstance().GetLoggingStream() << "The Render Manager is starting up." << std::endl;
+
 	SetupScreenCoordinates(hwnd);
 
 	HRESULT hr = SetupDeviceAndSwapChain(hwnd);
@@ -48,11 +53,15 @@ HRESULT RenderManager::Startup(HWND hwnd)
 	if ( FAILED(hr) )
 		return hr;
 
+	DiagnosticsManager::GetInstance().GetLoggingStream() << "The Render Manager started up successfully." << std::endl;
+
 	return S_OK;
 }
 
 void RenderManager::Shutdown()
 {
+	DiagnosticsManager::GetInstance().GetLoggingStream() << "The Render Manager is shutting down." << std::endl;
+
 	std::list<std::unique_ptr<Model>>::iterator modelIter;
 	for(modelIter = models_.begin() ; modelIter != models_ .end() ; ++modelIter)
 		(*modelIter)->Release();
@@ -83,6 +92,8 @@ void RenderManager::Shutdown()
 
     if( device_ != NULL )
 		device_->Release();
+
+	DiagnosticsManager::GetInstance().GetLoggingStream() << "The Render Manager shut down successfully." << std::endl;
 }
 
 XMFLOAT4 RenderManager::GetAmbientLightColor()
@@ -198,6 +209,9 @@ HRESULT RenderManager::SetupDeviceAndSwapChain(HWND hwnd)
         D3D_FEATURE_LEVEL_11_0,
         D3D_FEATURE_LEVEL_10_1,
         D3D_FEATURE_LEVEL_10_0,
+		D3D_FEATURE_LEVEL_9_3,
+		D3D_FEATURE_LEVEL_9_2,
+		D3D_FEATURE_LEVEL_9_1
     };
 	UINT numFeatureLevels = ARRAYSIZE( featureLevels );
 
@@ -222,8 +236,17 @@ HRESULT RenderManager::SetupDeviceAndSwapChain(HWND hwnd)
         hr = D3D11CreateDeviceAndSwapChain( NULL, driverType_, NULL, createDeviceFlags, featureLevels, numFeatureLevels,
                                             D3D11_SDK_VERSION, &sd, &swapChain_, &device_, &featureLevel_, &deviceContext_ );
         if( SUCCEEDED( hr ) )
+		{
+			std::ofstream& loggingStream = DiagnosticsManager::GetInstance().GetLoggingStream();
+			loggingStream << "The D3D11 device and swap chain were successfully created." << std::endl;
+			loggingStream << "The driver type is " << driverType_ << "." << std::endl;
+			loggingStream << "The feature level is 0x" << std::hex << featureLevel_ << std::dec << "." << std::endl;
+
             return hr;
+		}
     }
+
+	DiagnosticsManager::GetInstance().ReportError(hr, _T("Error during creation of device and swap chain"));
     
 	return hr;
 }
@@ -233,12 +256,19 @@ HRESULT RenderManager::SetupRenderTargetView()
 	ID3D11Texture2D* backBuffer = NULL;
     HRESULT hr = swapChain_->GetBuffer( 0, __uuidof( ID3D11Texture2D ), ( LPVOID* )&backBuffer );
     if( FAILED( hr ) )
+	{
+		DiagnosticsManager::GetInstance().ReportError(hr, _T("Error during retrieval of Swap Chain back buffer"));
         return hr;
+	}
 
     hr = device_->CreateRenderTargetView( backBuffer, NULL, &renderTargetView_ );
     backBuffer->Release();
     if( FAILED( hr ) )
+	{
+		DiagnosticsManager::GetInstance().ReportError(hr, _T("Error during creation of Render Target View"));
         return hr;
+	}
+	DiagnosticsManager::GetInstance().GetLoggingStream() << "Successfully created Render Target View" << std::endl;
 
 	// Create depth stencil texture
     D3D11_TEXTURE2D_DESC descDepth;
@@ -256,7 +286,11 @@ HRESULT RenderManager::SetupRenderTargetView()
     descDepth.MiscFlags = 0;
     hr = device_->CreateTexture2D( &descDepth, NULL, &depthStencil_ );
     if( FAILED( hr ) )
+	{
+		DiagnosticsManager::GetInstance().ReportError(hr, _T("Error during creation of Depth Stencil Texture"));
         return hr;
+	}
+	DiagnosticsManager::GetInstance().GetLoggingStream() << "Successfully created Depth Stencil Texture" << std::endl;
 
     // Create the depth stencil view
     D3D11_DEPTH_STENCIL_VIEW_DESC descDSV;
@@ -266,23 +300,29 @@ HRESULT RenderManager::SetupRenderTargetView()
     descDSV.Texture2D.MipSlice = 0;
     hr = device_->CreateDepthStencilView( depthStencil_, &descDSV, &depthStencilView_ );
     if( FAILED( hr ) )
+	{
+		DiagnosticsManager::GetInstance().ReportError(hr, _T("Error during creation of Depth Stencil View"));
         return hr;
+	}
+	DiagnosticsManager::GetInstance().GetLoggingStream() << "Successfully created Depth Stencil View" << std::endl;
 
     deviceContext_->OMSetRenderTargets( 1, &renderTargetView_, depthStencilView_ );
 
-	return hr;
+	return S_OK;
 }
 
 void RenderManager::SetupViewport()
 {
-	D3D11_VIEWPORT vp;
-    vp.Width = (FLOAT)outputWidth_;
-    vp.Height = (FLOAT)outputHeight_;
-    vp.MinDepth = 0.0f;
-    vp.MaxDepth = 1.0f;
-    vp.TopLeftX = 0;
-    vp.TopLeftY = 0;
-    deviceContext_->RSSetViewports( 1, &vp );
+	D3D11_VIEWPORT viewport;
+    viewport.Width = static_cast<FLOAT>(outputWidth_);
+    viewport.Height = static_cast<FLOAT>(outputHeight_);
+    viewport.MinDepth = 0.0f;
+    viewport.MaxDepth = 1.0f;
+    viewport.TopLeftX = 0;
+    viewport.TopLeftY = 0;
+    deviceContext_->RSSetViewports( 1, &viewport );
+
+	DiagnosticsManager::GetInstance().GetLoggingStream() << "Successfully set Device Context viewport" << std::endl;
 }
 
 HRESULT RenderManager::SetupSurfaceFormats()
@@ -290,6 +330,7 @@ HRESULT RenderManager::SetupSurfaceFormats()
 	HRESULT hr = UntexturedSurfaceFormat::GetInstance().Initialize(device_);
 	if( FAILED(hr) )
 		return hr;
+	DiagnosticsManager::GetInstance().GetLoggingStream() << "Successfully setup Untextured Surface Format" << std::endl;
 
 	return S_OK;
 }
