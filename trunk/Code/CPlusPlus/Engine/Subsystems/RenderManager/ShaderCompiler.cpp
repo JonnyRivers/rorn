@@ -30,7 +30,7 @@ using namespace Rorn::Engine;
 
         if( pErrorBlob != NULL )
 		{
-			std::ofstream& loggingStream = DiagnosticsManager::GetInstance().GetLoggingStream();
+			std::wofstream& loggingStream = DiagnosticsManager::GetInstance().GetLoggingStream();
 			loggingStream << "Error during compilation of shader '" << szEntryPoint << "' in file '" << szFileName << 
 				"' using shader model '" << szShaderModel << "'." << std::endl;
 			loggingStream << "Shader compiler reported error as " << 

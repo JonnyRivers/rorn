@@ -9,7 +9,7 @@ namespace Rorn
 		class FileReader
 		{
 		public:
-			FileReader(LPCTSTR pathName);
+			FileReader(const wchar_t* pathName);
 			~FileReader();
 
 			void ReadData(void* buffer, int length);

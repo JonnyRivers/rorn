@@ -26,13 +26,17 @@ UntexturedSurfaceFormat::UntexturedSurfaceFormat()
     ID3DBlob* pVSBlob = NULL;
     HRESULT hr = ShaderCompiler::CompileShaderFromFile( "Untextured.fx", "VS", "vs_4_0", &pVSBlob );
     if( FAILED( hr ) )
+	{
 		return hr;
+	}
 
 	// Create the vertex shader
 	hr = device->CreateVertexShader( pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), NULL, &vertexShader_ );
 	if( FAILED( hr ) )
 	{	
 		pVSBlob->Release();
+
+		DiagnosticsManager::GetInstance().ReportError(hr, L"Error during creation of vertex shader");
         return hr;
 	}
 
@@ -47,7 +51,10 @@ UntexturedSurfaceFormat::UntexturedSurfaceFormat()
 	hr = device->CreateInputLayout( layout, numElements, pVSBlob->GetBufferPointer(),
                                           pVSBlob->GetBufferSize(), &vertexLayout_ );
 	if( FAILED( hr ) )
+	{
+		DiagnosticsManager::GetInstance().ReportError(hr, L"Error during creation of vertex buffer input layout");
         return hr;
+	}
 
 	pVSBlob->Release();
 
@@ -61,7 +68,10 @@ UntexturedSurfaceFormat::UntexturedSurfaceFormat()
 	hr = device->CreatePixelShader( pPSBlob->GetBufferPointer(), pPSBlob->GetBufferSize(), NULL, &pixelShader_ );
 	pPSBlob->Release();
     if( FAILED( hr ) )
+	{
+		DiagnosticsManager::GetInstance().ReportError(hr, L"Error during creation of pixel shader");
         return hr;
+	}
 
 	// Create the constant buffer
 	D3D11_BUFFER_DESC bd;
@@ -72,7 +82,9 @@ UntexturedSurfaceFormat::UntexturedSurfaceFormat()
 	bd.CPUAccessFlags = 0;
     hr = device->CreateBuffer( &bd, NULL, &constantBuffer_ );
     if( FAILED( hr ) )
+	{
         return hr;
+	}
 
 	return S_OK;
 }

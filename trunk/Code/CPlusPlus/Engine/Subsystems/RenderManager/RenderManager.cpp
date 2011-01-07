@@ -137,7 +137,7 @@ void RenderManager::SetMainLight(Light* light)
 	mainLight_ = light;
 }
 
-Model* RenderManager::LoadOrGetModel(LPCTSTR modelPathName)
+Model* RenderManager::LoadOrGetModel(const wchar_t* modelPathName)
 {
 	Model* newModel = new Model();
 	newModel->LoadFromFile(modelPathName, device_);
@@ -209,9 +209,9 @@ HRESULT RenderManager::SetupDeviceAndSwapChain(HWND hwnd)
         D3D_FEATURE_LEVEL_11_0,
         D3D_FEATURE_LEVEL_10_1,
         D3D_FEATURE_LEVEL_10_0,
-		D3D_FEATURE_LEVEL_9_3,
-		D3D_FEATURE_LEVEL_9_2,
-		D3D_FEATURE_LEVEL_9_1
+		//D3D_FEATURE_LEVEL_9_3,
+		//D3D_FEATURE_LEVEL_9_2,
+		//D3D_FEATURE_LEVEL_9_1
     };
 	UINT numFeatureLevels = ARRAYSIZE( featureLevels );
 
@@ -237,7 +237,7 @@ HRESULT RenderManager::SetupDeviceAndSwapChain(HWND hwnd)
                                             D3D11_SDK_VERSION, &sd, &swapChain_, &device_, &featureLevel_, &deviceContext_ );
         if( SUCCEEDED( hr ) )
 		{
-			std::ofstream& loggingStream = DiagnosticsManager::GetInstance().GetLoggingStream();
+			std::wofstream& loggingStream = DiagnosticsManager::GetInstance().GetLoggingStream();
 			loggingStream << "The D3D11 device and swap chain were successfully created." << std::endl;
 			loggingStream << "The driver type is " << driverType_ << "." << std::endl;
 			loggingStream << "The feature level is 0x" << std::hex << featureLevel_ << std::dec << "." << std::endl;

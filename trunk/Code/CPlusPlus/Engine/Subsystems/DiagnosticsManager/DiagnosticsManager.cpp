@@ -1,6 +1,6 @@
 #include "DiagnosticsManager.h"
 
-#include <tchar.h>
+#include <sstream>
 
 using namespace Rorn::Engine;
 
@@ -39,17 +39,17 @@ void DiagnosticsManager::Shutdown()
 	applicationWindowHandle_ = NULL;
 }
 
-std::ofstream& DiagnosticsManager::GetLoggingStream()
+std::wofstream& DiagnosticsManager::GetLoggingStream()
 {
 	return loggingStream_;
 }
 
-void DiagnosticsManager::ReportError(LPCTSTR errorMessage) const
+void DiagnosticsManager::ReportError(const wchar_t* errorMessage)
 {
-	::MessageBox(applicationWindowHandle_, errorMessage, _T("Error"), MB_OK);
+	::MessageBox(applicationWindowHandle_, errorMessage, L"Error", MB_OK);
 }
 
-void DiagnosticsManager::ReportError(HRESULT hr, LPCTSTR errorHeading) const
+void DiagnosticsManager::ReportError(HRESULT hr, const wchar_t* errorHeading)
 {
 	LPTSTR formattedHRText = NULL;
 
@@ -62,9 +62,17 @@ void DiagnosticsManager::ReportError(HRESULT hr, LPCTSTR errorHeading) const
 		0,
 		NULL);
 
+	std::wstringstream messageStream;
+	messageStream << std::wstring(errorHeading) << std::endl 
+				<< "Reason: " << formattedHRText;
+
+	loggingStream_ << "*** Error ***" << std::endl;
+	loggingStream_ << messageStream.str().c_str();
+	loggingStream_ << "*************" << std::endl;
+
 	if( formattedHRText != NULL )
 	{
-		::MessageBox(applicationWindowHandle_, formattedHRText, errorHeading, MB_OK);
+		::MessageBox(applicationWindowHandle_, messageStream.str().c_str(), L"Error", MB_OK);
 
 		::LocalFree(formattedHRText);
 	}	

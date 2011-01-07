@@ -36,7 +36,7 @@ namespace Rorn
 			Light* GetMainLight();
 			void SetMainLight(Light* light);
 
-			Model* LoadOrGetModel(LPCTSTR modelPathName);
+			Model* LoadOrGetModel(const wchar_t* modelPathName);
 			ModelInstance* CreateModelInstance(Model* model, CXMMATRIX instanceToWorldMatrix);
 
 			void Step();

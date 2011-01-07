@@ -17,16 +17,16 @@ namespace Rorn
 			HRESULT Startup(HWND applicationWindowHandle);
 			void Shutdown();
 
-			std::ofstream& GetLoggingStream();
-			void ReportError(LPCTSTR errorMessage) const;
-			void ReportError(HRESULT hr, LPCTSTR errorHeading) const;
+			std::wofstream& GetLoggingStream();
+			void ReportError(const wchar_t* errorMessage);
+			void ReportError(HRESULT hr, const wchar_t* errorHeading);
 		private:
 			static DiagnosticsManager& instance_;
 
 			DiagnosticsManager(void);
 
 			HWND applicationWindowHandle_;
-			std::ofstream loggingStream_;
+			std::wofstream loggingStream_;
 		};
 	}
 }
