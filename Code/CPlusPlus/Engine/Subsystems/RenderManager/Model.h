@@ -31,7 +31,7 @@ namespace Rorn
 			};
 
 			Model(void);
-			void LoadFromFile(LPCTSTR modelPathName, ID3D11Device* device);
+			void LoadFromFile(const wchar_t* modelPathName, ID3D11Device* device);
 			std::list<std::unique_ptr<RenderCommand>> renderCommands_;
 		};
 	}

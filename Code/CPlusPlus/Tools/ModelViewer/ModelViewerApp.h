@@ -10,7 +10,7 @@ public:
 	ModelViewerApp(void);
 	~ModelViewerApp(void);
 
-	BOOL InitInstance(HINSTANCE instanceHandle, LPCTSTR commandLine, int cmdShow);
+	BOOL InitInstance(HINSTANCE instanceHandle, const wchar_t* commandLine, int cmdShow);
 	VOID ExitInstance();
 	VOID Step();
 private:

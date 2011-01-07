@@ -2,7 +2,7 @@
 
 using namespace Rorn::Engine;
 
-FileReader::FileReader(LPCTSTR pathName)
+FileReader::FileReader(const wchar_t* pathName)
 {
 	fileHandle_ = ::CreateFile(
 		pathName,

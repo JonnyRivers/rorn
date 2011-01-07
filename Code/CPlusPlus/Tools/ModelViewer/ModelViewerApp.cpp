@@ -21,7 +21,7 @@ ModelViewerApp::~ModelViewerApp(void)
 {
 }
 
-BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, LPCTSTR commandLine, int cmdShow)
+BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* commandLine, int cmdShow)
 {
 	instanceHandle_ = instanceHandle; // Store instance handle in our global variable
 	::LoadString(instanceHandle_, IDS_APP_TITLE, title_, maxLoadString_);
@@ -144,9 +144,7 @@ LRESULT CALLBACK ModelViewerApp::WndProc(HWND windowHandle, UINT message, WPARAM
 			if( wParam == VK_F1 )
 			{
 				float fps = Rorn::Engine::TimeManager::GetInstance().GetFPS();
-				std::ofstream ofsLog("fps.txt", std::ios::ate);
-				ofsLog << fps << std::endl;
-				ofsLog.close();
+				Rorn::Engine::DiagnosticsManager::GetInstance().GetLoggingStream() << "FPS:" << fps << std::endl;
 			}
 			break;
 		}
