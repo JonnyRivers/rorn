@@ -25,6 +25,8 @@ namespace Rorn
 
 			DiagnosticsManager(void);
 
+			void LogError(const wchar_t* errorMessage);
+
 			HWND applicationWindowHandle_;
 			std::wofstream loggingStream_;
 		};

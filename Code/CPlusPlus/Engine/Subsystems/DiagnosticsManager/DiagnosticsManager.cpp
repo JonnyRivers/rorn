@@ -46,6 +46,8 @@ std::wofstream& DiagnosticsManager::GetLoggingStream()
 
 void DiagnosticsManager::ReportError(const wchar_t* errorMessage)
 {
+	LogError(errorMessage);
+
 	::MessageBox(applicationWindowHandle_, errorMessage, L"Error", MB_OK);
 }
 
@@ -66,9 +68,7 @@ void DiagnosticsManager::ReportError(HRESULT hr, const wchar_t* errorHeading)
 	messageStream << std::wstring(errorHeading) << std::endl 
 				<< "Reason: " << formattedHRText;
 
-	loggingStream_ << "*** Error ***" << std::endl;
-	loggingStream_ << messageStream.str().c_str();
-	loggingStream_ << "*************" << std::endl;
+	LogError(messageStream.str().c_str());
 
 	if( formattedHRText != NULL )
 	{
@@ -76,4 +76,11 @@ void DiagnosticsManager::ReportError(HRESULT hr, const wchar_t* errorHeading)
 
 		::LocalFree(formattedHRText);
 	}	
+}
+
+void DiagnosticsManager::LogError(const wchar_t* errorMessage)
+{
+	loggingStream_ << "*** Error ***" << std::endl;
+	loggingStream_ << errorMessage;
+	loggingStream_ << "*************" << std::endl;
 }
