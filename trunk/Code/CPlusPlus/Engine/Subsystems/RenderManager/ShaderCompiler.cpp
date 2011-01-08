@@ -2,14 +2,14 @@
 
 #include "../DiagnosticsManager/DiagnosticsManager.h"
 
-#include <tchar.h>
+#include <sstream>
 
 #include <d3dcompiler.h>
 #include <d3dx11async.h>
 
 using namespace Rorn::Engine;
 
-/*static*/ HRESULT ShaderCompiler::CompileShaderFromFile(const char* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut)
+/*static*/ HRESULT ShaderCompiler::CompileShaderFromFile(const wchar_t* fileName, const char* entryPoint, const char* shaderModel, ID3DBlob** blob)
 {
 	HRESULT hr = S_OK;
 
@@ -22,19 +22,18 @@ using namespace Rorn::Engine;
     dwShaderFlags |= D3DCOMPILE_DEBUG;
 #endif
     ID3DBlob* pErrorBlob;
-    hr = D3DX11CompileFromFileA( szFileName, NULL, NULL, szEntryPoint, szShaderModel, 
-        dwShaderFlags, 0, NULL, ppBlobOut, &pErrorBlob, NULL );
+    hr = D3DX11CompileFromFile( fileName, NULL, NULL, entryPoint, shaderModel, 
+        dwShaderFlags, 0, NULL, blob, &pErrorBlob, NULL );
     if( FAILED(hr) )
     {
-		DiagnosticsManager::GetInstance().ReportError(hr, _T("Error during shader compilation"));
-
         if( pErrorBlob != NULL )
 		{
-			std::wofstream& loggingStream = DiagnosticsManager::GetInstance().GetLoggingStream();
-			loggingStream << "Error during compilation of shader '" << szEntryPoint << "' in file '" << szFileName << 
-				"' using shader model '" << szShaderModel << "'." << std::endl;
-			loggingStream << "Shader compiler reported error as " << 
-				static_cast<const char*>(pErrorBlob->GetBufferPointer()) << std::endl;
+			std::wstringstream errorStream;
+			errorStream << "Error during compilation of shader '" << entryPoint << "' in file '" << fileName << 
+				"' using shader model '" << shaderModel << "'." << std::endl;
+			errorStream << "Reason: " << static_cast<const char*>(pErrorBlob->GetBufferPointer());
+
+			DiagnosticsManager::GetInstance().ReportError(errorStream.str().c_str());
 
 			pErrorBlob->Release();
 		}
@@ -45,8 +44,8 @@ using namespace Rorn::Engine;
     if( pErrorBlob ) 
 		pErrorBlob->Release();
 
-	DiagnosticsManager::GetInstance().GetLoggingStream() << "Successfully compiled shader shader '" << szEntryPoint << 
-		"' in file '" << szFileName << "' using shader model '" << szShaderModel << "'." << std::endl;
+	DiagnosticsManager::GetInstance().GetLoggingStream() << "Successfully compiled shader '" << entryPoint << 
+		"' in file '" << fileName << "' using shader model '" << shaderModel << "'." << std::endl;
 
     return S_OK;
 }

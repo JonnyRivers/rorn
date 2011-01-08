@@ -10,7 +10,7 @@ namespace Rorn
 		class ShaderCompiler
 		{
 		public:
-			static HRESULT CompileShaderFromFile(const char* szFileName, LPCSTR szEntryPoint, LPCSTR szShaderModel, ID3DBlob** ppBlobOut);
+			static HRESULT CompileShaderFromFile(const wchar_t* fileName, const char* entryPoint, const char* shaderModel, ID3DBlob** blob);
 		};
 	}
 }

@@ -24,7 +24,7 @@ UntexturedSurfaceFormat::UntexturedSurfaceFormat()
 {
 	// Compile the vertex shader
     ID3DBlob* pVSBlob = NULL;
-    HRESULT hr = ShaderCompiler::CompileShaderFromFile( "Untextured.fx", "VS", "vs_4_0", &pVSBlob );
+    HRESULT hr = ShaderCompiler::CompileShaderFromFile( L"Untextured.fx", "VS", "vs_4_0", &pVSBlob );
     if( FAILED( hr ) )
 	{
 		return hr;
@@ -60,7 +60,7 @@ UntexturedSurfaceFormat::UntexturedSurfaceFormat()
 
 	// Compile the pixel shader
 	ID3DBlob* pPSBlob = NULL;
-	hr = ShaderCompiler::CompileShaderFromFile( "Untextured.fx", "PS", "ps_4_0", &pPSBlob );
+	hr = ShaderCompiler::CompileShaderFromFile( L"Untextured.fx", "PS", "ps_4_0", &pPSBlob );
     if( FAILED( hr ) )
 		return hr;
 
@@ -83,6 +83,7 @@ UntexturedSurfaceFormat::UntexturedSurfaceFormat()
     hr = device->CreateBuffer( &bd, NULL, &constantBuffer_ );
     if( FAILED( hr ) )
 	{
+		DiagnosticsManager::GetInstance().ReportError(hr, L"Error during creation of constant buffer");
         return hr;
 	}
 
