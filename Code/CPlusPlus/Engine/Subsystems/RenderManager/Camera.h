@@ -1,8 +1,6 @@
 #pragma once
 
-#include <windows.h>
-
-#include <xnamath.h>
+#include "../../../Shared/RornMaths/Matrix4x4.h"
 
 namespace Rorn
 {
@@ -11,11 +9,9 @@ namespace Rorn
 		class Camera
 		{
 		public:
-			Camera(XMVECTOR eye, XMVECTOR target, XMVECTOR up);
+			Camera();
 
-			XMVECTOR Eye;
-			XMVECTOR Target;
-			XMVECTOR Up;
+			virtual Maths::Matrix4x4 BuildWorldToViewMatrix() const = 0;
 		};
 	}
 }

@@ -1,17 +1,20 @@
 #include "RenderManager.h"
 
 #include <cassert>
-#include <tchar.h>
+
+#include "../../../Shared/RornMaths/Constants.h"
 
 #include "../DiagnosticsManager/DiagnosticsManager.h"
 
 #include "Camera.h"
 #include "Light.h"
+#include "LookAtCamera.h"
 #include "Model.h"
 #include "ModelInstance.h"
 #include "UntexturedSurfaceFormat.h"
 
 using namespace Rorn::Engine;
+using namespace Rorn::Maths;
 
 /*static*/ RenderManager& RenderManager::instance_ = RenderManager();// init static instance
 
@@ -96,19 +99,19 @@ void RenderManager::Shutdown()
 	DiagnosticsManager::GetInstance().GetLoggingStream() << "The Render Manager shut down successfully." << std::endl;
 }
 
-XMFLOAT4 RenderManager::GetAmbientLightColor()
+Float4 RenderManager::GetAmbientLightColor() const
 {
 	return ambientLightColor_;
 }
 
-void RenderManager::SetAmbientLightColor(const XMFLOAT4& color)
+void RenderManager::SetAmbientLightColor(const Float4& color)
 {
 	ambientLightColor_ = color;
 }
 
-Camera* RenderManager::CreateCamera(XMVECTOR eye, XMVECTOR target, XMVECTOR up)
+LookAtCamera* RenderManager::CreateLookAtCamera(const Vector3& eye, const Vector3& target, const Vector3& up)
 {
-	Camera* newCamera = new Camera(eye, target, up);
+	LookAtCamera* newCamera = new LookAtCamera(eye, target, up);
 	cameras_.push_back(std::unique_ptr<Camera>(newCamera));
 
 	return newCamera;
@@ -119,7 +122,7 @@ void RenderManager::SetCurrentCamera(Camera* camera)
 	currentCamera_ = camera;
 }
 
-Light* RenderManager::CreateLight(const XMFLOAT4& direction, const XMFLOAT4& color)
+Light* RenderManager::CreateLight(const Vector3& direction, const Float4& color)
 {
 	Light* newLight = new Light(direction, color);
 	lights_.push_back(std::unique_ptr<Light>(newLight));
@@ -146,7 +149,7 @@ Model* RenderManager::LoadOrGetModel(const wchar_t* modelPathName)
 	return newModel;
 }
 
-ModelInstance* RenderManager::CreateModelInstance(Model* model, CXMMATRIX instanceToWorldMatrix)
+ModelInstance* RenderManager::CreateModelInstance(Model* model, const Matrix4x4& instanceToWorldMatrix)
 {
 	ModelInstance* newModelInstance = new ModelInstance(model, instanceToWorldMatrix);
 	modelInstances_.push_back(std::unique_ptr<ModelInstance>(newModelInstance));
@@ -167,9 +170,9 @@ void RenderManager::Step()
 	
 	// Setup the world_to_view and view_to_projection matrices based on the current camera (& other settings)
 	assert(currentCamera_ != NULL);
-	XMMATRIX worldToViewMatrix = XMMatrixLookAtLH( currentCamera_->Eye, currentCamera_->Target, currentCamera_->Up );
-	XMMATRIX viewToProjectionMatrix = XMMatrixPerspectiveFovLH( XM_PIDIV4, aspectRatio_, 0.01f, 10000.0f );
-	XMMATRIX worldToProjectionMatrix = XMMatrixMultiply(worldToViewMatrix, viewToProjectionMatrix);
+	Matrix4x4 worldToViewMatrix = currentCamera_->BuildWorldToViewMatrix();
+	Matrix4x4 viewToProjectionMatrix = BuildViewToProjectionMatrix( PiOver4, aspectRatio_, 0.01f, 10000.0f );
+	Matrix4x4 worldToProjectionMatrix = worldToViewMatrix * viewToProjectionMatrix;// model on XMMatrixMultiply(worldToViewMatrix, viewToProjectionMatrix);
 
 	std::list<std::unique_ptr<ModelInstance>>::const_iterator instanceIter;
 	for(instanceIter = modelInstances_.cbegin() ; instanceIter != modelInstances_.cend() ; ++instanceIter)
@@ -243,7 +246,7 @@ HRESULT RenderManager::SetupDeviceAndSwapChain(HWND hwnd)
 		}
     }
 
-	DiagnosticsManager::GetInstance().ReportError(hr, _T("Error during creation of device and swap chain"));
+	DiagnosticsManager::GetInstance().ReportError(hr, L"Error during creation of device and swap chain");
     
 	return hr;
 }
@@ -254,7 +257,7 @@ HRESULT RenderManager::SetupRenderTargetView()
     HRESULT hr = swapChain_->GetBuffer( 0, __uuidof( ID3D11Texture2D ), ( LPVOID* )&backBuffer );
     if( FAILED( hr ) )
 	{
-		DiagnosticsManager::GetInstance().ReportError(hr, _T("Error during retrieval of Swap Chain back buffer"));
+		DiagnosticsManager::GetInstance().ReportError(hr, L"Error during retrieval of Swap Chain back buffer");
         return hr;
 	}
 
@@ -262,7 +265,7 @@ HRESULT RenderManager::SetupRenderTargetView()
     backBuffer->Release();
     if( FAILED( hr ) )
 	{
-		DiagnosticsManager::GetInstance().ReportError(hr, _T("Error during creation of Render Target View"));
+		DiagnosticsManager::GetInstance().ReportError(hr, L"Error during creation of Render Target View");
         return hr;
 	}
 	DiagnosticsManager::GetInstance().GetLoggingStream() << "Successfully created Render Target View" << std::endl;
@@ -284,7 +287,7 @@ HRESULT RenderManager::SetupRenderTargetView()
     hr = device_->CreateTexture2D( &descDepth, NULL, &depthStencil_ );
     if( FAILED( hr ) )
 	{
-		DiagnosticsManager::GetInstance().ReportError(hr, _T("Error during creation of Depth Stencil Texture"));
+		DiagnosticsManager::GetInstance().ReportError(hr, L"Error during creation of Depth Stencil Texture");
         return hr;
 	}
 	DiagnosticsManager::GetInstance().GetLoggingStream() << "Successfully created Depth Stencil Texture" << std::endl;
@@ -298,7 +301,7 @@ HRESULT RenderManager::SetupRenderTargetView()
     hr = device_->CreateDepthStencilView( depthStencil_, &descDSV, &depthStencilView_ );
     if( FAILED( hr ) )
 	{
-		DiagnosticsManager::GetInstance().ReportError(hr, _T("Error during creation of Depth Stencil View"));
+		DiagnosticsManager::GetInstance().ReportError(hr, L"Error during creation of Depth Stencil View");
         return hr;
 	}
 	DiagnosticsManager::GetInstance().GetLoggingStream() << "Successfully created Depth Stencil View" << std::endl;
@@ -330,4 +333,21 @@ HRESULT RenderManager::SetupSurfaceFormats()
 	DiagnosticsManager::GetInstance().GetLoggingStream() << "Successfully setup Untextured Surface Format" << std::endl;
 
 	return S_OK;
+}
+
+Matrix4x4 RenderManager::BuildViewToProjectionMatrix(
+	float fovAngle, float aspectRatio, float nearClipZ, float farClipZ) const
+{
+	float halfFovAngle = fovAngle * 0.5f;
+	float sinFov = sin(halfFovAngle);
+	float cosFov = cos(halfFovAngle);
+	float height = cosFov / sinFov;
+	float width = height / aspectRatio;
+	float m33 = farClipZ / (farClipZ - nearClipZ);
+
+	return Matrix4x4(
+		width,   0.0f, 0.0f,             0.0f,
+		 0.0f, height, 0.0f,             0.0f,
+		 0.0f,   0.0f,  m33,             1.0f,
+		 0.0f,   0.0f, -m33 * nearClipZ, 1.0f);
 }

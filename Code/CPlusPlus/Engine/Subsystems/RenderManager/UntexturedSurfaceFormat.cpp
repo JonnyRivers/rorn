@@ -7,6 +7,7 @@
 #include "ShaderCompiler.h"
 
 using namespace Rorn::Engine;
+using namespace Rorn::Maths;
 
 /*static*/ UntexturedSurfaceFormat& UntexturedSurfaceFormat::instance_ = UntexturedSurfaceFormat();// init static instance
 
@@ -107,15 +108,15 @@ UntexturedSurfaceFormat::UntexturedSurfaceFormat()
 
 /*virtual*/ void UntexturedSurfaceFormat::SetupGPU(
 	ID3D11DeviceContext* deviceContext,
-	CXMMATRIX instanceToWorldMatrix, 
-	CXMMATRIX worldToProjectionMatrix,
-	const XMFLOAT4& ambientColor,
-	const XMFLOAT4& diffuseColor,
-	const XMFLOAT4& specularColor)
+	const Matrix4x4& instanceToWorldMatrix, 
+	const Matrix4x4& worldToProjectionMatrix,
+	const Float4& ambientColor,
+	const Float4& diffuseColor,
+	const Float4& specularColor)
 {
     ConstantBuffer constantBuffer;
-	constantBuffer.ModelToWorldMatrix = XMMatrixTranspose( instanceToWorldMatrix );
-	constantBuffer.WorldToProjectionMatrix = XMMatrixTranspose( worldToProjectionMatrix );
+	constantBuffer.ModelToWorldMatrix = Matrix4x4::Transpose( instanceToWorldMatrix );
+	constantBuffer.WorldToProjectionMatrix = Matrix4x4::Transpose( worldToProjectionMatrix );
 	constantBuffer.AmbientColor = ambientColor;
 	constantBuffer.DiffuseColor = diffuseColor;
 	constantBuffer.SpecularColor = specularColor;

@@ -15,7 +15,8 @@ cbuffer ConstantBuffer : register( b0 )
 	float4 DiffuseColor;
 	float4 SpecularColor;
 	float4 AmbientLightColor;
-	float4 MainLightDir;
+	float3 MainLightDir;
+	float pad0;
 	float4 MainLightColor;
 }
 
@@ -45,7 +46,7 @@ float4 PS( VS_OUTPUT input ) : SV_Target
 {
     float4 finalColor = 0;
     finalColor += saturate( AmbientColor * AmbientLightColor );
-    finalColor += saturate( dot( (float3)MainLightDir, -input.Normal) * MainLightColor * DiffuseColor );
+    finalColor += saturate( dot( MainLightDir, -input.Normal) * MainLightColor * DiffuseColor );
     finalColor.a = 1;
 
     return finalColor;

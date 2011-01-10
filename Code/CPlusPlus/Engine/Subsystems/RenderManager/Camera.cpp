@@ -1,9 +1,9 @@
 #include "Camera.h"
 
 using namespace Rorn::Engine;
+using namespace Rorn::Maths;
 
-Camera::Camera(XMVECTOR eye, XMVECTOR target, XMVECTOR up)
-	: Eye(eye), Target(target), Up(up)
+Camera::Camera()
 {
 }
 

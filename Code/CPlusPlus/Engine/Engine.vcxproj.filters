@@ -57,6 +57,9 @@
     <ClCompile Include="Subsystems\DiagnosticsManager\DiagnosticsManager.cpp">
       <Filter>Subsystems\DiagnosticsManager</Filter>
     </ClCompile>
+    <ClCompile Include="Subsystems\RenderManager\LookAtCamera.cpp">
+      <Filter>Subsystems\RenderManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Subsystems\RenderManager\RenderManager.h">
@@ -97,6 +100,9 @@
     </ClInclude>
     <ClInclude Include="Subsystems\DiagnosticsManager\DiagnosticsManager.h">
       <Filter>Subsystems\DiagnosticsManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\RenderManager\LookAtCamera.h">
+      <Filter>Subsystems\RenderManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

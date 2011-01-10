@@ -1,14 +1,20 @@
 #include "StdAfx.h"
 #include "ModelViewerApp.h"
 
-#include <fstream>
-
 #include "../../Engine/Subsystems/DiagnosticsManager/DiagnosticsManager.h"
 #include "../../Engine/Subsystems/RenderManager/RenderManager.h"
 #include "../../Engine/Subsystems/RenderManager/ModelInstance.h"
+#include "../../Engine/Subsystems/RenderManager/LookAtCamera.h"
 #include "../../Engine/Subsystems/TimeManager/TimeManager.h"
 
+#include "../../Shared/RornMaths/Float4.h"
+#include "../../Shared/RornMaths/Matrix4x4.h"
+#include "../../Shared/RornMaths/Vector3.h"
+
 #include "resource.h"
+
+using namespace Rorn::Engine;
+using namespace Rorn::Maths;
 
 /*static*/ HINSTANCE ModelViewerApp::instanceHandle_ = NULL;
 
@@ -40,49 +46,49 @@ BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* comma
 	ShowWindow(windowHandle_, cmdShow);
 	UpdateWindow(windowHandle_);
 
-	HRESULT hr = Rorn::Engine::DiagnosticsManager::GetInstance().Startup(windowHandle_);
+	HRESULT hr = DiagnosticsManager::GetInstance().Startup(windowHandle_);
 	if( FAILED(hr) )
 		return FALSE;
 
-	hr = Rorn::Engine::RenderManager::GetInstance().Startup(windowHandle_);
+	hr = RenderManager::GetInstance().Startup(windowHandle_);
 	if( FAILED(hr) )
 		return FALSE;
 
 	// This MUST be done by the client.  So, should we make it part of the Startup()?
-	XMVECTOR eye = XMVectorSet( 0.0f, 110.0f, -160.0f, 0.0f );
-	XMVECTOR at = XMVectorSet( 0.0f, 40.0f, 0.0f, 0.0f );
-	XMVECTOR up = XMVectorSet( 0.0f, 1.0f, 0.0f, 0.0f );
-	camera_ = Rorn::Engine::RenderManager::GetInstance().CreateCamera(eye, at, up);
-	Rorn::Engine::RenderManager::GetInstance().SetCurrentCamera(camera_);
+	camera_ = RenderManager::GetInstance().CreateLookAtCamera(
+		Vector3(0.0f, 110.0f, -160.0f),// eye
+		Vector3(0.0f,  40.0f,    0.0f),// target
+		Vector3(0.0f,   1.0f,    0.0f));// up
+	RenderManager::GetInstance().SetCurrentCamera(camera_);
 
 	// This also MUST be done by the client.  So, should we make it part of the Startup()?
-	XMFLOAT4 mainLightDirection(0, -.7071f, 0.7071f, 1.0f);
-	XMFLOAT4 mainLightColor(0.5f, 0.5f, 0.5f, 1.0f);
-	light_ = Rorn::Engine::RenderManager::GetInstance().CreateLight(mainLightDirection, mainLightColor);
-	Rorn::Engine::RenderManager::GetInstance().SetMainLight(light_);
+	Vector3 mainLightDirection(0, sin(-45.0f), sin(45.0f));
+	Float4 mainLightColor(0.5f, 0.5f, 0.5f, 1.0f);
+	light_ = RenderManager::GetInstance().CreateLight(mainLightDirection, mainLightColor);
+	RenderManager::GetInstance().SetMainLight(light_);
 
 	// Setup ambient lighting
-	XMFLOAT4 ambientLightColor(0.3f, 0.3f, 0.3f, 1.0f);
-	Rorn::Engine::RenderManager::GetInstance().SetAmbientLightColor(ambientLightColor);
+	Float4 ambientLightColor(0.3f, 0.3f, 0.3f, 1.0f);
+	RenderManager::GetInstance().SetAmbientLightColor(ambientLightColor);
 
-	model_ = Rorn::Engine::RenderManager::GetInstance().LoadOrGetModel(commandLine);
+	model_ = RenderManager::GetInstance().LoadOrGetModel(commandLine);
 
-	XMMATRIX instanceToWorldMatrix = XMMatrixIdentity();
-	modelInstance_ = Rorn::Engine::RenderManager::GetInstance().CreateModelInstance(model_, instanceToWorldMatrix);
+	Matrix4x4 instanceToWorldMatrix = Matrix4x4::BuildIdentity();
+	modelInstance_ = RenderManager::GetInstance().CreateModelInstance(model_, instanceToWorldMatrix);
 
 	return TRUE;
 }
 
 VOID ModelViewerApp::ExitInstance()
 {
-	Rorn::Engine::RenderManager::GetInstance().Shutdown();
-	Rorn::Engine::DiagnosticsManager::GetInstance().Shutdown();
+	RenderManager::GetInstance().Shutdown();
+	DiagnosticsManager::GetInstance().Shutdown();
 }
 
 VOID ModelViewerApp::Step()
 {
 	float secondsPassed;
-	Rorn::Engine::TimeManager::GetInstance().Step(secondsPassed);
+	TimeManager::GetInstance().Step(secondsPassed);
 	modelInstance_->RotateY(secondsPassed);
 	Rorn::Engine::RenderManager::GetInstance().Step();
 }
