@@ -1,9 +1,8 @@
 #pragma once
 
-#include <windows.h>
-
 #include <d3d11.h>
-#include <xnamath.h>
+
+#include "../../../Shared/RornMaths/Matrix4x4.h"
 
 namespace Rorn
 {
@@ -21,7 +20,7 @@ namespace Rorn
 			~RenderCommand(void);
 
 			virtual void Draw(ID3D11DeviceContext* deviceContext, 
-				CXMMATRIX instanceToWorldMatrix, CXMMATRIX worldToProjectionMatrix) = 0;
+				const Maths::Matrix4x4& instanceToWorldMatrix, const Maths::Matrix4x4& worldToProjectionMatrix) = 0;
 
 			virtual void Release() = 0;
 		private:

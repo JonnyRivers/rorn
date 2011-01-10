@@ -1,8 +1,7 @@
 #pragma once
 
-#include <windows.h>
-
-#include <xnamath.h>
+#include "../../../Shared/RornMaths/Float4.h"
+#include "../../../Shared/RornMaths/Vector3.h"
 
 namespace Rorn
 {
@@ -11,10 +10,10 @@ namespace Rorn
 		class Light
 		{
 		public:
-			Light(const XMFLOAT4& direction, const XMFLOAT4& color);
+			Light(const Maths::Vector3& direction, const Maths::Float4& color);
 
-			XMFLOAT4 Direction;
-			XMFLOAT4 Color;
+			Maths::Vector3 Direction;
+			Maths::Float4 Color;
 		};
 	}
 }

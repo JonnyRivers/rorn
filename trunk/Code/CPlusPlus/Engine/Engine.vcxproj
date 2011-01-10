@@ -16,6 +16,7 @@
     <ClInclude Include="Subsystems\FileManager\FileReader.h" />
     <ClInclude Include="Subsystems\RenderManager\Camera.h" />
     <ClInclude Include="Subsystems\RenderManager\Light.h" />
+    <ClInclude Include="Subsystems\RenderManager\LookAtCamera.h" />
     <ClInclude Include="Subsystems\RenderManager\ShaderCompiler.h" />
     <ClInclude Include="Subsystems\RenderManager\Model.h" />
     <ClInclude Include="Subsystems\RenderManager\ModelInstance.h" />
@@ -31,6 +32,7 @@
     <ClCompile Include="Subsystems\FileManager\FileReader.cpp" />
     <ClCompile Include="Subsystems\RenderManager\Camera.cpp" />
     <ClCompile Include="Subsystems\RenderManager\Light.cpp" />
+    <ClCompile Include="Subsystems\RenderManager\LookAtCamera.cpp" />
     <ClCompile Include="Subsystems\RenderManager\ShaderCompiler.cpp" />
     <ClCompile Include="Subsystems\RenderManager\Model.cpp" />
     <ClCompile Include="Subsystems\RenderManager\ModelInstance.cpp" />
@@ -87,13 +89,15 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_XM_NO_INTRINSICS_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
+      <AdditionalIncludeDirectories>$(ConfigurationName)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>d3d11.lib;d3dx11d.lib</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dx11d.lib;RornMathsD.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -105,6 +109,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_XM_NO_INTRINSICS_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>$(ConfigurationName)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -113,7 +118,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>d3d11.lib;d3dx11.lib</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dx11.lib;RornMaths.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

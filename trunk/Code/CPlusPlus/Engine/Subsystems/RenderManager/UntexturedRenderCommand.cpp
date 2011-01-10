@@ -3,6 +3,7 @@
 #include "UntexturedSurfaceFormat.h"
 
 using namespace Rorn::Engine;
+using namespace Rorn::Maths;
 
 UntexturedRenderCommand::UntexturedRenderCommand(void)
 	: vertexCount_(0), vertexDataSize_(0), vertexBuffer_(NULL), indexCount_(0), indexDataSize_(0), indexBuffer_(NULL)
@@ -21,11 +22,11 @@ HRESULT UntexturedRenderCommand::LoadFromFile(FileReader& fileReader, ID3D11Devi
 
 	// Read color data
 	fileReader.ReadData(&ambientColor_, 12);
-	ambientColor_.w = 1.0f;
+	ambientColor_.W = 1.0f;
 	fileReader.ReadData(&diffuseColor_, 12);
-	diffuseColor_.w = 1.0f;
+	diffuseColor_.W = 1.0f;
 	fileReader.ReadData(&specularColor_, 12);
-	specularColor_.w = 1.0f;
+	specularColor_.W = 1.0f;
 
 	// Read vertex data
 	vertexCount_ = fileReader.ReadInt();
@@ -76,7 +77,7 @@ HRESULT UntexturedRenderCommand::LoadFromFile(FileReader& fileReader, ID3D11Devi
 }
 
 /*virtual*/ void UntexturedRenderCommand::Draw(ID3D11DeviceContext* deviceContext, 
-	CXMMATRIX instanceToWorldMatrix, CXMMATRIX worldToProjectionMatrix)
+	const Matrix4x4& instanceToWorldMatrix, const Matrix4x4& worldToProjectionMatrix)
 {
 	// include everything required by this surface type (including lights)
 	UntexturedSurfaceFormat::GetInstance().SetupGPU(deviceContext, instanceToWorldMatrix, worldToProjectionMatrix,

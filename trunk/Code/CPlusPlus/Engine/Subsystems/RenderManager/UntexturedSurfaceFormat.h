@@ -3,7 +3,10 @@
 #include <windows.h>
 
 #include <d3d11.h>
-#include <xnamath.h>
+
+#include "../../../Shared/RornMaths/Float4.h"
+#include "../../../Shared/RornMaths/Matrix4x4.h"
+#include "../../../Shared/RornMaths/Vector3.h"
 
 namespace Rorn
 {
@@ -19,11 +22,11 @@ namespace Rorn
 
 			virtual void SetupGPU(
 				ID3D11DeviceContext* deviceContext, 
-				CXMMATRIX instanceToWorldMatrix, 
-				CXMMATRIX worldToProjectionMatrix,
-				const XMFLOAT4& ambientColor,
-				const XMFLOAT4& diffuseColor,
-				const XMFLOAT4& specularColor);
+				const Maths::Matrix4x4& instanceToWorldMatrix, 
+				const Maths::Matrix4x4& worldToProjectionMatrix,
+				const Maths::Float4& ambientColor,
+				const Maths::Float4& diffuseColor,
+				const Maths::Float4& specularColor);
 		private:
 			static UntexturedSurfaceFormat& instance_;
 
@@ -32,14 +35,15 @@ namespace Rorn
 			// This could be split up between the vertex shader and pixel shader
 			struct ConstantBuffer
 			{
-				XMMATRIX ModelToWorldMatrix;
-				XMMATRIX WorldToProjectionMatrix;
-				XMFLOAT4 AmbientColor;
-				XMFLOAT4 DiffuseColor;
-				XMFLOAT4 SpecularColor;
-				XMFLOAT4 AmbientLightColor;
-				XMFLOAT4 MainLightDir;
-				XMFLOAT4 MainLightColor;
+				Maths::Matrix4x4 ModelToWorldMatrix;
+				Maths::Matrix4x4 WorldToProjectionMatrix;
+				Maths::Float4 AmbientColor;
+				Maths::Float4 DiffuseColor;
+				Maths::Float4 SpecularColor;
+				Maths::Float4 AmbientLightColor;
+				Maths::Vector3 MainLightDir;
+				float pad0;
+				Maths::Float4 MainLightColor;
 			};
 
 			ID3D11VertexShader* vertexShader_;

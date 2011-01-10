@@ -1,9 +1,8 @@
 #pragma once
 
-#include <windows.h>
-
 #include <d3d11.h>
-#include <xnamath.h>
+
+#include "../../../Shared/RornMaths/Matrix4x4.h"
 
 namespace Rorn
 {
@@ -14,15 +13,15 @@ namespace Rorn
 		class ModelInstance
 		{
 		public:
-			ModelInstance(const Model* model, CXMMATRIX instanceToWorldMatrix_);
+			ModelInstance(const Model* model, const Maths::Matrix4x4& instanceToWorldMatrix);
 			~ModelInstance(void);
 
-			void Draw(ID3D11DeviceContext* deviceContext, CXMMATRIX worldToProjectionMatrix) const;
+			void Draw(ID3D11DeviceContext* deviceContext, const Maths::Matrix4x4& worldToProjectionMatrix) const;
 
 			void RotateY(float angle);
 		private:
 			const Model* model_;
-			XMMATRIX instanceToWorldMatrix_;
+			Maths::Matrix4x4 instanceToWorldMatrix_;
 		};
 	}
 }

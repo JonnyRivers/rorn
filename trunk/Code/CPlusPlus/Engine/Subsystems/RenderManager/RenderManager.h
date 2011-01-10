@@ -6,7 +6,10 @@
 #include <windows.h>
 
 #include <d3d11.h>
-#include <xnamath.h>
+
+#include "../../../Shared/RornMaths/Float4.h"
+#include "../../../Shared/RornMaths/Matrix4x4.h"
+#include "../../../Shared/RornMaths/Vector3.h"
 
 namespace Rorn
 {
@@ -14,6 +17,7 @@ namespace Rorn
 	{
 		class Camera;
 		class Light;
+		class LookAtCamera;
 		class Model;
 		class ModelInstance;
 
@@ -26,18 +30,18 @@ namespace Rorn
 			HRESULT Startup(HWND hwnd);
 			void Shutdown();
 
-			Camera* CreateCamera(XMVECTOR eye, XMVECTOR target, XMVECTOR up);
+			LookAtCamera* CreateLookAtCamera(const Maths::Vector3& eye, const Maths::Vector3& target, const Maths::Vector3& up);
 			void SetCurrentCamera(Camera* camera);
 
-			XMFLOAT4 GetAmbientLightColor();
-			void SetAmbientLightColor(const XMFLOAT4& color);
+			Maths::Float4 GetAmbientLightColor() const;
+			void SetAmbientLightColor(const Maths::Float4& color);
 
-			Light* CreateLight(const XMFLOAT4& direction, const XMFLOAT4& color);
+			Light* CreateLight(const Maths::Vector3& direction, const Maths::Float4& color);
 			Light* GetMainLight();
 			void SetMainLight(Light* light);
 
 			Model* LoadOrGetModel(const wchar_t* modelPathName);
-			ModelInstance* CreateModelInstance(Model* model, CXMMATRIX instanceToWorldMatrix);
+			ModelInstance* CreateModelInstance(Model* model, const Maths::Matrix4x4& instanceToWorldMatrix);
 
 			void Step();
 		private:
@@ -50,6 +54,9 @@ namespace Rorn
 			HRESULT SetupRenderTargetView();
 			void SetupViewport();
 			HRESULT SetupSurfaceFormats();
+
+			Maths::Matrix4x4 BuildViewToProjectionMatrix(
+				float fovAngle, float aspectRatio, float nearClipZ, float farClipZ) const;
 
 			ID3D11Device* device_;
 			ID3D11DeviceContext* deviceContext_;
@@ -69,7 +76,7 @@ namespace Rorn
 			Camera* currentCamera_;
 
 			// Lights
-			XMFLOAT4 ambientLightColor_;
+			Maths::Float4 ambientLightColor_;
 			std::list<std::unique_ptr<Light>> lights_;
 			Light* mainLight_;
 

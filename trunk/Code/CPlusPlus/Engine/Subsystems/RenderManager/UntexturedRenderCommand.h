@@ -5,7 +5,10 @@
 #include <windows.h>
 
 #include <d3d11.h>
-#include <xnamath.h>
+
+#include "../../../Shared/RornMaths/Float4.h"
+#include "../../../Shared/RornMaths/Matrix4x4.h"
+#include "../../../Shared/RornMaths/Vector3.h"
 
 #include "../FileManager/FileReader.h"
 
@@ -22,19 +25,19 @@ namespace Rorn
 			HRESULT LoadFromFile(FileReader& fileReader, ID3D11Device* device);
 
 			virtual void Draw(ID3D11DeviceContext* deviceContext, 
-				CXMMATRIX instanceToWorldMatrix, CXMMATRIX worldToProjectionMatrix);
+				const Maths::Matrix4x4& instanceToWorldMatrix, const Maths::Matrix4x4& worldToProjectionMatrix);
 
 			virtual void Release();
 		private:
 			struct VertexFormat
 			{
-				XMFLOAT3 Position;
-				XMFLOAT3 Normal;
+				Maths::Vector3 Position;
+				Maths::Vector3 Normal;
 			};
 
-			XMFLOAT4 ambientColor_;
-			XMFLOAT4 diffuseColor_;
-			XMFLOAT4 specularColor_;
+			Maths::Float4 ambientColor_;
+			Maths::Float4 diffuseColor_;
+			Maths::Float4 specularColor_;
 
 			int vertexCount_;
 			int vertexDataSize_;

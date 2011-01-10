@@ -2,10 +2,9 @@
 
 #include <list>
 
-#include <windows.h>
-
 #include <d3d11.h>
-#include <xnamath.h>
+
+#include "../../../Shared/RornMaths/Matrix4x4.h"
 
 namespace Rorn
 {
@@ -21,7 +20,7 @@ namespace Rorn
 			~Model(void);
 
 			void Draw(ID3D11DeviceContext* deviceContext, 
-				const XMMATRIX& instanceToWorldMatrix, const XMMATRIX& worldToProjectionMatrix) const;
+				const Maths::Matrix4x4& instanceToWorldMatrix, const Maths::Matrix4x4& worldToProjectionMatrix) const;
 
 			void Release();
 		private:
