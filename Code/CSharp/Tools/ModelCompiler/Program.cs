@@ -11,7 +11,7 @@ namespace Rorn.Tools.ModelCompiler
         {
             if (args.Length != 2)
             {
-                DisplayHelpOnCommandLine("Insufficient argumnents");
+                DisplayHelpOnCommandLine("Insufficient arguments");
                 return;
             }
 

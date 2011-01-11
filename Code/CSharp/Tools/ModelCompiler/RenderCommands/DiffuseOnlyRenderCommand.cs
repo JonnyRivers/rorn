@@ -10,7 +10,12 @@ namespace Rorn.Tools.ModelCompiler
 {
     internal class DiffuseOnlyRenderCommand : RenderCommand
     {
-        internal override void ParseAndTransformTriangle(Matrix3 nodeToModelMatrix, 
+        internal override void Optimize() 
+        {
+            throw new NotImplementedException();
+        }
+
+        internal override void ParseAndTransformTriangle(Matrix4x3 nodeToModelMatrix, 
             XElement v0Element, XElement v1Element, XElement v2Element)
         {
             throw new NotImplementedException();
@@ -21,7 +26,7 @@ namespace Rorn.Tools.ModelCompiler
             throw new NotImplementedException();
         }
 
-        internal override void Transform(Matrix3 transformMatrix)
+        internal override void Transform(Matrix4x3 transformMatrix)
         {
             throw new NotImplementedException();
         }

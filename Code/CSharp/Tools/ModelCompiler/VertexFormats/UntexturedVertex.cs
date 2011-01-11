@@ -21,10 +21,17 @@ namespace Rorn.Tools.ModelCompiler
             normal_.Save(binaryWriter);
         }
 
-        internal void Transform(Matrix3 transformMatrix)
+        internal void Transform(Matrix4x3 transformMatrix)
         {
             position_ = transformMatrix * position_;
             normal_ = transformMatrix.WithoutTranslation() * normal_;
+        }
+
+        internal static bool AreApproxEqual(UntexturedVertex lhs, UntexturedVertex rhs) 
+        {
+            return
+                VertexComparer.PositionsAreApproxEqual(lhs.position_, rhs.position_) &&
+                VertexComparer.PositionsAreApproxEqual(lhs.normal_, rhs.normal_);
         }
 
         private Vector3 position_;

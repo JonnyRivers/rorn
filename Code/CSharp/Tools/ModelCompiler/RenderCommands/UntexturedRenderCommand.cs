@@ -19,7 +19,43 @@ namespace Rorn.Tools.ModelCompiler
             indices_ = new List<int>();
         }
 
-        internal override void ParseAndTransformTriangle(Matrix3 nodeToModelMatrix, 
+        internal override void Optimize()
+        {
+            // build a new vertex buffer and a new index buffer
+            var optimizedVertices = new List<UntexturedVertex>();
+            var optimizedIndices = new List<int>();
+
+            foreach (int index in indices_) 
+            {
+                UntexturedVertex thisVertex = vertices_[index];
+                int thisVertexIndex = 0;
+
+                bool foundMatch = false;
+                foreach (UntexturedVertex optimizedVertex in optimizedVertices)
+                {
+                    if ((thisVertex != optimizedVertex) && (UntexturedVertex.AreApproxEqual(thisVertex, optimizedVertex)))
+                    {
+                        optimizedIndices.Add(thisVertexIndex);
+                        foundMatch = true;
+                        break;
+                    }
+
+                    ++thisVertexIndex;
+                }
+
+                if (!foundMatch)
+                {
+                    // Add a new vertex to the optimized list
+                    optimizedIndices.Add(optimizedVertices.Count);
+                    optimizedVertices.Add(thisVertex);
+                }
+            }
+
+            vertices_ = optimizedVertices;
+            indices_ = optimizedIndices;
+        }
+
+        internal override void ParseAndTransformTriangle(Matrix4x3 nodeToModelMatrix, 
             XElement v0Element, XElement v1Element, XElement v2Element)
         {
             UntexturedVertex v0 = ParseAndTransformVertex(nodeToModelMatrix, v0Element);
@@ -52,7 +88,7 @@ namespace Rorn.Tools.ModelCompiler
                 binaryWriter.Write(index);
         }
 
-        internal override void Transform(Matrix3 transformMatrix)
+        internal override void Transform(Matrix4x3 transformMatrix)
         {
             foreach (UntexturedVertex vertex in vertices_)
             {
@@ -60,7 +96,7 @@ namespace Rorn.Tools.ModelCompiler
             }
         }
 
-        private UntexturedVertex ParseAndTransformVertex(Matrix3 nodeToModelMatrix, XElement vertexElement)
+        private UntexturedVertex ParseAndTransformVertex(Matrix4x3 nodeToModelMatrix, XElement vertexElement)
         {
             Vector3 position = Vector3.Parse(vertexElement.Element("Position").Value);
             position = nodeToModelMatrix * position;

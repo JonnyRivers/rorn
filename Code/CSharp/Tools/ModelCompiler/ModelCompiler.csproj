@@ -63,6 +63,7 @@
     <Compile Include="RenderCommands\RenderCommand.cs" />
     <Compile Include="RenderCommands\UntexturedRenderCommand.cs" />
     <Compile Include="VertexFormats\UntexturedVertex.cs" />
+    <Compile Include="VertexFormats\VertexComparer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Rorn.Tools.Maths\Rorn.Tools.Maths.csproj">

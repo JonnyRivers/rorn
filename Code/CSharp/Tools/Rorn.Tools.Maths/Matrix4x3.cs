@@ -5,9 +5,9 @@ using System.Text;
 
 namespace Rorn.Tools.Maths
 {
-    public struct Matrix3
+    public struct Matrix4x3
     {
-        public Matrix3(
+        public Matrix4x3(
             float m11, float m12, float m13, 
             float m21, float m22, float m23, 
             float m31, float m32, float m33, 
@@ -27,9 +27,9 @@ namespace Rorn.Tools.Maths
             TZ = tz;
         }
 
-        public Matrix3 WithoutTranslation()
+        public Matrix4x3 WithoutTranslation()
         {
-            return new Matrix3(
+            return new Matrix4x3(
                 M11, M12, M13,
                 M21, M22, M23,
                 M31, M32, M33,
@@ -37,10 +37,10 @@ namespace Rorn.Tools.Maths
 
         }
 
-        public static Matrix3 Parse(string text)
+        public static Matrix4x3 Parse(string text)
         {
             string[] matrixElements = text.Split(',');
-            return new Matrix3(
+            return new Matrix4x3(
                 float.Parse(matrixElements[0]),
                 float.Parse(matrixElements[1]),
                 float.Parse(matrixElements[2]),
@@ -55,7 +55,7 @@ namespace Rorn.Tools.Maths
                 float.Parse(matrixElements[11]));
         }
 
-        public static Vector3 operator*(Matrix3 matrix, Vector3 vector)
+        public static Vector3 operator*(Matrix4x3 matrix, Vector3 vector)
         {
             return new Vector3(
                 vector.X * matrix.M11 + vector.Y * matrix.M21 + vector.Z * matrix.M31 + matrix.TX,
