@@ -41,7 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CoordinateSystem.cs" />
-    <Compile Include="Matrix3.cs" />
+    <Compile Include="Matrix4x3.cs" />
     <Compile Include="Vector3.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

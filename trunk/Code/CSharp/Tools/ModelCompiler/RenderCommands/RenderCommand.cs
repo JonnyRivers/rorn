@@ -21,11 +21,13 @@ namespace Rorn.Tools.ModelCompiler
             TriangleList = 0
         }
 
-        internal abstract void ParseAndTransformTriangle(Matrix3 nodeToModelMatrix, 
+        internal abstract void Optimize();
+
+        internal abstract void ParseAndTransformTriangle(Matrix4x3 nodeToModelMatrix, 
             XElement v0Element, XElement v1Element, XElement v2Element);
 
         internal abstract void Save(System.IO.BinaryWriter binaryWriter);
 
-        internal abstract void Transform(Matrix3 transformMatrix);
+        internal abstract void Transform(Matrix4x3 transformMatrix);
     }
 }

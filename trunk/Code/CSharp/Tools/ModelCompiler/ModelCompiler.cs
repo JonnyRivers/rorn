@@ -28,8 +28,9 @@ namespace Rorn.Tools.ModelCompiler
                 CompileNode(nodeElement);
             }
 
-            // weld verts
-            // TODO
+            // optimize mesh
+            foreach (KeyValuePair<int, RenderCommand> kvp in renderCommands_)
+                kvp.Value.Optimize();
 
             // Convert to engine-space (if necessary)
             string sceneSource = sceneElement.Element("Source").Value;
@@ -66,7 +67,7 @@ namespace Rorn.Tools.ModelCompiler
         {
             // Parse node to model matrix
             var nodeToSceneMatrixElement = nodeElement.Element("NodeToSceneMatrix");
-            Matrix3 nodeToSceneMatrix = Matrix3.Parse(nodeElement.Element("NodeToSceneMatrix").Value);
+            Matrix4x3 nodeToSceneMatrix = Matrix4x3.Parse(nodeElement.Element("NodeToSceneMatrix").Value);
 
             var meshElement = nodeElement.Element("Mesh");
             if (meshElement != null)
@@ -75,7 +76,7 @@ namespace Rorn.Tools.ModelCompiler
             }
         }
 
-        private void CompileMesh(Matrix3 nodeToSceneMatrix, XElement meshElement)
+        private void CompileMesh(Matrix4x3 nodeToSceneMatrix, XElement meshElement)
         {
             // Break the vertex elements out into an indexed list, otherwise we'll be here all day!
             Dictionary<int, XElement> indexedVertexElements = new Dictionary<int, XElement>();
