@@ -31,6 +31,7 @@ namespace Rorn
 			void Shutdown();
 
 			LookAtCamera* CreateLookAtCamera(const Maths::Vector3& eye, const Maths::Vector3& target, const Maths::Vector3& up);
+			Maths::Vector3 GetCurrentCameraEyeDir() const;
 			void SetCurrentCamera(Camera* camera);
 
 			Maths::Float4 GetAmbientLightColor() const;

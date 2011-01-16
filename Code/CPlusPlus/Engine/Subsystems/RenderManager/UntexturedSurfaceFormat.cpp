@@ -112,7 +112,8 @@ UntexturedSurfaceFormat::UntexturedSurfaceFormat()
 	const Matrix4x4& worldToProjectionMatrix,
 	const Float4& ambientColor,
 	const Float4& diffuseColor,
-	const Float4& specularColor)
+	const Float4& specularColor,
+	float phongExponent)
 {
     ConstantBuffer constantBuffer;
 	constantBuffer.ModelToWorldMatrix = Matrix4x4::Transpose( instanceToWorldMatrix );
@@ -123,6 +124,8 @@ UntexturedSurfaceFormat::UntexturedSurfaceFormat()
 	constantBuffer.AmbientLightColor = RenderManager::GetInstance().GetAmbientLightColor();
 	constantBuffer.MainLightDir = RenderManager::GetInstance().GetMainLight()->Direction;
 	constantBuffer.MainLightColor = RenderManager::GetInstance().GetMainLight()->Color;
+	constantBuffer.PhongExponent = phongExponent;
+	constantBuffer.EyeDir = RenderManager::GetInstance().GetCurrentCameraEyeDir();
 	deviceContext->UpdateSubresource( constantBuffer_, 0, NULL, &constantBuffer, 0, 0 );
 
     deviceContext->IASetInputLayout( vertexLayout_ );

@@ -26,7 +26,8 @@ namespace Rorn
 				const Maths::Matrix4x4& worldToProjectionMatrix,
 				const Maths::Float4& ambientColor,
 				const Maths::Float4& diffuseColor,
-				const Maths::Float4& specularColor);
+				const Maths::Float4& specularColor,
+				float phongExponent);
 		private:
 			static UntexturedSurfaceFormat& instance_;
 
@@ -41,9 +42,11 @@ namespace Rorn
 				Maths::Float4 DiffuseColor;
 				Maths::Float4 SpecularColor;
 				Maths::Float4 AmbientLightColor;
+				float PhongExponent;
 				Maths::Vector3 MainLightDir;
-				float pad0;
 				Maths::Float4 MainLightColor;
+				Maths::Vector3 EyeDir;
+				float pad0;
 			};
 
 			ID3D11VertexShader* vertexShader_;

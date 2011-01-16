@@ -15,6 +15,7 @@ namespace Rorn
 			LookAtCamera(const Maths::Vector3& eye, const Maths::Vector3& target, const Maths::Vector3& up);
 
 			virtual Maths::Matrix4x4 BuildWorldToViewMatrix() const;
+			void TranslateX(float dx);
 		private:
 			Maths::Vector3 eye_;
 			Maths::Vector3 target_;

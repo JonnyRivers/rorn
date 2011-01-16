@@ -25,7 +25,7 @@ private:
 	TCHAR windowClassName_[maxLoadString_];
 	HWND windowHandle_;
 
-	Rorn::Engine::Camera* camera_;
+	Rorn::Engine::LookAtCamera* camera_;
 	Rorn::Engine::Light* light_;
 	Rorn::Engine::Model* model_;
 	Rorn::Engine::ModelInstance* modelInstance_;

@@ -82,7 +82,7 @@ HRESULT UntexturedRenderCommand::LoadFromFile(FileReader& fileReader, ID3D11Devi
 {
 	// include everything required by this surface type (including lights)
 	UntexturedSurfaceFormat::GetInstance().SetupGPU(deviceContext, instanceToWorldMatrix, worldToProjectionMatrix,
-		ambientColor_, diffuseColor_, specularColor_);
+		ambientColor_, diffuseColor_, specularColor_, phongExponent_);
 
 	// draw the triangles owned by the command
 	UINT stride = sizeof( UntexturedRenderCommand::VertexFormat );
