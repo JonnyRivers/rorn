@@ -54,11 +54,12 @@ namespace Rorn.Tools.ModelCompiler
             Vector3 ambientColor = Vector3.Parse(materialElement.Element("AmbientColor").Value);
             Vector3 diffuseColor = Vector3.Parse(materialElement.Element("DiffuseColor").Value);
             Vector3 specularColor = Vector3.Parse(materialElement.Element("SpecularColor").Value);
+            float phongExponent = float.Parse(materialElement.Element("PhongExponent").Value);
 
             if (materialElement.Element("Maps") == null)
             {
                 // no maps, so this must be untextured.
-                var newRenderCommand = new UntexturedRenderCommand(ambientColor, diffuseColor, specularColor);
+                var newRenderCommand = new UntexturedRenderCommand(ambientColor, diffuseColor, specularColor, phongExponent);
                 renderCommands_.Add(id, newRenderCommand);
             }
         }
