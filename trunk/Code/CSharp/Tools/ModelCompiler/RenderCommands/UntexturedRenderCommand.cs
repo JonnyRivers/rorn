@@ -10,11 +10,12 @@ namespace Rorn.Tools.ModelCompiler
 {
     internal class UntexturedRenderCommand : RenderCommand
     {
-        internal UntexturedRenderCommand(Vector3 ambientColor, Vector3 diffuseColor, Vector3 specularColor)
+        internal UntexturedRenderCommand(Vector3 ambientColor, Vector3 diffuseColor, Vector3 specularColor, float phongExponent)
         {
             ambientColor_ = ambientColor;
             diffuseColor_ = diffuseColor;
             specularColor_ = specularColor;
+            phongExponent_ = phongExponent;
             vertices_ = new List<UntexturedVertex>();
             indices_ = new List<int>();
         }
@@ -78,6 +79,7 @@ namespace Rorn.Tools.ModelCompiler
             ambientColor_.Save(binaryWriter);
             diffuseColor_.Save(binaryWriter);
             specularColor_.Save(binaryWriter);
+            binaryWriter.Write(phongExponent_);
 
             binaryWriter.Write(vertices_.Count);
             foreach (UntexturedVertex vertex in vertices_)
@@ -109,6 +111,7 @@ namespace Rorn.Tools.ModelCompiler
         private Vector3 ambientColor_;
         private Vector3 diffuseColor_;
         private Vector3 specularColor_;
+        private float phongExponent_;
         private List<UntexturedVertex> vertices_;
         private List<int> indices_;
     }

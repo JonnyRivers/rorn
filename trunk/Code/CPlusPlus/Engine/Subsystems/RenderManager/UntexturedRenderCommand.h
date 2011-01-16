@@ -38,6 +38,7 @@ namespace Rorn
 			Maths::Float4 ambientColor_;
 			Maths::Float4 diffuseColor_;
 			Maths::Float4 specularColor_;
+			float phongExponent_;
 
 			int vertexCount_;
 			int vertexDataSize_;

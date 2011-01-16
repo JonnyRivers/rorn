@@ -27,6 +27,7 @@ HRESULT UntexturedRenderCommand::LoadFromFile(FileReader& fileReader, ID3D11Devi
 	diffuseColor_.W = 1.0f;
 	fileReader.ReadData(&specularColor_, 12);
 	specularColor_.W = 1.0f;
+	phongExponent_ = fileReader.ReadFloat();
 
 	// Read vertex data
 	vertexCount_ = fileReader.ReadInt();

@@ -179,6 +179,9 @@ void SceneExporter::ExportMaterial(Mtl* material, int id, Rorn::XML::HierarchyEl
 	ExportPoint3("AmbientColor", material->GetAmbient(), materialElement);
 	ExportPoint3("DiffuseColor", material->GetDiffuse(), materialElement);
 	ExportPoint3("SpecularColor", material->GetSpecular(), materialElement);
+	std::stringstream phongExponentStream;
+	phongExponentStream << (material->GetShininess() * 100.0f);
+	materialElement.AddChildValueElement("PhongExponent", phongExponentStream.str().c_str());
 	
 	if(Rorn::Max::IsStandardMaterial(material))
 	{
