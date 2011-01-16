@@ -56,7 +56,7 @@ BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* comma
 
 	// This MUST be done by the client.  So, should we make it part of the Startup()?
 	camera_ = RenderManager::GetInstance().CreateLookAtCamera(
-		Vector3(0.0f, 110.0f, -160.0f),// eye
+		Vector3(-120.0f, 110.0f, -160.0f),// eye
 		Vector3(0.0f,  40.0f,    0.0f),// target
 		Vector3(0.0f,   1.0f,    0.0f));// up
 	RenderManager::GetInstance().SetCurrentCamera(camera_);
@@ -90,6 +90,7 @@ VOID ModelViewerApp::Step()
 	float secondsPassed;
 	TimeManager::GetInstance().Step(secondsPassed);
 	modelInstance_->RotateY(secondsPassed);
+	camera_->TranslateX(secondsPassed * 4.0f);
 	Rorn::Engine::RenderManager::GetInstance().Step();
 }
 

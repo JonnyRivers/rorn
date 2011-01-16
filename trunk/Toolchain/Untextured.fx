@@ -15,9 +15,11 @@ cbuffer ConstantBuffer : register( b0 )
 	float4 DiffuseColor;
 	float4 SpecularColor;
 	float4 AmbientLightColor;
+	float PhongExponent;
 	float3 MainLightDir;
-	float pad0;
 	float4 MainLightColor;
+	float3 EyeDir;
+	float pad0;
 }
 
 //--------------------------------------------------------------------------------------
@@ -45,9 +47,19 @@ VS_OUTPUT VS( float4 Position : POSITION, float4 Normal : NORMAL )
 float4 PS( VS_OUTPUT input ) : SV_Target
 {
     float4 finalColor = 0;
+
+	// Ambient lighting
     finalColor += saturate( AmbientColor * AmbientLightColor );
-    finalColor += saturate( dot( MainLightDir, -input.Normal) * MainLightColor * DiffuseColor );
-    finalColor.a = 1;
+
+	// Diffuse lighting
+    finalColor += saturate( max( -dot( MainLightDir, input.Normal), 0.0 ) * MainLightColor * DiffuseColor );
+
+	// Specular lighting
+	float3 mainLightReflection = reflect(MainLightDir, input.Normal);
+	float specularFactor = pow( -dot( EyeDir, mainLightReflection ), PhongExponent );
+	finalColor += saturate( max( specularFactor , 0.0 ) * MainLightColor * SpecularColor );
+	
+	finalColor.a = 1;
 
     return finalColor;
 }

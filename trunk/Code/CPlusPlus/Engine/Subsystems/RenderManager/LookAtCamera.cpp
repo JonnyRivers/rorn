@@ -8,6 +8,15 @@ LookAtCamera::LookAtCamera(const Vector3& eye, const Vector3& target, const Vect
 {
 }
 
+void LookAtCamera::TranslateX(float dx)
+{
+	Vector3 eyeDirection = target_ - eye_;
+	Vector3 cameraZAxis = Vector3::GetUnitVector(eyeDirection);
+	Vector3 cameraXAxis = Vector3::GetUnitVector(Vector3::CrossProduct(up_, cameraZAxis));
+
+	eye_ += (cameraXAxis * dx);
+}
+
 /*virtual*/ Matrix4x4 LookAtCamera::BuildWorldToViewMatrix() const
 {
 	Vector3 eyeDirection = target_ - eye_;
