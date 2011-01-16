@@ -52,12 +52,17 @@ float4 PS( VS_OUTPUT input ) : SV_Target
     finalColor += saturate( AmbientColor * AmbientLightColor );
 
 	// Diffuse lighting
-    finalColor += saturate( max( -dot( MainLightDir, input.Normal), 0.0 ) * MainLightColor * DiffuseColor );
+	float minusLightNormalDotProduct = -dot( MainLightDir, input.Normal);
+    finalColor += saturate( minusLightNormalDotProduct * MainLightColor * DiffuseColor );
 
 	// Specular lighting
-	float3 mainLightReflection = reflect(MainLightDir, input.Normal);
-	float specularFactor = pow( -dot( EyeDir, mainLightReflection ), PhongExponent );
-	finalColor += saturate( max( specularFactor , 0.0 ) * MainLightColor * SpecularColor );
+	if( minusLightNormalDotProduct > 0 )
+	{
+		float3 mainLightReflection = reflect(MainLightDir, input.Normal);
+		float minusEyeLightDotProduct = -dot( EyeDir, mainLightReflection );
+		float specularFactor = pow( minusEyeLightDotProduct, PhongExponent );
+		finalColor += saturate( specularFactor * MainLightColor * SpecularColor );
+	}
 	
 	finalColor.a = 1;
 
