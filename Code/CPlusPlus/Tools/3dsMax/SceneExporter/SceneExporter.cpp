@@ -3,6 +3,7 @@
 #include <sstream>
 
 #include "../../../Shared/3DSMax/SDKHelper.h"
+#include "../../../Shared/Text/Path.h"
 
 SceneExporter::SceneExporter(Interface* maxInterface)
 	: maxInterface_(maxInterface),
@@ -16,7 +17,7 @@ SceneExporter::~SceneExporter(void)
 {
 }
 
-void SceneExporter::ExportScene(const std::string& filename)
+void SceneExporter::ExportScene(const std::string& exportPathName)
 {
 	// Reset the state (to allow multiple uses)
 	xmlDocBuilder_ = Rorn::XML::DocumentBuilder("Scene");
@@ -24,12 +25,16 @@ void SceneExporter::ExportScene(const std::string& filename)
 	orderedMaterials_.clear();
 	numNodesExported_ = 0;
 	numMaterialsExported_ = 0;
+	textureExporter_.Reset();
 
 	xmlDocBuilder_.GetRootElement().AddChildValueElement("Source", "3DS Max 2010");
 	INode* rootNode = maxInterface_->GetRootNode();
 	ExportNodeRecursive(rootNode, xmlDocBuilder_.GetRootElement());// materials_ is built up here
 	ExportMaterials(xmlDocBuilder_.GetRootElement());
-	xmlDocBuilder_.Save(filename.c_str());
+	xmlDocBuilder_.Save(exportPathName.c_str());
+
+	std::string exportDirectory = Rorn::Text::Path::GetDirectoryFromPathName(exportPathName);
+	textureExporter_.CopyTexturesToDirectory(exportDirectory.c_str());
 }
 
 void SceneExporter::ExportNodeRecursive(INode* parentNode, Rorn::XML::HierarchyElement& parentElement)
@@ -191,5 +196,18 @@ void SceneExporter::ExportMaterial(Mtl* material, int id, Rorn::XML::HierarchyEl
 
 void SceneExporter::ExportStandardMaterial(StdMat* material, Rorn::XML::HierarchyElement& materialElement)
 {
-	// Nothing additional to export atm
+	if( Rorn::Max::HasDiffuseBitmap(material) )
+	{
+		Rorn::XML::HierarchyElement& textureMapsElement = materialElement.AddChildHierarchyElement("TextureMaps");
+
+		BitmapTex* diffuseBitmap = Rorn::Max::GetDiffuseBitmap(material);
+		ExportDiffuseBitmap(diffuseBitmap, textureMapsElement);
+	}
+}
+
+void SceneExporter::ExportDiffuseBitmap(BitmapTex* diffuseBitmap, Rorn::XML::HierarchyElement& textureMapsElement)
+{
+	Rorn::XML::HierarchyElement& diffuseMapElement = textureMapsElement.AddChildHierarchyElement("DiffuseMap");
+	std::string targetTexturePathName = textureExporter_.RegisterTexture(diffuseBitmap->GetMapName());
+	diffuseMapElement.AddChildValueElement("PathName", targetTexturePathName.c_str());
 }

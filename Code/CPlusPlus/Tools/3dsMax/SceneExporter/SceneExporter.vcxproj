@@ -333,11 +333,13 @@
     <ClCompile Include="..\..\..\Shared\FileIO\XML\HierarchyElement.cpp" />
     <ClCompile Include="..\..\..\Shared\FileIO\XML\ValueElement.cpp" />
     <ClCompile Include="..\..\..\Shared\FileIO\XML\Writer.cpp" />
+    <ClCompile Include="..\..\..\Shared\Text\Path.cpp" />
     <ClCompile Include="DllMain.cpp" />
     <ClCompile Include="RornSceneExporter.cpp" />
     <ClCompile Include="RornSceneExporterClassDesc.cpp" />
     <ClCompile Include="SceneExporter.cpp" />
     <ClCompile Include="SceneValidator.cpp" />
+    <ClCompile Include="TextureExporter.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Shared\3DSMax\SDKHelper.h" />
@@ -347,10 +349,13 @@
     <ClInclude Include="..\..\..\Shared\FileIO\XML\HierarchyElement.h" />
     <ClInclude Include="..\..\..\Shared\FileIO\XML\ValueElement.h" />
     <ClInclude Include="..\..\..\Shared\FileIO\XML\Writer.h" />
+    <ClInclude Include="..\..\..\Shared\Text\ci_string.h" />
+    <ClInclude Include="..\..\..\Shared\Text\Path.h" />
     <ClInclude Include="RornSceneExporter.h" />
     <ClInclude Include="RornSceneExporterClassDesc.h" />
     <ClInclude Include="SceneExporter.h" />
     <ClInclude Include="SceneValidator.h" />
+    <ClInclude Include="TextureExporter.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="SceneExporter.def" />

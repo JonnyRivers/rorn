@@ -20,6 +20,9 @@
     <Filter Include="Local source">
       <UniqueIdentifier>{6daccbc8-4307-4a07-9442-748d65ef7acc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shared\Text">
+      <UniqueIdentifier>{81cee635-c1f0-4b35-8272-f5f93ff5e08b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DllMain.cpp">
@@ -58,6 +61,12 @@
     <ClCompile Include="..\..\..\Shared\FileIO\XML\Writer.cpp">
       <Filter>Shared\FileIO\XML</Filter>
     </ClCompile>
+    <ClCompile Include="TextureExporter.cpp">
+      <Filter>Local source</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Shared\Text\Path.cpp">
+      <Filter>Shared\Text</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="RornSceneExporter.h">
@@ -92,6 +101,15 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Shared\FileIO\XML\Writer.h">
       <Filter>Shared\FileIO\XML</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureExporter.h">
+      <Filter>Local source</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Shared\Text\ci_string.h">
+      <Filter>Shared\Text</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Shared\Text\Path.h">
+      <Filter>Shared\Text</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

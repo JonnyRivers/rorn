@@ -46,3 +46,23 @@ bool Rorn::Max::IsStandardMaterial(Mtl* material)
 {
 	return (material->IsSubClassOf( Class_ID(DMTL_CLASS_ID,0) ) == TRUE);
 }
+
+bool Rorn::Max::HasDiffuseBitmap(Mtl* material)
+{
+	return (GetDiffuseBitmap(material) != NULL);
+}
+
+BitmapTex* Rorn::Max::GetDiffuseBitmap(Mtl* material)
+{
+	Texmap* diffuseTextureMap = material->GetSubTexmap(ID_DI);
+	if( diffuseTextureMap != NULL )
+	{
+		if (diffuseTextureMap->ClassID() == Class_ID(BMTEX_CLASS_ID, 0))
+		{
+			BitmapTex* diffuseBitmap = static_cast<BitmapTex*>(diffuseTextureMap);
+			return diffuseBitmap;
+		}
+	}
+
+	return NULL;
+}

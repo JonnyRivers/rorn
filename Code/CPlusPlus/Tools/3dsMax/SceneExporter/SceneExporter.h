@@ -1,6 +1,7 @@
 #pragma once
 
 #include <map>
+#include <set>
 #include <string>
 #include <vector>
 
@@ -8,6 +9,8 @@
 #include <stdmat.h>
 
 #include "..\..\..\Shared\FileIO\XML\DocumentBuilder.h"
+
+#include "TextureExporter.h"
 
 class SceneExporter
 {
@@ -25,6 +28,7 @@ private:
 	void ExportMaterials(Rorn::XML::HierarchyElement& parentElement);
 	void ExportMaterial(Mtl* material, int id, Rorn::XML::HierarchyElement& materialElement);
 	void ExportStandardMaterial(StdMat* material, Rorn::XML::HierarchyElement& materialElement);
+	void ExportDiffuseBitmap(BitmapTex* diffuseBitmap, Rorn::XML::HierarchyElement& textureMapsElement);
 
 	Interface* maxInterface_;
 	Rorn::XML::DocumentBuilder xmlDocBuilder_;
@@ -32,5 +36,6 @@ private:
 	std::vector<Mtl*> orderedMaterials_;
 	int numNodesExported_;
 	int numMaterialsExported_;
+	TextureExporter textureExporter_;
 };
 
