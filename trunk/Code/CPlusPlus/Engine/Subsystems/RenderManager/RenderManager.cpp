@@ -121,7 +121,7 @@ Vector3 RenderManager::GetCurrentCameraEyeDir() const
 {
 	Matrix4x4 worldToViewMatrix = currentCamera_->BuildWorldToViewMatrix();
 
-	return Vector3(worldToViewMatrix.M31, worldToViewMatrix.M32, worldToViewMatrix.M33);
+	return Vector3::GetUnitVector(Vector3(worldToViewMatrix.M31, worldToViewMatrix.M32, worldToViewMatrix.M33));
 }
 
 void RenderManager::SetCurrentCamera(Camera* camera)

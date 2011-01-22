@@ -37,6 +37,7 @@ VS_OUTPUT VS( float4 Position : POSITION, float4 Normal : NORMAL )
     VS_OUTPUT output = (VS_OUTPUT)0;
     output.Position = mul( Position, ModelToWorld );
     output.Position = mul( output.Position, WorldToProjection );
+	Normal.w = 0;
     output.Normal = mul( Normal, ModelToWorld );
     return output;
 }
