@@ -22,5 +22,5 @@ void ModelInstance::Draw(ID3D11DeviceContext* deviceContext, const Matrix4x4& wo
 void ModelInstance::RotateY(float angle)
 {
 	Matrix4x4 rotationMatrix = Matrix4x4::BuildYRotationMatrix(angle);
-	instanceToWorldMatrix_ *= rotationMatrix;
+	instanceToWorldMatrix_ = rotationMatrix * instanceToWorldMatrix_;
 }

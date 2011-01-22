@@ -7,6 +7,7 @@
 #include "../../Engine/Subsystems/RenderManager/LookAtCamera.h"
 #include "../../Engine/Subsystems/TimeManager/TimeManager.h"
 
+#include "../../Shared/RornMaths/Constants.h"
 #include "../../Shared/RornMaths/Float4.h"
 #include "../../Shared/RornMaths/Matrix4x4.h"
 #include "../../Shared/RornMaths/Vector3.h"
@@ -62,7 +63,7 @@ BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* comma
 	RenderManager::GetInstance().SetCurrentCamera(camera_);
 
 	// This also MUST be done by the client.  So, should we make it part of the Startup()?
-	Vector3 mainLightDirection(0, sin(-45.0f), sin(45.0f));
+	Vector3 mainLightDirection(0, -sin(Rorn::Maths::PiOver4), sin(Rorn::Maths::PiOver4));
 	Float4 mainLightColor(0.7f, 0.7f, 0.7f, 1.0f);
 	light_ = RenderManager::GetInstance().CreateLight(mainLightDirection, mainLightColor);
 	RenderManager::GetInstance().SetMainLight(light_);
