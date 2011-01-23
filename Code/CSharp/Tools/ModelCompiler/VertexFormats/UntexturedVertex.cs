@@ -11,30 +11,30 @@ namespace Rorn.Tools.ModelCompiler
     {
         internal UntexturedVertex(Vector4 position, Vector4 normal)
         {
-            position_ = position;
-            normal_ = normal;
+            Position = position;
+            Normal = normal;
         }
 
         internal void Save(System.IO.BinaryWriter binaryWriter)
         {
-            position_.Save(binaryWriter);
-            normal_.Save(binaryWriter);
+            Position.Save(binaryWriter);
+            Normal.Save(binaryWriter);
         }
 
         internal void Transform(Matrix4x4 transformMatrix)
         {
-            position_ = transformMatrix * position_;
-            normal_ = transformMatrix * normal_;
+            Position = transformMatrix * Position;
+            Normal = transformMatrix * Normal;
         }
 
         internal static bool AreApproxEqual(UntexturedVertex lhs, UntexturedVertex rhs) 
         {
             return
-                VertexComparer.PositionsAreApproxEqual(lhs.position_, rhs.position_) &&
-                VertexComparer.NormalsAreApproxEqual(lhs.normal_, rhs.normal_);
+                VertexComparer.PositionsAreApproxEqual(lhs.Position, rhs.Position) &&
+                VertexComparer.NormalsAreApproxEqual(lhs.Normal, rhs.Normal);
         }
 
-        private Vector4 position_;
-        private Vector4 normal_;
+        internal Vector4 Position { get; private set; }
+        internal Vector4 Normal { get; private set; }
     }
 }

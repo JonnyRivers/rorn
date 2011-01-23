@@ -3,11 +3,13 @@
 
 #include "../../Engine/Subsystems/DiagnosticsManager/DiagnosticsManager.h"
 #include "../../Engine/Subsystems/RenderManager/RenderManager.h"
+#include "../../Engine/Subsystems/RenderManager/Model.h"
 #include "../../Engine/Subsystems/RenderManager/ModelInstance.h"
 #include "../../Engine/Subsystems/RenderManager/LookAtCamera.h"
 #include "../../Engine/Subsystems/TimeManager/TimeManager.h"
 
 #include "../../Shared/RornMaths/Constants.h"
+#include "../../Shared/RornMaths/BoundingBox.h"
 #include "../../Shared/RornMaths/Float4.h"
 #include "../../Shared/RornMaths/Matrix4x4.h"
 #include "../../Shared/RornMaths/Vector3.h"
@@ -55,11 +57,17 @@ BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* comma
 	if( FAILED(hr) )
 		return FALSE;
 
+	model_ = RenderManager::GetInstance().LoadOrGetModel(commandLine);
+	const Rorn::Maths::BoundingBox& modelBoundingBox = model_->GetBoundingBox();
+
+	Matrix4x4 instanceToWorldMatrix = Matrix4x4::BuildIdentity();
+	modelInstance_ = RenderManager::GetInstance().CreateModelInstance(model_, instanceToWorldMatrix);
+
 	// This MUST be done by the client.  So, should we make it part of the Startup()?
 	camera_ = RenderManager::GetInstance().CreateLookAtCamera(
-		Vector3(-120.0f, 110.0f, -160.0f),// eye
-		Vector3(0.0f,  40.0f,    0.0f),// target
-		Vector3(0.0f,   1.0f,    0.0f));// up
+		Vector3(0.0f, modelBoundingBox.GetMaximum().Y,       modelBoundingBox.GetMinimum().Z * 4),// eye
+		Vector3(0.0f, modelBoundingBox.GetCentre().Y * 0.5f, 0.0f),// target
+		Vector3(0.0f, 1.0f,									 0.0f));// up
 	RenderManager::GetInstance().SetCurrentCamera(camera_);
 
 	// This also MUST be done by the client.  So, should we make it part of the Startup()?
@@ -70,12 +78,7 @@ BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* comma
 
 	// Setup ambient lighting
 	Float4 ambientLightColor(0.1f, 0.1f, 0.1f, 1.0f);
-	RenderManager::GetInstance().SetAmbientLightColor(ambientLightColor);
-
-	model_ = RenderManager::GetInstance().LoadOrGetModel(commandLine);
-
-	Matrix4x4 instanceToWorldMatrix = Matrix4x4::BuildIdentity();
-	modelInstance_ = RenderManager::GetInstance().CreateModelInstance(model_, instanceToWorldMatrix);
+	RenderManager::GetInstance().SetAmbientLightColor(ambientLightColor);	
 
 	return TRUE;
 }
@@ -91,7 +94,6 @@ VOID ModelViewerApp::Step()
 	float secondsPassed;
 	TimeManager::GetInstance().Step(secondsPassed);
 	modelInstance_->RotateY(secondsPassed);
-	camera_->TranslateX(secondsPassed * 40.0f);
 	Rorn::Engine::RenderManager::GetInstance().Step();
 }
 

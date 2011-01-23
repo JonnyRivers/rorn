@@ -21,6 +21,8 @@ namespace Rorn.Tools.ModelCompiler
             TriangleList = 0
         }
 
+        internal abstract void IncorporatePointIntoBoundingBox(BoundingBox boundingBox);
+
         internal abstract void Optimize();
 
         internal abstract void ParseAndTransformTriangle(Matrix4x4 nodeToModelMatrix, 

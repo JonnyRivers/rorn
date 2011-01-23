@@ -108,9 +108,16 @@ namespace Rorn.Tools.ModelCompiler
 
         private void SaveModel(string destinationPathName)
         {
+            // Generate header information
+            BoundingBox boundingBox = new BoundingBox();
+            foreach (KeyValuePair<int, RenderCommand> kvp in renderCommands_)
+                kvp.Value.IncorporatePointIntoBoundingBox(boundingBox);
+            ModelHeader modelHeader = new ModelHeader(boundingBox, renderCommands_.Count);
+
             using (var binaryWriter = new System.IO.BinaryWriter(System.IO.File.Create(destinationPathName)))
             {
-                binaryWriter.Write(renderCommands_.Count);
+                modelHeader.Save(binaryWriter);
+
                 foreach (KeyValuePair<int, RenderCommand> kvp in renderCommands_)
                 {
                     kvp.Value.Save(binaryWriter);
