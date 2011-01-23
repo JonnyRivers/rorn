@@ -128,6 +128,13 @@ void SceneExporter::ExportMesh(INode* node, Mesh& mesh, Rorn::XML::HierarchyElem
 					++normalIndex;
 				}
 			}
+
+			// Export texture coordinates (diffuse only for now)
+			if(mesh.maps[1].flags & MESHMAP_USED)
+			{
+				DWORD tvIndex = mesh.maps[1].tf[faceIndex].t[vertIndex];
+				ExportPoint3("DiffuseUVW", mesh.maps[1].tv[tvIndex], vertexElement);
+			}
 		}
 	}
 
