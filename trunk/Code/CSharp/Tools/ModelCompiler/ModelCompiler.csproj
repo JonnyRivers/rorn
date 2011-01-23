@@ -57,6 +57,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ModelCompiler.cs" />
+    <Compile Include="ModelHeader.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RenderCommands\DiffuseOnlyRenderCommand.cs" />

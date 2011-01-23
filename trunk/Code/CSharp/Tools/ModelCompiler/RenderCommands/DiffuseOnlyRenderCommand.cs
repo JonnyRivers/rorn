@@ -10,6 +10,11 @@ namespace Rorn.Tools.ModelCompiler
 {
     internal class DiffuseOnlyRenderCommand : RenderCommand
     {
+        internal override void IncorporatePointIntoBoundingBox(BoundingBox boundingBox)
+        {
+            throw new NotImplementedException();
+        }
+
         internal override void Optimize() 
         {
             throw new NotImplementedException();

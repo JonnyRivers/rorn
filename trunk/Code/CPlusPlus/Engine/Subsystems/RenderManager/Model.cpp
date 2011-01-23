@@ -19,6 +19,18 @@ void Model::LoadFromFile(const wchar_t* modelPathName, ID3D11Device* device)
 {
 	FileReader fileReader(modelPathName);
 
+	// TODO validate version and file identifier
+	char fileIdentifierBuffer[9];
+	fileReader.ReadData(fileIdentifierBuffer, 8);
+	fileIdentifierBuffer[8] = '\0';
+	int versionNumber = fileReader.ReadInt();
+	float bbMinX = fileReader.ReadFloat();
+	float bbMinY = fileReader.ReadFloat();
+	float bbMinZ = fileReader.ReadFloat();
+	float bbMaxX = fileReader.ReadFloat();
+	float bbMaxY = fileReader.ReadFloat();
+	float bbMaxZ = fileReader.ReadFloat();
+	boundingBox_ = Maths::BoundingBox(bbMinX, bbMinY, bbMinZ, bbMaxX, bbMaxY, bbMaxZ);
 	int numRenderCommands = fileReader.ReadInt();
 
 	for(int renderCommandIndex = 0 ; renderCommandIndex != numRenderCommands ; ++renderCommandIndex)
@@ -33,6 +45,11 @@ void Model::LoadFromFile(const wchar_t* modelPathName, ID3D11Device* device)
 			renderCommands_.push_back(std::unique_ptr<RenderCommand>(newRenderCommand));
 		}
 	}
+}
+
+const BoundingBox& Model::GetBoundingBox() const
+{
+	return boundingBox_;
 }
 
 void Model::Draw(ID3D11DeviceContext* deviceContext, 

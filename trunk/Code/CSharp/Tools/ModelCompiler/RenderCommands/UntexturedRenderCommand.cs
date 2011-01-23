@@ -20,6 +20,14 @@ namespace Rorn.Tools.ModelCompiler
             indices_ = new List<int>();
         }
 
+        internal override void IncorporatePointIntoBoundingBox(BoundingBox boundingBox)
+        {
+            foreach (UntexturedVertex vertex in vertices_)
+            {
+                boundingBox.AddPoint(vertex.Position);
+            }
+        }
+
         internal override void Optimize()
         {
             // build a new vertex buffer and a new index buffer
