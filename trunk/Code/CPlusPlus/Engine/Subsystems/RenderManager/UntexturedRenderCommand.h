@@ -31,8 +31,8 @@ namespace Rorn
 		private:
 			struct VertexFormat
 			{
-				Maths::Vector3 Position;
-				Maths::Vector3 Normal;
+				Maths::Float4 Position;
+				Maths::Float4 Normal;
 			};
 
 			Maths::Float4 ambientColor_;
