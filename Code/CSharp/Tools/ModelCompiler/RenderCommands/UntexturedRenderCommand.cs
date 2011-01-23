@@ -10,7 +10,7 @@ namespace Rorn.Tools.ModelCompiler
 {
     internal class UntexturedRenderCommand : RenderCommand
     {
-        internal UntexturedRenderCommand(Vector3 ambientColor, Vector3 diffuseColor, Vector3 specularColor, float phongExponent)
+        internal UntexturedRenderCommand(Vector4 ambientColor, Vector4 diffuseColor, Vector4 specularColor, float phongExponent)
         {
             ambientColor_ = ambientColor;
             diffuseColor_ = diffuseColor;
@@ -56,7 +56,7 @@ namespace Rorn.Tools.ModelCompiler
             indices_ = optimizedIndices;
         }
 
-        internal override void ParseAndTransformTriangle(Matrix4x3 nodeToModelMatrix, 
+        internal override void ParseAndTransformTriangle(Matrix4x4 nodeToModelMatrix, 
             XElement v0Element, XElement v1Element, XElement v2Element)
         {
             UntexturedVertex v0 = ParseAndTransformVertex(nodeToModelMatrix, v0Element);
@@ -90,7 +90,7 @@ namespace Rorn.Tools.ModelCompiler
                 binaryWriter.Write(index);
         }
 
-        internal override void Transform(Matrix4x3 transformMatrix)
+        internal override void Transform(Matrix4x4 transformMatrix)
         {
             foreach (UntexturedVertex vertex in vertices_)
             {
@@ -98,19 +98,19 @@ namespace Rorn.Tools.ModelCompiler
             }
         }
 
-        private UntexturedVertex ParseAndTransformVertex(Matrix4x3 nodeToModelMatrix, XElement vertexElement)
+        private UntexturedVertex ParseAndTransformVertex(Matrix4x4 nodeToModelMatrix, XElement vertexElement)
         {
-            Vector3 position = Vector3.Parse(vertexElement.Element("Position").Value);
+            Vector4 position = Vector4.Parse(vertexElement.Element("Position").Value, 1.0f);
             position = nodeToModelMatrix * position;
-            Vector3 normal = Vector3.Parse(vertexElement.Element("Normal").Value);
-            normal = nodeToModelMatrix.WithoutTranslation() * normal;
+            Vector4 normal = Vector4.Parse(vertexElement.Element("Normal").Value, 0.0f);
+            normal = nodeToModelMatrix * normal;
 
             return new UntexturedVertex(position, normal);
         }
 
-        private Vector3 ambientColor_;
-        private Vector3 diffuseColor_;
-        private Vector3 specularColor_;
+        private Vector4 ambientColor_;
+        private Vector4 diffuseColor_;
+        private Vector4 specularColor_;
         private float phongExponent_;
         private List<UntexturedVertex> vertices_;
         private List<int> indices_;

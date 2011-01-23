@@ -21,12 +21,9 @@ HRESULT UntexturedRenderCommand::LoadFromFile(FileReader& fileReader, ID3D11Devi
 	RenderCommand::PrimitiveType primitiveType = static_cast<RenderCommand::PrimitiveType>(primitveTypeValue);
 
 	// Read color data
-	fileReader.ReadData(&ambientColor_, 12);
-	ambientColor_.W = 1.0f;
-	fileReader.ReadData(&diffuseColor_, 12);
-	diffuseColor_.W = 1.0f;
-	fileReader.ReadData(&specularColor_, 12);
-	specularColor_.W = 1.0f;
+	fileReader.ReadData(&ambientColor_, sizeof(ambientColor_));
+	fileReader.ReadData(&diffuseColor_, sizeof(diffuseColor_));
+	fileReader.ReadData(&specularColor_, sizeof(specularColor_));
 	phongExponent_ = fileReader.ReadFloat();
 
 	// Read vertex data

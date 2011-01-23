@@ -10,7 +10,7 @@ namespace Rorn.Tools.ModelCompiler
         private static float positionElementTolerance = 0.000001f;
         private static float normalElementTolerance = 0.000001f;
 
-        internal static bool PositionsAreApproxEqual(Maths.Vector3 lhs, Maths.Vector3 rhs)
+        internal static bool PositionsAreApproxEqual(Maths.Vector4 lhs, Maths.Vector4 rhs)
         {
             return
                 FloatsAreApproxEqual(lhs.X, rhs.X, positionElementTolerance) &&
@@ -18,7 +18,7 @@ namespace Rorn.Tools.ModelCompiler
                 FloatsAreApproxEqual(lhs.Z, rhs.Z, positionElementTolerance);
         }
 
-        internal static bool NormalsAreApproxEqual(Maths.Vector3 lhs, Maths.Vector3 rhs)
+        internal static bool NormalsAreApproxEqual(Maths.Vector4 lhs, Maths.Vector4 rhs)
         {
             return
                 FloatsAreApproxEqual(lhs.X, rhs.X, normalElementTolerance) &&

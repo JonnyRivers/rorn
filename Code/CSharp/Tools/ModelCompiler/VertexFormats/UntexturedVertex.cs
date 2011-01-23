@@ -9,7 +9,7 @@ namespace Rorn.Tools.ModelCompiler
 {
     internal class UntexturedVertex
     {
-        internal UntexturedVertex(Vector3 position, Vector3 normal)
+        internal UntexturedVertex(Vector4 position, Vector4 normal)
         {
             position_ = position;
             normal_ = normal;
@@ -21,20 +21,20 @@ namespace Rorn.Tools.ModelCompiler
             normal_.Save(binaryWriter);
         }
 
-        internal void Transform(Matrix4x3 transformMatrix)
+        internal void Transform(Matrix4x4 transformMatrix)
         {
             position_ = transformMatrix * position_;
-            normal_ = transformMatrix.WithoutTranslation() * normal_;
+            normal_ = transformMatrix * normal_;
         }
 
         internal static bool AreApproxEqual(UntexturedVertex lhs, UntexturedVertex rhs) 
         {
             return
                 VertexComparer.PositionsAreApproxEqual(lhs.position_, rhs.position_) &&
-                VertexComparer.PositionsAreApproxEqual(lhs.normal_, rhs.normal_);
+                VertexComparer.NormalsAreApproxEqual(lhs.normal_, rhs.normal_);
         }
 
-        private Vector3 position_;
-        private Vector3 normal_;
+        private Vector4 position_;
+        private Vector4 normal_;
     }
 }

@@ -51,9 +51,9 @@ namespace Rorn.Tools.ModelCompiler
         {
             // Parse common material data
             int id = int.Parse(materialElement.Element("Id").Value);
-            Vector3 ambientColor = Vector3.Parse(materialElement.Element("AmbientColor").Value);
-            Vector3 diffuseColor = Vector3.Parse(materialElement.Element("DiffuseColor").Value);
-            Vector3 specularColor = Vector3.Parse(materialElement.Element("SpecularColor").Value);
+            Vector4 ambientColor = Vector4.Parse(materialElement.Element("AmbientColor").Value, 1.0f);
+            Vector4 diffuseColor = Vector4.Parse(materialElement.Element("DiffuseColor").Value, 1.0f);
+            Vector4 specularColor = Vector4.Parse(materialElement.Element("SpecularColor").Value, 1.0f);
             float phongExponent = float.Parse(materialElement.Element("PhongExponent").Value);
 
             if (materialElement.Element("Maps") == null)
@@ -68,7 +68,7 @@ namespace Rorn.Tools.ModelCompiler
         {
             // Parse node to model matrix
             var nodeToSceneMatrixElement = nodeElement.Element("NodeToSceneMatrix");
-            Matrix4x3 nodeToSceneMatrix = Matrix4x3.Parse(nodeElement.Element("NodeToSceneMatrix").Value);
+            Matrix4x4 nodeToSceneMatrix = Matrix4x4.Parse(nodeElement.Element("NodeToSceneMatrix").Value);
 
             var meshElement = nodeElement.Element("Mesh");
             if (meshElement != null)
@@ -77,7 +77,7 @@ namespace Rorn.Tools.ModelCompiler
             }
         }
 
-        private void CompileMesh(Matrix4x3 nodeToSceneMatrix, XElement meshElement)
+        private void CompileMesh(Matrix4x4 nodeToSceneMatrix, XElement meshElement)
         {
             // Break the vertex elements out into an indexed list, otherwise we'll be here all day!
             Dictionary<int, XElement> indexedVertexElements = new Dictionary<int, XElement>();
