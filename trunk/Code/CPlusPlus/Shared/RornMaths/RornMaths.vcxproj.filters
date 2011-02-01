@@ -5,6 +5,7 @@
     <ClCompile Include="Matrix4x4.cpp" />
     <ClCompile Include="Float4.cpp" />
     <ClCompile Include="BoundingBox.cpp" />
+    <ClCompile Include="Float2.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vector3.h" />
@@ -12,5 +13,6 @@
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Float4.h" />
     <ClInclude Include="BoundingBox.h" />
+    <ClInclude Include="Float2.h" />
   </ItemGroup>
 </Project>

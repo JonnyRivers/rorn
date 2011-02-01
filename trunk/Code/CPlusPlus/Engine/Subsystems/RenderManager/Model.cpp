@@ -3,6 +3,7 @@
 #include "../FileManager/FileReader.h"
 #include "RenderCommand.h"
 #include "UntexturedRenderCommand.h"
+#include "DiffuseOnlyRenderCommand.h"
 
 using namespace Rorn::Engine;
 using namespace Rorn::Maths;
@@ -32,6 +33,7 @@ void Model::LoadFromFile(const wchar_t* modelPathName, ID3D11Device* device)
 	float bbMaxZ = fileReader.ReadFloat();
 	boundingBox_ = Maths::BoundingBox(bbMinX, bbMinY, bbMinZ, bbMaxX, bbMaxY, bbMaxZ);
 	int numRenderCommands = fileReader.ReadInt();
+	int numCompiledTextures = fileReader.ReadInt();
 
 	for(int renderCommandIndex = 0 ; renderCommandIndex != numRenderCommands ; ++renderCommandIndex)
 	{
@@ -44,6 +46,22 @@ void Model::LoadFromFile(const wchar_t* modelPathName, ID3D11Device* device)
 			newRenderCommand->LoadFromFile(fileReader, device);
 			renderCommands_.push_back(std::unique_ptr<RenderCommand>(newRenderCommand));
 		}
+		else if(surfaceFormatType == DiffuseOnly)
+		{
+			DiffuseOnlyRenderCommand* newRenderCommand = new DiffuseOnlyRenderCommand();
+			newRenderCommand->LoadFromFile(fileReader, device);
+			renderCommands_.push_back(std::unique_ptr<RenderCommand>(newRenderCommand));
+		}
+	}
+
+	for(int compiledTextureIndex = 0 ; compiledTextureIndex != numCompiledTextures ; ++compiledTextureIndex)
+	{
+		int textureId = fileReader.ReadInt();
+		int compiledTextureDataLength = fileReader.ReadInt();
+		unsigned char* compiledTextureData = new unsigned char[compiledTextureDataLength];
+		fileReader.ReadData(compiledTextureData, compiledTextureDataLength);
+		// TODO load this into a texture
+		delete [] compiledTextureData;
 	}
 }
 

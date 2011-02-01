@@ -29,7 +29,8 @@ namespace Rorn
 		private:
 			enum SurfaceFormatType
 			{
-				Untextured = 0
+				Untextured = 0,
+				DiffuseOnly = 1
 			};
 
 			Model(void);

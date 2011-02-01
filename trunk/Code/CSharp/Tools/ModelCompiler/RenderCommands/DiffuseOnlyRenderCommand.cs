@@ -88,6 +88,8 @@ namespace Rorn.Tools.ModelCompiler
             specularColor_.Save(binaryWriter);
             binaryWriter.Write(phongExponent_);
 
+            binaryWriter.Write(diffuseTextureId_);
+
             binaryWriter.Write(vertices_.Count);
             foreach (DiffuseOnlyVertex vertex in vertices_)
                 vertex.Save(binaryWriter);

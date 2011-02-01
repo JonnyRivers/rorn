@@ -32,6 +32,7 @@ namespace Rorn.Tools.ModelCompiler
             binaryWriter.Write(VersionNumber);
             BoundingBox.Save(binaryWriter);
             binaryWriter.Write(NumRenderCommands);
+            binaryWriter.Write(NumCompiledTextures);
         }
 
         public static int CurrentVersionNumber = 1;

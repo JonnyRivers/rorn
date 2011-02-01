@@ -11,7 +11,9 @@
 #include "LookAtCamera.h"
 #include "Model.h"
 #include "ModelInstance.h"
+
 #include "UntexturedSurfaceFormat.h"
+#include "DiffuseOnlySurfaceFormat.h"
 
 using namespace Rorn::Engine;
 using namespace Rorn::Maths;
@@ -73,6 +75,7 @@ void RenderManager::Shutdown()
 	modelInstances_.clear();
 	cameras_.clear();
 
+	DiffuseOnlySurfaceFormat::GetInstance().Release();
 	UntexturedSurfaceFormat::GetInstance().Release();
 
 	if( depthStencil_ != NULL )
@@ -338,6 +341,11 @@ HRESULT RenderManager::SetupSurfaceFormats()
 	if( FAILED(hr) )
 		return hr;
 	DiagnosticsManager::GetInstance().GetLoggingStream() << "Successfully setup Untextured Surface Format" << std::endl;
+
+	hr = DiffuseOnlySurfaceFormat::GetInstance().Initialize(device_);
+	if( FAILED(hr) )
+		return hr;
+	DiagnosticsManager::GetInstance().GetLoggingStream() << "Successfully setup Diffuse Only Surface Format" << std::endl;
 
 	return S_OK;
 }

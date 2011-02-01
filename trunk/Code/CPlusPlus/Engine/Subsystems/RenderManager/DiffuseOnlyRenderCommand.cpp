@@ -1,16 +1,17 @@
-#include "UntexturedRenderCommand.h"
+#include "DiffuseOnlyRenderCommand.h"
 
-#include "UntexturedSurfaceFormat.h"
+
+#include "DiffuseOnlySurfaceFormat.h"
 
 using namespace Rorn::Engine;
 using namespace Rorn::Maths;
 
-UntexturedRenderCommand::UntexturedRenderCommand(void)
+DiffuseOnlyRenderCommand::DiffuseOnlyRenderCommand(void)
 	: vertexCount_(0), vertexDataSize_(0), vertexBuffer_(NULL), indexCount_(0), indexDataSize_(0), indexBuffer_(NULL)
 {
 }
 
-HRESULT UntexturedRenderCommand::LoadFromFile(FileReader& fileReader, ID3D11Device* device)
+HRESULT DiffuseOnlyRenderCommand::LoadFromFile(FileReader& fileReader, ID3D11Device* device)
 {
 	int primitveTypeValue = fileReader.ReadInt();
 	RenderCommand::PrimitiveType primitiveType = static_cast<RenderCommand::PrimitiveType>(primitveTypeValue);
@@ -21,10 +22,12 @@ HRESULT UntexturedRenderCommand::LoadFromFile(FileReader& fileReader, ID3D11Devi
 	fileReader.ReadData(&specularColor_, sizeof(specularColor_));
 	phongExponent_ = fileReader.ReadFloat();
 
+	int compiledTextureId = fileReader.ReadInt();
+
 	// Read vertex data
 	vertexCount_ = fileReader.ReadInt();
-	vertexDataSize_ = vertexCount_ * sizeof(UntexturedRenderCommand::VertexFormat);
-	UntexturedRenderCommand::VertexFormat* vertices = new UntexturedRenderCommand::VertexFormat[vertexCount_];
+	vertexDataSize_ = vertexCount_ * sizeof(DiffuseOnlyRenderCommand::VertexFormat);
+	DiffuseOnlyRenderCommand::VertexFormat* vertices = new DiffuseOnlyRenderCommand::VertexFormat[vertexCount_];
 	fileReader.ReadData(vertices, vertexDataSize_);
 
 	// Create buffer
@@ -69,15 +72,15 @@ HRESULT UntexturedRenderCommand::LoadFromFile(FileReader& fileReader, ID3D11Devi
 	return S_OK;
 }
 
-/*virtual*/ void UntexturedRenderCommand::Draw(ID3D11DeviceContext* deviceContext, 
+/*virtual*/ void DiffuseOnlyRenderCommand::Draw(ID3D11DeviceContext* deviceContext, 
 	const Matrix4x4& instanceToWorldMatrix, const Matrix4x4& worldToProjectionMatrix)
 {
 	// include everything required by this surface type (including lights)
-	UntexturedSurfaceFormat::GetInstance().SetupGPU(deviceContext, instanceToWorldMatrix, worldToProjectionMatrix,
+	DiffuseOnlySurfaceFormat::GetInstance().SetupGPU(deviceContext, instanceToWorldMatrix, worldToProjectionMatrix,
 		ambientColor_, diffuseColor_, specularColor_, phongExponent_);
 
 	// draw the triangles owned by the command
-	UINT stride = sizeof( UntexturedRenderCommand::VertexFormat );
+	UINT stride = sizeof( DiffuseOnlyRenderCommand::VertexFormat );
     UINT offset = 0;
 	deviceContext->IASetVertexBuffers(0, 1, &vertexBuffer_, &stride, &offset);
 	deviceContext->IASetIndexBuffer( indexBuffer_, DXGI_FORMAT_R32_UINT, 0 );
@@ -85,7 +88,7 @@ HRESULT UntexturedRenderCommand::LoadFromFile(FileReader& fileReader, ID3D11Devi
 	deviceContext->DrawIndexed(indexCount_, 0, 0);
 }
 
-/*virtual*/ void UntexturedRenderCommand::Release()
+/*virtual*/ void DiffuseOnlyRenderCommand::Release()
 {
 	if(vertexBuffer_ != NULL)
 		vertexBuffer_->Release();

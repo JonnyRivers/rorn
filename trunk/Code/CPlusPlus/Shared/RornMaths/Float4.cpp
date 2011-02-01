@@ -24,6 +24,7 @@ Float4& Float4::operator=(const Float4& source)
 	X = source.X;
 	Y = source.Y;
 	Z = source.Z;
+	W = source.W;
 
 	return *this;
 }
