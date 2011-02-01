@@ -18,6 +18,12 @@ namespace Rorn.Tools.ModelCompiler
             string sourcePathName = args[0];
             string destinationPathName = args[1];
 
+            if (!System.IO.Path.IsPathRooted(sourcePathName))
+            {
+                DisplayHelpOnCommandLine("Source path name is not a fully qualified path name.");
+                return;
+            }
+
             try
             {
                 var stopwatch = System.Diagnostics.Stopwatch.StartNew();

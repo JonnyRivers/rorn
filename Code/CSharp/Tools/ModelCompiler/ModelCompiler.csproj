@@ -56,6 +56,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CompiledTexture.cs" />
     <Compile Include="ModelCompiler.cs" />
     <Compile Include="ModelHeader.cs" />
     <Compile Include="Program.cs" />
@@ -63,6 +64,7 @@
     <Compile Include="RenderCommands\DiffuseOnlyRenderCommand.cs" />
     <Compile Include="RenderCommands\RenderCommand.cs" />
     <Compile Include="RenderCommands\UntexturedRenderCommand.cs" />
+    <Compile Include="VertexFormats\DiffuseOnlyVertex.cs" />
     <Compile Include="VertexFormats\UntexturedVertex.cs" />
     <Compile Include="VertexFormats\VertexComparer.cs" />
   </ItemGroup>
