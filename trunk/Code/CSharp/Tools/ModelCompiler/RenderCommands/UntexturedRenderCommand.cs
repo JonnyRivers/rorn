@@ -23,9 +23,7 @@ namespace Rorn.Tools.ModelCompiler
         internal override void IncorporatePointIntoBoundingBox(BoundingBox boundingBox)
         {
             foreach (UntexturedVertex vertex in vertices_)
-            {
                 boundingBox.AddPoint(vertex.Position);
-            }
         }
 
         internal override void Optimize()
@@ -101,9 +99,7 @@ namespace Rorn.Tools.ModelCompiler
         internal override void Transform(Matrix4x4 transformMatrix)
         {
             foreach (UntexturedVertex vertex in vertices_)
-            {
                 vertex.Transform(transformMatrix);
-            }
         }
 
         private UntexturedVertex ParseAndTransformVertex(Matrix4x4 nodeToModelMatrix, XElement vertexElement)
