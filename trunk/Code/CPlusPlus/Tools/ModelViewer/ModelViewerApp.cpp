@@ -66,7 +66,7 @@ BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* comma
 
 	// This MUST be done by the client.  So, should we make it part of the Startup()?
 	camera_ = RenderManager::GetInstance().CreateLookAtCamera(
-		Vector3(0.0f, modelBoundingBox.GetMaximum().Y,       modelBoundingBox.GetMinimum().Z * 4),// eye
+		Vector3(0.0f, modelBoundingBox.GetMaximum().Y * 3.0f,       modelBoundingBox.GetMinimum().Z * 4.0f),// eye
 		Vector3(0.0f, modelBoundingBox.GetCentre().Y * 0.5f, 0.0f),// target
 		Vector3(0.0f, 1.0f,									 0.0f));// up
 	RenderManager::GetInstance().SetCurrentCamera(camera_);

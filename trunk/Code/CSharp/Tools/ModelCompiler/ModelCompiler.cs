@@ -152,7 +152,7 @@ namespace Rorn.Tools.ModelCompiler
             BoundingBox boundingBox = new BoundingBox();
             foreach (KeyValuePair<int, RenderCommand> kvp in renderCommands_)
                 kvp.Value.IncorporatePointIntoBoundingBox(boundingBox);
-            ModelHeader modelHeader = new ModelHeader(boundingBox, renderCommands_.Count, compiledTextures_.Count);
+            ModelHeader modelHeader = new ModelHeader(boundingBox, compiledTextures_.Count, renderCommands_.Count);
 
             using (var binaryWriter = new System.IO.BinaryWriter(System.IO.File.Create(destinationPathName)))
             {
