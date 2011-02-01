@@ -5,6 +5,11 @@
 #include "../../../Shared/3DSMax/SDKHelper.h"
 #include "../../../Shared/Text/Path.h"
 
+namespace
+{
+	const int maxNormalsToSearchThrough = 4;
+}
+
 SceneExporter::SceneExporter(Interface* maxInterface)
 	: maxInterface_(maxInterface),
 	  xmlDocBuilder_("Scene"),
@@ -117,8 +122,9 @@ void SceneExporter::ExportMesh(INode* node, Mesh& mesh, Rorn::XML::HierarchyElem
 				bool foundNormal = false;
 				DWORD faceSmGroup = mesh.faces[faceIndex].getSmGroup();
 				int normalIndex = 0;
-				while(!foundNormal)
+				while(!foundNormal && normalIndex < maxNormalsToSearchThrough)// There must be a better way.  Max doesn't seem to store a limit.
 				{
+					
 					if(rVertex.ern[normalIndex].getSmGroup() == faceSmGroup)
 					{
 						ExportPoint3("Normal", rVertex.ern[normalIndex].getNormal(), vertexElement);
@@ -126,6 +132,11 @@ void SceneExporter::ExportMesh(INode* node, Mesh& mesh, Rorn::XML::HierarchyElem
 					}
 
 					++normalIndex;
+				}
+
+				if(!foundNormal)
+				{
+					ExportPoint3("Normal", rVertex.rn.getNormal(), vertexElement);
 				}
 			}
 
