@@ -1,11 +1,12 @@
 #pragma once
 
-#include "RenderCommand.h"
+#include "rendercommand.h"
 
 #include <windows.h>
 
 #include <d3d11.h>
 
+#include "../../../Shared/RornMaths/Float2.h"
 #include "../../../Shared/RornMaths/Float4.h"
 #include "../../../Shared/RornMaths/Matrix4x4.h"
 #include "../../../Shared/RornMaths/Vector3.h"
@@ -16,10 +17,10 @@ namespace Rorn
 {
 	namespace Engine
 	{
-		class UntexturedRenderCommand : public RenderCommand
+		class DiffuseOnlyRenderCommand : public RenderCommand
 		{
 		public:
-			UntexturedRenderCommand(void);
+			DiffuseOnlyRenderCommand(void);
 
 			HRESULT LoadFromFile(FileReader& fileReader, ID3D11Device* device);
 
@@ -32,6 +33,7 @@ namespace Rorn
 			{
 				Maths::Float4 Position;
 				Maths::Float4 Normal;
+				Maths::Float2 DiffuseUV;
 			};
 
 			Maths::Float4 ambientColor_;
@@ -48,4 +50,3 @@ namespace Rorn
 		};
 	}
 }
-

@@ -60,6 +60,12 @@
     <ClCompile Include="Subsystems\RenderManager\LookAtCamera.cpp">
       <Filter>Subsystems\RenderManager</Filter>
     </ClCompile>
+    <ClCompile Include="Subsystems\RenderManager\DiffuseOnlyRenderCommand.cpp">
+      <Filter>Subsystems\RenderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\RenderManager\DiffuseOnlySurfaceFormat.cpp">
+      <Filter>Subsystems\RenderManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Subsystems\RenderManager\RenderManager.h">
@@ -102,6 +108,12 @@
       <Filter>Subsystems\DiagnosticsManager</Filter>
     </ClInclude>
     <ClInclude Include="Subsystems\RenderManager\LookAtCamera.h">
+      <Filter>Subsystems\RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\RenderManager\DiffuseOnlyRenderCommand.h">
+      <Filter>Subsystems\RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\RenderManager\DiffuseOnlySurfaceFormat.h">
       <Filter>Subsystems\RenderManager</Filter>
     </ClInclude>
   </ItemGroup>
