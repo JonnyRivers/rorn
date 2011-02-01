@@ -16,6 +16,9 @@
     <Filter Include="Subsystems\DiagnosticsManager">
       <UniqueIdentifier>{c5c97769-5a33-4688-9d53-e6476a00a4b8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Subsystems\TextureManager">
+      <UniqueIdentifier>{95d53b9e-ad5b-4f83-a3fc-ee1666b67577}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Subsystems\RenderManager\RenderManager.cpp">
@@ -66,6 +69,12 @@
     <ClCompile Include="Subsystems\RenderManager\DiffuseOnlySurfaceFormat.cpp">
       <Filter>Subsystems\RenderManager</Filter>
     </ClCompile>
+    <ClCompile Include="Subsystems\TextureManager\TextureManager.cpp">
+      <Filter>Subsystems\TextureManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\TextureManager\Texture.cpp">
+      <Filter>Subsystems\TextureManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Subsystems\RenderManager\RenderManager.h">
@@ -115,6 +124,12 @@
     </ClInclude>
     <ClInclude Include="Subsystems\RenderManager\DiffuseOnlySurfaceFormat.h">
       <Filter>Subsystems\RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\TextureManager\TextureManager.h">
+      <Filter>Subsystems\TextureManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\TextureManager\Texture.h">
+      <Filter>Subsystems\TextureManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

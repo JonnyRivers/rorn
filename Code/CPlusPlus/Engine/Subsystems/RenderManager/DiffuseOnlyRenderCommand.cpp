@@ -1,5 +1,6 @@
 #include "DiffuseOnlyRenderCommand.h"
 
+#include "../TextureManager/TextureManager.h"
 
 #include "DiffuseOnlySurfaceFormat.h"
 
@@ -7,11 +8,17 @@ using namespace Rorn::Engine;
 using namespace Rorn::Maths;
 
 DiffuseOnlyRenderCommand::DiffuseOnlyRenderCommand(void)
-	: vertexCount_(0), vertexDataSize_(0), vertexBuffer_(NULL), indexCount_(0), indexDataSize_(0), indexBuffer_(NULL)
+	: compiledTextureId_(0), 
+	  vertexCount_(0), 
+	  vertexDataSize_(0), 
+	  vertexBuffer_(NULL), 
+	  indexCount_(0), 
+	  indexDataSize_(0), 
+	  indexBuffer_(NULL)
 {
 }
 
-HRESULT DiffuseOnlyRenderCommand::LoadFromFile(FileReader& fileReader, ID3D11Device* device)
+HRESULT DiffuseOnlyRenderCommand::LoadFromFile(FileReader& fileReader, ID3D11Device* device, const std::map<int, int>& textureIdMap)
 {
 	int primitveTypeValue = fileReader.ReadInt();
 	RenderCommand::PrimitiveType primitiveType = static_cast<RenderCommand::PrimitiveType>(primitveTypeValue);
@@ -22,7 +29,8 @@ HRESULT DiffuseOnlyRenderCommand::LoadFromFile(FileReader& fileReader, ID3D11Dev
 	fileReader.ReadData(&specularColor_, sizeof(specularColor_));
 	phongExponent_ = fileReader.ReadFloat();
 
-	int compiledTextureId = fileReader.ReadInt();
+	int localTextureIndex = fileReader.ReadInt();
+	compiledTextureId_ = textureIdMap.find(localTextureIndex)->second;
 
 	// Read vertex data
 	vertexCount_ = fileReader.ReadInt();
@@ -85,6 +93,8 @@ HRESULT DiffuseOnlyRenderCommand::LoadFromFile(FileReader& fileReader, ID3D11Dev
 	deviceContext->IASetVertexBuffers(0, 1, &vertexBuffer_, &stride, &offset);
 	deviceContext->IASetIndexBuffer( indexBuffer_, DXGI_FORMAT_R32_UINT, 0 );
     deviceContext->IASetPrimitiveTopology( D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST );
+	ID3D11ShaderResourceView* diffuseTexture = TextureManager::GetInstance().GetTexture(compiledTextureId_);
+	deviceContext->PSSetShaderResources( 0, 1, &diffuseTexture);
 	deviceContext->DrawIndexed(indexCount_, 0, 0);
 }
 

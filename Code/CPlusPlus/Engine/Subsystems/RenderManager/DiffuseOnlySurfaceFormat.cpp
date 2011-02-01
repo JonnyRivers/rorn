@@ -17,7 +17,7 @@ using namespace Rorn::Maths;
 }
 
 DiffuseOnlySurfaceFormat::DiffuseOnlySurfaceFormat()
-	: vertexShader_(NULL), pixelShader_(NULL), vertexLayout_(NULL), constantBuffer_(NULL)
+	: vertexShader_(NULL), pixelShader_(NULL), vertexLayout_(NULL), constantBuffer_(NULL), sampler_(NULL)
 {
 }
 
@@ -89,11 +89,28 @@ DiffuseOnlySurfaceFormat::DiffuseOnlySurfaceFormat()
         return hr;
 	}
 
+	// Create the sample state
+    D3D11_SAMPLER_DESC samplerDescription;
+    ZeroMemory( &samplerDescription, sizeof(samplerDescription) );
+    samplerDescription.Filter = D3D11_FILTER_MIN_MAG_MIP_LINEAR;
+    samplerDescription.AddressU = D3D11_TEXTURE_ADDRESS_WRAP;
+    samplerDescription.AddressV = D3D11_TEXTURE_ADDRESS_WRAP;
+    samplerDescription.AddressW = D3D11_TEXTURE_ADDRESS_WRAP;
+    samplerDescription.ComparisonFunc = D3D11_COMPARISON_NEVER;
+    samplerDescription.MinLOD = 0;
+    samplerDescription.MaxLOD = D3D11_FLOAT32_MAX;
+    hr = device->CreateSamplerState( &samplerDescription, &sampler_ );
+    if( FAILED( hr ) )
+        return hr;
+
 	return S_OK;
 }
 
 /*virtual*/ void DiffuseOnlySurfaceFormat::Release()
 {
+	if (sampler_ != NULL)
+		sampler_->Release();
+
 	if (constantBuffer_ != NULL)
 		constantBuffer_->Release();
 
@@ -134,4 +151,5 @@ DiffuseOnlySurfaceFormat::DiffuseOnlySurfaceFormat()
 	deviceContext->VSSetConstantBuffers( 0, 1, &constantBuffer_ );
 	deviceContext->PSSetShader( pixelShader_, NULL, 0 );
 	deviceContext->PSSetConstantBuffers( 0, 1, &constantBuffer_ );
+    deviceContext->PSSetSamplers( 0, 1, &sampler_ );
 }

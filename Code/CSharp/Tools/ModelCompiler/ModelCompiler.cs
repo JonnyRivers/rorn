@@ -93,7 +93,9 @@ namespace Rorn.Tools.ModelCompiler
             string nvcompressPathName = string.Format("{0}\\nvcompress.exe", modelCompilerDirectory);
             string tempTargetPathName = System.IO.Path.GetTempFileName();
             string arguments = string.Format("-alpha -fast -bc3 \"{0}\" \"{1}\"", texturePathName, tempTargetPathName);
-            var nvcompressProcess = System.Diagnostics.Process.Start(nvcompressPathName, arguments);
+            var processStartInfo = new System.Diagnostics.ProcessStartInfo(nvcompressPathName, arguments);
+            processStartInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
+            var nvcompressProcess = System.Diagnostics.Process.Start(processStartInfo);
             nvcompressProcess.WaitForExit();
             byte[] compressedTextureData = System.IO.File.ReadAllBytes(tempTargetPathName);
             System.IO.File.Delete(tempTargetPathName);
@@ -156,15 +158,11 @@ namespace Rorn.Tools.ModelCompiler
             {
                 modelHeader.Save(binaryWriter);
 
-                foreach (KeyValuePair<int, RenderCommand> kvp in renderCommands_)
-                {
-                    kvp.Value.Save(binaryWriter);
-                }
-
                 foreach (KeyValuePair<string, CompiledTexture> kvp in compiledTextures_)
-                {
                     kvp.Value.Save(binaryWriter);
-                }
+
+                foreach (KeyValuePair<int, RenderCommand> kvp in renderCommands_)
+                    kvp.Value.Save(binaryWriter);
             }
         }
 

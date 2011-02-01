@@ -2,6 +2,8 @@
 
 #include "rendercommand.h"
 
+#include <map>
+
 #include <windows.h>
 
 #include <d3d11.h>
@@ -22,7 +24,7 @@ namespace Rorn
 		public:
 			DiffuseOnlyRenderCommand(void);
 
-			HRESULT LoadFromFile(FileReader& fileReader, ID3D11Device* device);
+			HRESULT LoadFromFile(FileReader& fileReader, ID3D11Device* device, const std::map<int, int>& textureIdMap);
 
 			virtual void Draw(ID3D11DeviceContext* deviceContext, 
 				const Maths::Matrix4x4& instanceToWorldMatrix, const Maths::Matrix4x4& worldToProjectionMatrix);
@@ -40,6 +42,8 @@ namespace Rorn
 			Maths::Float4 diffuseColor_;
 			Maths::Float4 specularColor_;
 			float phongExponent_;
+
+			int compiledTextureId_;
 
 			int vertexCount_;
 			int vertexDataSize_;

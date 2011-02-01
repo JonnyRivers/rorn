@@ -5,6 +5,7 @@
 #include "../../../Shared/RornMaths/Constants.h"
 
 #include "../DiagnosticsManager/DiagnosticsManager.h"
+#include "../TextureManager/TextureManager.h"
 
 #include "Camera.h"
 #include "Light.h"
@@ -58,6 +59,8 @@ HRESULT RenderManager::Startup(HWND hwnd)
 	if ( FAILED(hr) )
 		return hr;
 
+	hr = TextureManager::GetInstance().Startup(device_);
+
 	DiagnosticsManager::GetInstance().GetLoggingStream() << "The Render Manager started up successfully." << std::endl;
 
 	return S_OK;
@@ -66,6 +69,8 @@ HRESULT RenderManager::Startup(HWND hwnd)
 void RenderManager::Shutdown()
 {
 	DiagnosticsManager::GetInstance().GetLoggingStream() << "The Render Manager is shutting down." << std::endl;
+
+	TextureManager::GetInstance().Shutdown();
 
 	std::list<std::unique_ptr<Model>>::iterator modelIter;
 	for(modelIter = models_.begin() ; modelIter != models_ .end() ; ++modelIter)
@@ -169,6 +174,8 @@ ModelInstance* RenderManager::CreateModelInstance(Model* model, const Matrix4x4&
 
 void RenderManager::Step()
 {
+	TextureManager::GetInstance().Step();
+
 	// Just clear the backbuffer
     float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; //red,green,blue,alpha
     deviceContext_->ClearRenderTargetView( renderTargetView_, ClearColor );

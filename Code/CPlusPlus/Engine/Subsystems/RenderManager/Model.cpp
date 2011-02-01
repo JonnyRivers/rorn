@@ -1,6 +1,10 @@
 #include "Model.h"
 
+#include <map>
+
+#include "../TextureManager/TextureManager.h"
 #include "../FileManager/FileReader.h"
+
 #include "RenderCommand.h"
 #include "UntexturedRenderCommand.h"
 #include "DiffuseOnlyRenderCommand.h"
@@ -32,8 +36,21 @@ void Model::LoadFromFile(const wchar_t* modelPathName, ID3D11Device* device)
 	float bbMaxY = fileReader.ReadFloat();
 	float bbMaxZ = fileReader.ReadFloat();
 	boundingBox_ = Maths::BoundingBox(bbMinX, bbMinY, bbMinZ, bbMaxX, bbMaxY, bbMaxZ);
-	int numRenderCommands = fileReader.ReadInt();
 	int numCompiledTextures = fileReader.ReadInt();
+	int numRenderCommands = fileReader.ReadInt();
+
+	std::map<int, int> textureIdMap;// map from this model's texture index to the engine's texture id
+
+	for(int compiledTextureIndex = 0 ; compiledTextureIndex != numCompiledTextures ; ++compiledTextureIndex)
+	{
+		int textureId = fileReader.ReadInt();
+		int compiledTextureDataLength = fileReader.ReadInt();
+		unsigned char* compiledTextureData = new unsigned char[compiledTextureDataLength];
+		fileReader.ReadData(compiledTextureData, compiledTextureDataLength);
+		textureIdMap[compiledTextureIndex] = 
+			TextureManager::GetInstance().CreateTexture(compiledTextureData, compiledTextureDataLength);
+		delete [] compiledTextureData;
+	}
 
 	for(int renderCommandIndex = 0 ; renderCommandIndex != numRenderCommands ; ++renderCommandIndex)
 	{
@@ -49,19 +66,9 @@ void Model::LoadFromFile(const wchar_t* modelPathName, ID3D11Device* device)
 		else if(surfaceFormatType == DiffuseOnly)
 		{
 			DiffuseOnlyRenderCommand* newRenderCommand = new DiffuseOnlyRenderCommand();
-			newRenderCommand->LoadFromFile(fileReader, device);
+			newRenderCommand->LoadFromFile(fileReader, device, textureIdMap);
 			renderCommands_.push_back(std::unique_ptr<RenderCommand>(newRenderCommand));
 		}
-	}
-
-	for(int compiledTextureIndex = 0 ; compiledTextureIndex != numCompiledTextures ; ++compiledTextureIndex)
-	{
-		int textureId = fileReader.ReadInt();
-		int compiledTextureDataLength = fileReader.ReadInt();
-		unsigned char* compiledTextureData = new unsigned char[compiledTextureDataLength];
-		fileReader.ReadData(compiledTextureData, compiledTextureDataLength);
-		// TODO load this into a texture
-		delete [] compiledTextureData;
 	}
 }
 
