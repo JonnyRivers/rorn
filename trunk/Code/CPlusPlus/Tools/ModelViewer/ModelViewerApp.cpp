@@ -6,6 +6,7 @@
 #include "../../Engine/Subsystems/RenderManager/Model.h"
 #include "../../Engine/Subsystems/RenderManager/ModelInstance.h"
 #include "../../Engine/Subsystems/RenderManager/LookAtCamera.h"
+#include "../../Engine/Subsystems/TextureManager/TextureManager.h"
 #include "../../Engine/Subsystems/TimeManager/TimeManager.h"
 
 #include "../../Shared/RornMaths/Constants.h"

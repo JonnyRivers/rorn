@@ -53,6 +53,7 @@ namespace Rorn
 			ID3D11PixelShader* pixelShader_;
 			ID3D11InputLayout* vertexLayout_;
 			ID3D11Buffer* constantBuffer_;
+			ID3D11SamplerState* sampler_;
 		};
 	}
 }

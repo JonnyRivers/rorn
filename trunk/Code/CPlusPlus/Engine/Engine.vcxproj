@@ -26,6 +26,8 @@
     <ClInclude Include="Subsystems\RenderManager\RenderManager.h" />
     <ClInclude Include="Subsystems\RenderManager\UntexturedRenderCommand.h" />
     <ClInclude Include="Subsystems\RenderManager\UntexturedSurfaceFormat.h" />
+    <ClInclude Include="Subsystems\TextureManager\Texture.h" />
+    <ClInclude Include="Subsystems\TextureManager\TextureManager.h" />
     <ClInclude Include="Subsystems\TimeManager\TimeManager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -44,6 +46,8 @@
     <ClCompile Include="Subsystems\RenderManager\RenderManager.cpp" />
     <ClCompile Include="Subsystems\RenderManager\UntexturedRenderCommand.cpp" />
     <ClCompile Include="Subsystems\RenderManager\UntexturedSurfaceFormat.cpp" />
+    <ClCompile Include="Subsystems\TextureManager\Texture.cpp" />
+    <ClCompile Include="Subsystems\TextureManager\TextureManager.cpp" />
     <ClCompile Include="Subsystems\TimeManager\TimeManager.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
