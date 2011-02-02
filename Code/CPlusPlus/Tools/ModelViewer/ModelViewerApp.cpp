@@ -73,12 +73,12 @@ BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* comma
 
 	// This also MUST be done by the client.  So, should we make it part of the Startup()?
 	Vector3 mainLightDirection(0, -sin(Rorn::Maths::PiOver4), sin(Rorn::Maths::PiOver4));
-	Float4 mainLightColor(0.7f, 0.7f, 0.7f, 1.0f);
+	Float4 mainLightColor(0.8f, 0.8f, 0.8f, 1.0f);
 	light_ = RenderManager::GetInstance().CreateLight(mainLightDirection, mainLightColor);
 	RenderManager::GetInstance().SetMainLight(light_);
 
 	// Setup ambient lighting
-	Float4 ambientLightColor(0.1f, 0.1f, 0.1f, 1.0f);
+	Float4 ambientLightColor(0.3f, 0.3f, 0.3f, 1.0f);
 	RenderManager::GetInstance().SetAmbientLightColor(ambientLightColor);	
 
 	return TRUE;
