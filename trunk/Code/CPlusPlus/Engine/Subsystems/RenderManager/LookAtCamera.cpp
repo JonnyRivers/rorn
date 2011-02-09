@@ -8,13 +8,33 @@ LookAtCamera::LookAtCamera(const Vector3& eye, const Vector3& target, const Vect
 {
 }
 
-void LookAtCamera::TranslateX(float dx)
+//void LookAtCamera::TranslateX(float dx)
+//{
+//	Vector3 eyeDirection = target_ - eye_;
+//	Vector3 cameraZAxis = Vector3::GetUnitVector(eyeDirection);
+//	Vector3 cameraXAxis = Vector3::GetUnitVector(Vector3::CrossProduct(up_, cameraZAxis));
+//
+//	eye_ += (cameraXAxis * dx);
+//}
+//
+//void LookAtCamera::TranslateY(float dy)
+//{
+//	Vector3 eyeDirection = target_ - eye_;
+//
+//	// Calculate the three camera space axes
+//	Vector3 cameraZAxis = Vector3::GetUnitVector(eyeDirection);
+//	Vector3 cameraXAxis = Vector3::GetUnitVector(Vector3::CrossProduct(up_, cameraZAxis));
+//	Vector3 cameraYAxis = Vector3::CrossProduct(cameraZAxis, cameraXAxis);
+//
+//	eye_ += (cameraYAxis * dy);
+//}
+
+void LookAtCamera::TranslateZ(float dz)
 {
 	Vector3 eyeDirection = target_ - eye_;
 	Vector3 cameraZAxis = Vector3::GetUnitVector(eyeDirection);
-	Vector3 cameraXAxis = Vector3::GetUnitVector(Vector3::CrossProduct(up_, cameraZAxis));
 
-	eye_ += (cameraXAxis * dx);
+	eye_ += (cameraZAxis * dz);
 }
 
 /*virtual*/ Matrix4x4 LookAtCamera::BuildWorldToViewMatrix() const
