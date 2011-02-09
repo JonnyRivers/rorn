@@ -14,6 +14,7 @@
     <ClInclude Include="Subsystems\DiagnosticsManager\DiagnosticsManager.h" />
     <ClInclude Include="Subsystems\FileManager\FileManager.h" />
     <ClInclude Include="Subsystems\FileManager\FileReader.h" />
+    <ClInclude Include="Subsystems\InputManager\InputManager.h" />
     <ClInclude Include="Subsystems\RenderManager\Camera.h" />
     <ClInclude Include="Subsystems\RenderManager\DiffuseOnlyRenderCommand.h" />
     <ClInclude Include="Subsystems\RenderManager\DiffuseOnlySurfaceFormat.h" />
@@ -34,6 +35,7 @@
     <ClCompile Include="Subsystems\DiagnosticsManager\DiagnosticsManager.cpp" />
     <ClCompile Include="Subsystems\FileManager\FileManager.cpp" />
     <ClCompile Include="Subsystems\FileManager\FileReader.cpp" />
+    <ClCompile Include="Subsystems\InputManager\InputManager.cpp" />
     <ClCompile Include="Subsystems\RenderManager\Camera.cpp" />
     <ClCompile Include="Subsystems\RenderManager\DiffuseOnlyRenderCommand.cpp" />
     <ClCompile Include="Subsystems\RenderManager\DiffuseOnlySurfaceFormat.cpp" />
@@ -104,7 +106,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>d3d11.lib;d3dx11d.lib;RornMathsD.lib</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dx11d.lib;dinput8.lib;dxguid.lib;RornMathsD.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
@@ -126,7 +128,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>d3d11.lib;d3dx11.lib;RornMaths.lib</AdditionalDependencies>
+      <AdditionalDependencies>d3d11.lib;d3dx11.lib;dinput8.lib;dxguid.lib;RornMaths.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>

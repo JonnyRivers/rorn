@@ -2,6 +2,7 @@
 #include "ModelViewerApp.h"
 
 #include "../../Engine/Subsystems/DiagnosticsManager/DiagnosticsManager.h"
+#include "../../Engine/Subsystems/InputManager/InputManager.h"
 #include "../../Engine/Subsystems/RenderManager/RenderManager.h"
 #include "../../Engine/Subsystems/RenderManager/Model.h"
 #include "../../Engine/Subsystems/RenderManager/ModelInstance.h"
@@ -54,6 +55,10 @@ BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* comma
 	if( FAILED(hr) )
 		return FALSE;
 
+	hr = InputManager::GetInstance().Startup(windowHandle_);
+	if( FAILED(hr) )
+		return FALSE;
+
 	hr = RenderManager::GetInstance().Startup(windowHandle_);
 	if( FAILED(hr) )
 		return FALSE;
@@ -79,7 +84,7 @@ BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* comma
 
 	// Setup ambient lighting
 	Float4 ambientLightColor(0.1f, 0.1f, 0.1f, 1.0f);
-	RenderManager::GetInstance().SetAmbientLightColor(ambientLightColor);	
+	RenderManager::GetInstance().SetAmbientLightColor(ambientLightColor);
 
 	return TRUE;
 }
@@ -87,6 +92,7 @@ BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* comma
 VOID ModelViewerApp::ExitInstance()
 {
 	RenderManager::GetInstance().Shutdown();
+	InputManager::GetInstance().Shutdown();
 	DiagnosticsManager::GetInstance().Shutdown();
 }
 
@@ -94,8 +100,33 @@ VOID ModelViewerApp::Step()
 {
 	float secondsPassed;
 	TimeManager::GetInstance().Step(secondsPassed);
-	modelInstance_->RotateY(secondsPassed);
-	Rorn::Engine::RenderManager::GetInstance().Step();
+
+	InputManager::GetInstance().Step();
+
+	// Rotate the model in its local Y axis
+	if( InputManager::GetInstance().IsKeyDown(DIK_COMMA) )
+		modelInstance_->RotateY(secondsPassed);
+	else if( InputManager::GetInstance().IsKeyDown(DIK_PERIOD) )
+		modelInstance_->RotateY(-secondsPassed);
+
+	// Move the camera
+	bool accelerateCameraMovement = InputManager::GetInstance().IsKeyDown(DIK_LSHIFT);
+	bool deceerateCameraMovement = InputManager::GetInstance().IsKeyDown(DIK_LCONTROL);
+
+	/*if( InputManager::GetInstance().IsKeyDown(DIK_A) )
+		camera_->TranslateX(secondsPassed * -10.0f);
+	else if( InputManager::GetInstance().IsKeyDown(DIK_D) )
+		camera_->TranslateX(secondsPassed * 10.0f);
+	if( InputManager::GetInstance().IsKeyDown(DIK_E) )
+		camera_->TranslateY(secondsPassed * 10.0f);
+	else if( InputManager::GetInstance().IsKeyDown(DIK_Q) )
+		camera_->TranslateY(secondsPassed * -10.0f);*/
+	if( InputManager::GetInstance().IsKeyDown(DIK_W) )
+		camera_->TranslateZ(secondsPassed * 10.0f);
+	else if( InputManager::GetInstance().IsKeyDown(DIK_S) )
+		camera_->TranslateZ(secondsPassed * -10.0f);
+
+	RenderManager::GetInstance().Step();
 }
 
 ATOM ModelViewerApp::RegisterClass()
