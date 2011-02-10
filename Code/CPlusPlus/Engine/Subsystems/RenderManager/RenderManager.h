@@ -16,6 +16,7 @@ namespace Rorn
 	namespace Engine
 	{
 		class Camera;
+		class FreeCamera;
 		class Light;
 		class LookAtCamera;
 		class Model;
@@ -31,6 +32,7 @@ namespace Rorn
 			void Shutdown();
 
 			LookAtCamera* CreateLookAtCamera(const Maths::Vector3& eye, const Maths::Vector3& target, const Maths::Vector3& up);
+			FreeCamera* CreateFreeCamera(const Maths::Vector3& position, const Maths::Vector3& direction, const Maths::Vector3& up);
 			Maths::Vector3 GetCurrentCameraEyeDir() const;
 			void SetCurrentCamera(Camera* camera);
 

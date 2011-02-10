@@ -6,6 +6,7 @@ namespace Rorn
 {
 	namespace Engine
 	{
+		// TODO - refactor camera stuff out of the render manager
 		class Camera
 		{
 		public:

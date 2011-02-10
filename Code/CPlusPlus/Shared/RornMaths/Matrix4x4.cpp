@@ -1,5 +1,6 @@
 #include "Matrix4x4.h"
 
+#include <cassert>
 #include <cmath>
 
 using namespace Rorn::Maths;
@@ -35,6 +36,38 @@ Matrix4x4& Matrix4x4::operator*=(const Matrix4x4& rhs)
 
 	return *this;
 	
+}
+
+/*static*/  Matrix4x4 Matrix4x4::BuildRotationMatrix(const Vector3& axis, float angle)
+{
+	assert(axis.GetLength() - 1.0f < 0.001f);// check the axis is a unit vector
+
+	float sinAngle = sin(angle);
+	float cosAngle = cos(angle);
+
+	// Compute some common subexpressions
+	float a = 1.0f - cosAngle;
+	float ax = a * axis.X;
+	float ay = a * axis.Y;
+	float az = a * axis.Z;
+
+	return Matrix4x4(
+		ax * axis.X + cosAngle, 
+		ax * axis.Y + axis.Z * sinAngle, 
+		ax * axis.Z - axis.Y * sinAngle,
+		0.0f,
+		ay * axis.X - axis.Z * sinAngle, 
+		ay * axis.Y + cosAngle, 
+		ay * axis.Z + axis.X * sinAngle,
+		0.0f,
+		az * axis.X + axis.Y * sinAngle, 
+		az * axis.Y - axis.X * sinAngle, 
+		az * axis.Z + cosAngle,
+		0.0f,
+		0.0f, 
+		0.0f, 
+		0.0f, 
+		1.0f);
 }
 
 /*static*/ Matrix4x4 Matrix4x4::BuildYRotationMatrix(float angle)

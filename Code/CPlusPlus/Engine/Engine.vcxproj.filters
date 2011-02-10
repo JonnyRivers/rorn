@@ -81,6 +81,9 @@
     <ClCompile Include="Subsystems\InputManager\InputManager.cpp">
       <Filter>Subsystems\InputManager</Filter>
     </ClCompile>
+    <ClCompile Include="Subsystems\RenderManager\FreeCamera.cpp">
+      <Filter>Subsystems\RenderManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Subsystems\RenderManager\RenderManager.h">
@@ -139,6 +142,9 @@
     </ClInclude>
     <ClInclude Include="Subsystems\InputManager\InputManager.h">
       <Filter>Subsystems\InputManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\RenderManager\FreeCamera.h">
+      <Filter>Subsystems\RenderManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
