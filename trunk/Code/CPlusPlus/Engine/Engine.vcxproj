@@ -18,6 +18,7 @@
     <ClInclude Include="Subsystems\RenderManager\Camera.h" />
     <ClInclude Include="Subsystems\RenderManager\DiffuseOnlyRenderCommand.h" />
     <ClInclude Include="Subsystems\RenderManager\DiffuseOnlySurfaceFormat.h" />
+    <ClInclude Include="Subsystems\RenderManager\FreeCamera.h" />
     <ClInclude Include="Subsystems\RenderManager\Light.h" />
     <ClInclude Include="Subsystems\RenderManager\LookAtCamera.h" />
     <ClInclude Include="Subsystems\RenderManager\ShaderCompiler.h" />
@@ -39,6 +40,7 @@
     <ClCompile Include="Subsystems\RenderManager\Camera.cpp" />
     <ClCompile Include="Subsystems\RenderManager\DiffuseOnlyRenderCommand.cpp" />
     <ClCompile Include="Subsystems\RenderManager\DiffuseOnlySurfaceFormat.cpp" />
+    <ClCompile Include="Subsystems\RenderManager\FreeCamera.cpp" />
     <ClCompile Include="Subsystems\RenderManager\Light.cpp" />
     <ClCompile Include="Subsystems\RenderManager\LookAtCamera.cpp" />
     <ClCompile Include="Subsystems\RenderManager\ShaderCompiler.cpp" />

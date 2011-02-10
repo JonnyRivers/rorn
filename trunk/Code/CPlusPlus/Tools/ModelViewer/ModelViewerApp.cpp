@@ -4,9 +4,9 @@
 #include "../../Engine/Subsystems/DiagnosticsManager/DiagnosticsManager.h"
 #include "../../Engine/Subsystems/InputManager/InputManager.h"
 #include "../../Engine/Subsystems/RenderManager/RenderManager.h"
+#include "../../Engine/Subsystems/RenderManager/FreeCamera.h"
 #include "../../Engine/Subsystems/RenderManager/Model.h"
 #include "../../Engine/Subsystems/RenderManager/ModelInstance.h"
-#include "../../Engine/Subsystems/RenderManager/LookAtCamera.h"
 #include "../../Engine/Subsystems/TextureManager/TextureManager.h"
 #include "../../Engine/Subsystems/TimeManager/TimeManager.h"
 
@@ -70,20 +70,20 @@ BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* comma
 	modelInstance_ = RenderManager::GetInstance().CreateModelInstance(model_, instanceToWorldMatrix);
 
 	// This MUST be done by the client.  So, should we make it part of the Startup()?
-	camera_ = RenderManager::GetInstance().CreateLookAtCamera(
-		Vector3(0.0f, modelBoundingBox.GetMaximum().Y * 3.0f,       modelBoundingBox.GetMinimum().Z * 4.0f),// eye
-		Vector3(0.0f, modelBoundingBox.GetCentre().Y * 0.5f, 0.0f),// target
-		Vector3(0.0f, 1.0f,									 0.0f));// up
+	camera_ = RenderManager::GetInstance().CreateFreeCamera(
+		Vector3(0.0f, modelBoundingBox.GetMaximum().Y * 0.5f, modelBoundingBox.GetMinimum().Z * 4.0f),// position
+		Vector3(0.0f, 0.0f,									  1.0f),// direction
+		Vector3(0.0f, 1.0f,									  0.0f));// up
 	RenderManager::GetInstance().SetCurrentCamera(camera_);
 
 	// This also MUST be done by the client.  So, should we make it part of the Startup()?
 	Vector3 mainLightDirection(0, -sin(Rorn::Maths::PiOver4), sin(Rorn::Maths::PiOver4));
-	Float4 mainLightColor(3.0f, 3.0f, 3.0f, 1.0f);
+	Float4 mainLightColor(1.0f, 1.0f, 1.0f, 1.0f);
 	light_ = RenderManager::GetInstance().CreateLight(mainLightDirection, mainLightColor);
 	RenderManager::GetInstance().SetMainLight(light_);
 
 	// Setup ambient lighting
-	Float4 ambientLightColor(0.1f, 0.1f, 0.1f, 1.0f);
+	Float4 ambientLightColor(0.2f, 0.2f, 0.2f, 1.0f);
 	RenderManager::GetInstance().SetAmbientLightColor(ambientLightColor);
 
 	return TRUE;
@@ -109,22 +109,43 @@ VOID ModelViewerApp::Step()
 	else if( InputManager::GetInstance().IsKeyDown(DIK_PERIOD) )
 		modelInstance_->RotateY(-secondsPassed);
 
+	// TODO - refactor this out into some sort of 'camera controller'
 	// Move the camera
-	bool accelerateCameraMovement = InputManager::GetInstance().IsKeyDown(DIK_LSHIFT);
-	bool deceerateCameraMovement = InputManager::GetInstance().IsKeyDown(DIK_LCONTROL);
+	float translationSpeed = 10.0f;// distance per second
+	if(InputManager::GetInstance().IsKeyDown(DIK_LSHIFT))
+		translationSpeed = 50.0f;
+	else if(InputManager::GetInstance().IsKeyDown(DIK_LCONTROL))
+		translationSpeed = 2.0f;
 
-	/*if( InputManager::GetInstance().IsKeyDown(DIK_A) )
-		camera_->TranslateX(secondsPassed * -10.0f);
-	else if( InputManager::GetInstance().IsKeyDown(DIK_D) )
-		camera_->TranslateX(secondsPassed * 10.0f);
+	Rorn::Maths::Vector3 translation(0.0f, 0.0f, 0.0f);
+	if( InputManager::GetInstance().IsKeyDown(DIK_D) )
+		translation.X += secondsPassed * translationSpeed;
+	else if( InputManager::GetInstance().IsKeyDown(DIK_A) )
+		translation.X -= secondsPassed * translationSpeed;
 	if( InputManager::GetInstance().IsKeyDown(DIK_E) )
-		camera_->TranslateY(secondsPassed * 10.0f);
+		translation.Y += secondsPassed * translationSpeed;
 	else if( InputManager::GetInstance().IsKeyDown(DIK_Q) )
-		camera_->TranslateY(secondsPassed * -10.0f);*/
+		translation.Y -= secondsPassed * translationSpeed;
 	if( InputManager::GetInstance().IsKeyDown(DIK_W) )
-		camera_->TranslateZ(secondsPassed * 10.0f);
+		translation.Z += secondsPassed * translationSpeed;
 	else if( InputManager::GetInstance().IsKeyDown(DIK_S) )
-		camera_->TranslateZ(secondsPassed * -10.0f);
+		translation.Z -= secondsPassed * translationSpeed;
+	camera_->Translate(translation);
+
+	if( InputManager::GetInstance().IsLeftMouseButtonDown() )
+	{
+		if( InputManager::GetInstance().GetMouseXMovement() != 0 )
+		{
+			float cameraYRotation = 0.01f * static_cast<float>(InputManager::GetInstance().GetMouseXMovement());
+			camera_->RotateY(cameraYRotation);
+		}
+
+		if( InputManager::GetInstance().GetMouseYMovement() != 0 )
+		{
+			float cameraXRotation = 0.01f * static_cast<float>(InputManager::GetInstance().GetMouseYMovement());
+			camera_->RotateX(cameraXRotation);
+		}
+	}
 
 	RenderManager::GetInstance().Step();
 }

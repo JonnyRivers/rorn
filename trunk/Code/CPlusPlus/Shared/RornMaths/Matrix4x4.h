@@ -27,6 +27,7 @@ namespace Rorn
 			Matrix4x4& operator*=(const Matrix4x4& rhs);
 
 			// Static member operations
+			static Matrix4x4 BuildRotationMatrix(const Vector3& axis, float angle);
 			static Matrix4x4 BuildYRotationMatrix(float angle);
 			static Matrix4x4 BuildIdentity();
 			static Matrix4x4 Transpose(const Matrix4x4& source);
@@ -55,6 +56,14 @@ namespace Rorn
 				(lhs.M41 * rhs.M12) + (lhs.M42 * rhs.M22) + (lhs.M43 * rhs.M32) + (lhs.M44 * rhs.M42),
 				(lhs.M41 * rhs.M13) + (lhs.M42 * rhs.M23) + (lhs.M43 * rhs.M33) + (lhs.M44 * rhs.M43),
 				(lhs.M41 * rhs.M14) + (lhs.M42 * rhs.M24) + (lhs.M43 * rhs.M34) + (lhs.M44 * rhs.M44));
+		}
+
+		static Vector3 operator*(const Vector3& lhs, const Matrix4x4& rhs)
+		{
+			return Vector3(
+				(lhs.X * rhs.M11) + (lhs.Y * rhs.M21) + (lhs.Z * rhs.M31) + rhs.M41,
+				(lhs.X * rhs.M12) + (lhs.Y * rhs.M22) + (lhs.Z * rhs.M32) + rhs.M42,
+				(lhs.X * rhs.M13) + (lhs.Y * rhs.M23) + (lhs.Z * rhs.M33) + rhs.M43);
 		}
 	}
 }
