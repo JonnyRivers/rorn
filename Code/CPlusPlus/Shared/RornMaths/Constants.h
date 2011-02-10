@@ -4,8 +4,9 @@ namespace Rorn
 {
 	namespace Maths
 	{
+		static const float TwoPi = 6.2831853072f;
 		static const float Pi = 3.141592654f;
-		static const float PiOver2 = 1.570796327f;
-		static const float PiOver4 = 0.785398163f;
+		static const float PiOverTwo = 1.570796327f;
+		static const float PiOverFour = 0.785398163f;
 	}
 }

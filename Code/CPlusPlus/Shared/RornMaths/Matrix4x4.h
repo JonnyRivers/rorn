@@ -28,7 +28,9 @@ namespace Rorn
 
 			// Static member operations
 			static Matrix4x4 BuildRotationMatrix(const Vector3& axis, float angle);
+			static Matrix4x4 BuildXRotationMatrix(float angle);
 			static Matrix4x4 BuildYRotationMatrix(float angle);
+			static Matrix4x4 BuildZRotationMatrix(float angle);
 			static Matrix4x4 BuildIdentity();
 			static Matrix4x4 Transpose(const Matrix4x4& source);
 		};

@@ -33,6 +33,7 @@ namespace Rorn
 			HRESULT Startup(HWND hwnd);
 			void Shutdown();
 
+			FreeCamera* CreateFreeCamera(const Maths::Vector3& position, const Maths::EulerAngles& angles);
 			LookAtCamera* CreateLookAtCamera(const Maths::Vector3& eye, const Maths::Vector3& target, const Maths::Vector3& up);
 			LookToCamera* CreateLookToCamera(const Maths::Vector3& position, const Maths::Vector3& direction, const Maths::Vector3& up);
 			Maths::Vector3 GetCurrentCameraEyeDir() const;
