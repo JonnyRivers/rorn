@@ -8,6 +8,7 @@
 #include "../TextureManager/TextureManager.h"
 
 #include "Camera.h"
+#include "FreeCamera.h"
 #include "Light.h"
 #include "LookAtCamera.h"
 #include "LookToCamera.h"
@@ -118,6 +119,14 @@ void RenderManager::SetAmbientLightColor(const Float4& color)
 	ambientLightColor_ = color;
 }
 
+FreeCamera* RenderManager::CreateFreeCamera(const Vector3& position, const EulerAngles& angles)
+{
+	FreeCamera* newCamera = new FreeCamera(position, angles);
+	cameras_.push_back(std::unique_ptr<Camera>(newCamera));
+
+	return newCamera;
+}
+
 LookAtCamera* RenderManager::CreateLookAtCamera(const Vector3& eye, const Vector3& target, const Vector3& up)
 {
 	LookAtCamera* newCamera = new LookAtCamera(eye, target, up);
@@ -197,7 +206,7 @@ void RenderManager::Step()
 	// Setup the world_to_view and view_to_projection matrices based on the current camera (& other settings)
 	assert(currentCamera_ != NULL);
 	Matrix4x4 worldToViewMatrix = currentCamera_->BuildWorldToViewMatrix();
-	Matrix4x4 viewToProjectionMatrix = BuildViewToProjectionMatrix( PiOver4, aspectRatio_, 0.01f, 10000.0f );
+	Matrix4x4 viewToProjectionMatrix = BuildViewToProjectionMatrix( PiOverFour, aspectRatio_, 0.01f, 10000.0f );
 	Matrix4x4 worldToProjectionMatrix = worldToViewMatrix * viewToProjectionMatrix;// model on XMMatrixMultiply(worldToViewMatrix, viewToProjectionMatrix);
 
 	std::list<std::unique_ptr<ModelInstance>>::const_iterator instanceIter;

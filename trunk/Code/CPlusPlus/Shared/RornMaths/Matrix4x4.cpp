@@ -70,6 +70,18 @@ Matrix4x4& Matrix4x4::operator*=(const Matrix4x4& rhs)
 		1.0f);
 }
 
+/*static*/ Matrix4x4 Matrix4x4::BuildXRotationMatrix(float angle)
+{
+	float sinAngle = sin(angle);
+	float cosAngle = cos(angle);
+
+	return Matrix4x4(
+		1.0f,  0.0f,     0.0f,     0.0f,
+		0.0f,  cosAngle, sinAngle, 0.0f,
+		0.0f, -sinAngle, cosAngle, 0.0f,
+		0.0f,  0.0f,     0.0f,     1.0f);
+}
+
 /*static*/ Matrix4x4 Matrix4x4::BuildYRotationMatrix(float angle)
 {
 	float sinAngle = sin(angle);
@@ -80,6 +92,18 @@ Matrix4x4& Matrix4x4::operator*=(const Matrix4x4& rhs)
 		    0.0f, 1.0f,      0.0f, 0.0f,
 		sinAngle, 0.0f,  cosAngle, 0.0f,
 		    0.0f, 0.0f,      0.0f, 1.0f);
+}
+
+/*static*/ Matrix4x4 Matrix4x4::BuildZRotationMatrix(float angle)
+{
+	float sinAngle = sin(angle);
+	float cosAngle = cos(angle);
+
+	return Matrix4x4(
+		 cosAngle, sinAngle, 0.0f, 0.0f,
+		-sinAngle, cosAngle, 0.0f, 0.0f,
+		     0.0f, 0.0f,     1.0f, 0.0f,
+		     0.0f, 0.0f,     0.0f, 1.0f);
 }
 
 /*static*/ Matrix4x4 Matrix4x4::BuildIdentity()
