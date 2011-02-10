@@ -21,6 +21,7 @@
     <ClInclude Include="Subsystems\RenderManager\FreeCamera.h" />
     <ClInclude Include="Subsystems\RenderManager\Light.h" />
     <ClInclude Include="Subsystems\RenderManager\LookAtCamera.h" />
+    <ClInclude Include="Subsystems\RenderManager\LookToCamera.h" />
     <ClInclude Include="Subsystems\RenderManager\ShaderCompiler.h" />
     <ClInclude Include="Subsystems\RenderManager\Model.h" />
     <ClInclude Include="Subsystems\RenderManager\ModelInstance.h" />
@@ -43,6 +44,7 @@
     <ClCompile Include="Subsystems\RenderManager\FreeCamera.cpp" />
     <ClCompile Include="Subsystems\RenderManager\Light.cpp" />
     <ClCompile Include="Subsystems\RenderManager\LookAtCamera.cpp" />
+    <ClCompile Include="Subsystems\RenderManager\LookToCamera.cpp" />
     <ClCompile Include="Subsystems\RenderManager\ShaderCompiler.cpp" />
     <ClCompile Include="Subsystems\RenderManager\Model.cpp" />
     <ClCompile Include="Subsystems\RenderManager\ModelInstance.cpp" />

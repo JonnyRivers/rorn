@@ -20,6 +20,7 @@ namespace Rorn
 		class FreeCamera;
 		class Light;
 		class LookAtCamera;
+		class LookToCamera;
 		class Model;
 		class ModelInstance;
 
@@ -33,7 +34,7 @@ namespace Rorn
 			void Shutdown();
 
 			LookAtCamera* CreateLookAtCamera(const Maths::Vector3& eye, const Maths::Vector3& target, const Maths::Vector3& up);
-			FreeCamera* CreateFreeCamera(const Maths::Vector3& position, const Maths::EulerAngles& angles);
+			LookToCamera* CreateLookToCamera(const Maths::Vector3& position, const Maths::Vector3& direction, const Maths::Vector3& up);
 			Maths::Vector3 GetCurrentCameraEyeDir() const;
 			void SetCurrentCamera(Camera* camera);
 

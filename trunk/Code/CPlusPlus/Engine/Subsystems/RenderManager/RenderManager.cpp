@@ -8,9 +8,9 @@
 #include "../TextureManager/TextureManager.h"
 
 #include "Camera.h"
-#include "FreeCamera.h"
 #include "Light.h"
 #include "LookAtCamera.h"
+#include "LookToCamera.h"
 #include "Model.h"
 #include "ModelInstance.h"
 
@@ -118,17 +118,17 @@ void RenderManager::SetAmbientLightColor(const Float4& color)
 	ambientLightColor_ = color;
 }
 
-FreeCamera* RenderManager::CreateFreeCamera(const Vector3& position, const EulerAngles& angles)
+LookAtCamera* RenderManager::CreateLookAtCamera(const Vector3& eye, const Vector3& target, const Vector3& up)
 {
-	FreeCamera* newCamera = new FreeCamera(position, angles);
+	LookAtCamera* newCamera = new LookAtCamera(eye, target, up);
 	cameras_.push_back(std::unique_ptr<Camera>(newCamera));
 
 	return newCamera;
 }
 
-LookAtCamera* RenderManager::CreateLookAtCamera(const Vector3& eye, const Vector3& target, const Vector3& up)
+LookToCamera* RenderManager::CreateLookToCamera(const Vector3& eye, const Vector3& direction, const Vector3& up)
 {
-	LookAtCamera* newCamera = new LookAtCamera(eye, target, up);
+	LookToCamera* newCamera = new LookToCamera(eye, direction, up);
 	cameras_.push_back(std::unique_ptr<Camera>(newCamera));
 
 	return newCamera;
