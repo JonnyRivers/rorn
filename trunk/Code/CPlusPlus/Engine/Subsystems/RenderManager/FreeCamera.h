@@ -1,7 +1,8 @@
 #pragma once
 
-#include "../../../Shared/RornMaths/Vector3.h"
+#include "../../../Shared/RornMaths/EulerAngles.h"
 #include "../../../Shared/RornMaths/Matrix4x4.h"
+#include "../../../Shared/RornMaths/Vector3.h"
 
 #include "Camera.h"
 
@@ -13,18 +14,17 @@ namespace Rorn
 		class FreeCamera : public Camera
 		{
 		public:
-			FreeCamera(const Maths::Vector3& position, const Maths::Vector3& direction, const Maths::Vector3& up);
+			FreeCamera(const Maths::Vector3& position, const Maths::EulerAngles& angles);
 
 			virtual Maths::Matrix4x4 BuildWorldToViewMatrix() const;
 
 			void Translate(const Maths::Vector3& translation);
-			void RotateX(float angle);
-			void RotateY(float angle);
+			void AlterPitch(float angle);
+			void AlterHeading(float angle);
+			void AlterBank(float angle);
 		private:
 			Maths::Vector3 position_;
-			Maths::Vector3 xAxis_;
-			Maths::Vector3 yAxis_;
-			Maths::Vector3 zAxis_;
+			Maths::EulerAngles angles_;
 		};
 	}
 }

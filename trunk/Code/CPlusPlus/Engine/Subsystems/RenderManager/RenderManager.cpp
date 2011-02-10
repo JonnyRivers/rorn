@@ -118,9 +118,9 @@ void RenderManager::SetAmbientLightColor(const Float4& color)
 	ambientLightColor_ = color;
 }
 
-FreeCamera* RenderManager::CreateFreeCamera(const Vector3& position, const Vector3& direction, const Vector3& up)
+FreeCamera* RenderManager::CreateFreeCamera(const Vector3& position, const EulerAngles& angles)
 {
-	FreeCamera* newCamera = new FreeCamera(position, direction, up);
+	FreeCamera* newCamera = new FreeCamera(position, angles);
 	cameras_.push_back(std::unique_ptr<Camera>(newCamera));
 
 	return newCamera;

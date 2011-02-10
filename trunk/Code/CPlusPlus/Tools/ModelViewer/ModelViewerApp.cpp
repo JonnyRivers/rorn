@@ -72,8 +72,7 @@ BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* comma
 	// This MUST be done by the client.  So, should we make it part of the Startup()?
 	camera_ = RenderManager::GetInstance().CreateFreeCamera(
 		Vector3(0.0f, modelBoundingBox.GetMaximum().Y * 0.5f, modelBoundingBox.GetMinimum().Z * 4.0f),// position
-		Vector3(0.0f, 0.0f,									  1.0f),// direction
-		Vector3(0.0f, 1.0f,									  0.0f));// up
+		EulerAngles(0.0f, 0.0f, 0.0f));
 	RenderManager::GetInstance().SetCurrentCamera(camera_);
 
 	// This also MUST be done by the client.  So, should we make it part of the Startup()?
@@ -136,14 +135,14 @@ VOID ModelViewerApp::Step()
 	{
 		if( InputManager::GetInstance().GetMouseXMovement() != 0 )
 		{
-			float cameraYRotation = 0.01f * static_cast<float>(InputManager::GetInstance().GetMouseXMovement());
-			camera_->RotateY(cameraYRotation);
+			float headingDelta = -0.01f * static_cast<float>(InputManager::GetInstance().GetMouseXMovement());
+			camera_->AlterHeading(headingDelta);
 		}
 
 		if( InputManager::GetInstance().GetMouseYMovement() != 0 )
 		{
-			float cameraXRotation = 0.01f * static_cast<float>(InputManager::GetInstance().GetMouseYMovement());
-			camera_->RotateX(cameraXRotation);
+			float pitchDelta = -0.01f * static_cast<float>(InputManager::GetInstance().GetMouseYMovement());
+			camera_->AlterPitch(pitchDelta);
 		}
 	}
 
