@@ -1,0 +1,55 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A6783323-87D9-43FD-A6E5-5E20BCBF41E9}"
+	ProjectSection(SolutionItems) = preProject
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+		UnitTests.vsmdi = UnitTests.vsmdi
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "RornMaths", "..\RornMaths.vcxproj", "{B5BF596E-4215-4AD8-A8F1-9DDCF7C87050}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "UnitTests", "UnitTests.vcxproj", "{607C4AEA-30C8-4650-9036-38C1B87CCC47}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B5BF596E-4215-4AD8-A8F1-9DDCF7C87050} = {B5BF596E-4215-4AD8-A8F1-9DDCF7C87050}
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = UnitTests.vsmdi
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|Win32 = Debug|Win32
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B5BF596E-4215-4AD8-A8F1-9DDCF7C87050}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{B5BF596E-4215-4AD8-A8F1-9DDCF7C87050}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{B5BF596E-4215-4AD8-A8F1-9DDCF7C87050}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{B5BF596E-4215-4AD8-A8F1-9DDCF7C87050}.Debug|Win32.ActiveCfg = Debug|Win32
+		{B5BF596E-4215-4AD8-A8F1-9DDCF7C87050}.Debug|Win32.Build.0 = Debug|Win32
+		{B5BF596E-4215-4AD8-A8F1-9DDCF7C87050}.Release|Any CPU.ActiveCfg = Release|Win32
+		{B5BF596E-4215-4AD8-A8F1-9DDCF7C87050}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{B5BF596E-4215-4AD8-A8F1-9DDCF7C87050}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{B5BF596E-4215-4AD8-A8F1-9DDCF7C87050}.Release|Win32.ActiveCfg = Release|Win32
+		{B5BF596E-4215-4AD8-A8F1-9DDCF7C87050}.Release|Win32.Build.0 = Release|Win32
+		{607C4AEA-30C8-4650-9036-38C1B87CCC47}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{607C4AEA-30C8-4650-9036-38C1B87CCC47}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{607C4AEA-30C8-4650-9036-38C1B87CCC47}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{607C4AEA-30C8-4650-9036-38C1B87CCC47}.Debug|Win32.ActiveCfg = Debug|Win32
+		{607C4AEA-30C8-4650-9036-38C1B87CCC47}.Debug|Win32.Build.0 = Debug|Win32
+		{607C4AEA-30C8-4650-9036-38C1B87CCC47}.Release|Any CPU.ActiveCfg = Release|Win32
+		{607C4AEA-30C8-4650-9036-38C1B87CCC47}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{607C4AEA-30C8-4650-9036-38C1B87CCC47}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{607C4AEA-30C8-4650-9036-38C1B87CCC47}.Release|Win32.ActiveCfg = Release|Win32
+		{607C4AEA-30C8-4650-9036-38C1B87CCC47}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
