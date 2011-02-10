@@ -4,7 +4,7 @@
 #include "../../Engine/Subsystems/DiagnosticsManager/DiagnosticsManager.h"
 #include "../../Engine/Subsystems/InputManager/InputManager.h"
 #include "../../Engine/Subsystems/RenderManager/RenderManager.h"
-#include "../../Engine/Subsystems/RenderManager/FreeCamera.h"
+#include "../../Engine/Subsystems/RenderManager/LookToCamera.h"
 #include "../../Engine/Subsystems/RenderManager/Model.h"
 #include "../../Engine/Subsystems/RenderManager/ModelInstance.h"
 #include "../../Engine/Subsystems/TextureManager/TextureManager.h"
@@ -70,9 +70,10 @@ BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* comma
 	modelInstance_ = RenderManager::GetInstance().CreateModelInstance(model_, instanceToWorldMatrix);
 
 	// This MUST be done by the client.  So, should we make it part of the Startup()?
-	camera_ = RenderManager::GetInstance().CreateFreeCamera(
+	camera_ = RenderManager::GetInstance().CreateLookToCamera(
 		Vector3(0.0f, modelBoundingBox.GetMaximum().Y * 0.5f, modelBoundingBox.GetMinimum().Z * 4.0f),// position
-		EulerAngles(0.0f, 0.0f, 0.0f));
+		Vector3(0.0f, 0.0f, 1.0f),
+		Vector3(0.0f, 1.0f, 0.0f));
 	RenderManager::GetInstance().SetCurrentCamera(camera_);
 
 	// This also MUST be done by the client.  So, should we make it part of the Startup()?
