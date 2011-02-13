@@ -26,7 +26,6 @@ private:
 	HWND windowHandle_;
 
 	Rorn::Engine::FreeCamera* camera_;
-	Rorn::Engine::Light* light_;
 	Rorn::Engine::Model* model_;
 	Rorn::Engine::ModelInstance* modelInstance_;
 };

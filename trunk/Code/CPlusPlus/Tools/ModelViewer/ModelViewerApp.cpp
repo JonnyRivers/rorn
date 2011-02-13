@@ -3,6 +3,7 @@
 
 #include "../../Engine/Subsystems/DiagnosticsManager/DiagnosticsManager.h"
 #include "../../Engine/Subsystems/InputManager/InputManager.h"
+#include "../../Engine/Subsystems/LightingManager/LightingManager.h"
 #include "../../Engine/Subsystems/RenderManager/RenderManager.h"
 #include "../../Engine/Subsystems/RenderManager/FreeCamera.h"
 #include "../../Engine/Subsystems/RenderManager/Model.h"
@@ -75,15 +76,14 @@ BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* comma
 		EulerAngles(0.0f, 0.0f, 0.0f));
 	RenderManager::GetInstance().SetCurrentCamera(camera_);
 
-	// This also MUST be done by the client.  So, should we make it part of the Startup()?
+	// Setup the main directional light
 	Vector3 mainLightDirection(0, -sin(Rorn::Maths::PiOverFour), sin(Rorn::Maths::PiOverFour));
 	Float4 mainLightColor(1.0f, 1.0f, 1.0f, 1.0f);
-	light_ = RenderManager::GetInstance().CreateLight(mainLightDirection, mainLightColor);
-	RenderManager::GetInstance().SetMainLight(light_);
+	LightingManager::GetInstance().SetUpMainLight(mainLightDirection, mainLightColor);
 
 	// Setup ambient lighting
 	Float4 ambientLightColor(0.2f, 0.2f, 0.2f, 1.0f);
-	RenderManager::GetInstance().SetAmbientLightColor(ambientLightColor);
+	LightingManager::GetInstance().SetAmbientLightColor(ambientLightColor);
 
 	return TRUE;
 }

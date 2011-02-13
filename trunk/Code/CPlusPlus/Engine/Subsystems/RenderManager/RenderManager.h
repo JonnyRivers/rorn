@@ -18,7 +18,6 @@ namespace Rorn
 	{
 		class Camera;
 		class FreeCamera;
-		class Light;
 		class LookAtCamera;
 		class LookToCamera;
 		class Model;
@@ -38,13 +37,6 @@ namespace Rorn
 			LookToCamera* CreateLookToCamera(const Maths::Vector3& position, const Maths::Vector3& direction, const Maths::Vector3& up);
 			Maths::Vector3 GetCurrentCameraEyeDir() const;
 			void SetCurrentCamera(Camera* camera);
-
-			Maths::Float4 GetAmbientLightColor() const;
-			void SetAmbientLightColor(const Maths::Float4& color);
-
-			Light* CreateLight(const Maths::Vector3& direction, const Maths::Float4& color);
-			Light* GetMainLight();
-			void SetMainLight(Light* light);
 
 			Model* LoadOrGetModel(const wchar_t* modelPathName);
 			ModelInstance* CreateModelInstance(Model* model, const Maths::Matrix4x4& instanceToWorldMatrix);
@@ -80,11 +72,6 @@ namespace Rorn
 			// Cameras
 			std::list<std::unique_ptr<Camera>> cameras_;
 			Camera* currentCamera_;
-
-			// Lights
-			Maths::Float4 ambientLightColor_;
-			std::list<std::unique_ptr<Light>> lights_;
-			Light* mainLight_;
 
 			// Geometry
 			std::list<std::unique_ptr<Model>> models_;
