@@ -22,6 +22,9 @@
     <Filter Include="Subsystems\InputManager">
       <UniqueIdentifier>{fa7e16db-6308-4ff5-a14e-556a5289b65e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Subsystems\LightingManager">
+      <UniqueIdentifier>{ec63490c-591f-4e16-8b9d-573759adb77c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Subsystems\RenderManager\RenderManager.cpp">
@@ -57,9 +60,6 @@
     <ClCompile Include="Subsystems\TimeManager\TimeManager.cpp">
       <Filter>Subsystems\TimeManager</Filter>
     </ClCompile>
-    <ClCompile Include="Subsystems\RenderManager\Light.cpp">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClCompile>
     <ClCompile Include="Subsystems\DiagnosticsManager\DiagnosticsManager.cpp">
       <Filter>Subsystems\DiagnosticsManager</Filter>
     </ClCompile>
@@ -86,6 +86,15 @@
     </ClCompile>
     <ClCompile Include="Subsystems\RenderManager\LookToCamera.cpp">
       <Filter>Subsystems\RenderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\LightingManager\DirectionalLight.cpp">
+      <Filter>Subsystems\LightingManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\LightingManager\LightingManager.cpp">
+      <Filter>Subsystems\LightingManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\LightingManager\PointLight.cpp">
+      <Filter>Subsystems\LightingManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -122,9 +131,6 @@
     <ClInclude Include="Subsystems\TimeManager\TimeManager.h">
       <Filter>Subsystems\TimeManager</Filter>
     </ClInclude>
-    <ClInclude Include="Subsystems\RenderManager\Light.h">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClInclude>
     <ClInclude Include="Subsystems\DiagnosticsManager\DiagnosticsManager.h">
       <Filter>Subsystems\DiagnosticsManager</Filter>
     </ClInclude>
@@ -151,6 +157,15 @@
     </ClInclude>
     <ClInclude Include="Subsystems\RenderManager\LookToCamera.h">
       <Filter>Subsystems\RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\LightingManager\DirectionalLight.h">
+      <Filter>Subsystems\LightingManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\LightingManager\LightingManager.h">
+      <Filter>Subsystems\LightingManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\LightingManager\PointLight.h">
+      <Filter>Subsystems\LightingManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

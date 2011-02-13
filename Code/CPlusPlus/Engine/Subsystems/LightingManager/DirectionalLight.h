@@ -7,10 +7,10 @@ namespace Rorn
 {
 	namespace Engine
 	{
-		class Light
+		class DirectionalLight
 		{
 		public:
-			Light(const Maths::Vector3& direction, const Maths::Float4& color);
+			DirectionalLight(const Maths::Vector3& direction, const Maths::Float4& color);
 
 			Maths::Vector3 Direction;
 			Maths::Float4 Color;

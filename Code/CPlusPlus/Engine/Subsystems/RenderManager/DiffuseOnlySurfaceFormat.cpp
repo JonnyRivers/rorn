@@ -2,7 +2,9 @@
 
 #include "../DiagnosticsManager/DiagnosticsManager.h"
 
-#include "Light.h"
+#include "../LightingManager/DirectionalLight.h"
+#include "../LightingManager/LightingManager.h"
+
 #include "RenderManager.h"
 #include "ShaderCompiler.h"
 
@@ -139,9 +141,9 @@ DiffuseOnlySurfaceFormat::DiffuseOnlySurfaceFormat()
 	constantBuffer.AmbientColor = ambientColor;
 	constantBuffer.DiffuseColor = diffuseColor;
 	constantBuffer.SpecularColor = specularColor;
-	constantBuffer.AmbientLightColor = RenderManager::GetInstance().GetAmbientLightColor();
-	constantBuffer.MainLightDir = RenderManager::GetInstance().GetMainLight()->Direction;
-	constantBuffer.MainLightColor = RenderManager::GetInstance().GetMainLight()->Color;
+	constantBuffer.AmbientLightColor = LightingManager::GetInstance().GetAmbientLightColor();
+	constantBuffer.MainLightDir = LightingManager::GetInstance().GetMainLight().Direction;
+	constantBuffer.MainLightColor = LightingManager::GetInstance().GetMainLight().Color;
 	constantBuffer.PhongExponent = phongExponent;
 	constantBuffer.EyeDir = RenderManager::GetInstance().GetCurrentCameraEyeDir();
 	deviceContext->UpdateSubresource( constantBuffer_, 0, NULL, &constantBuffer, 0, 0 );

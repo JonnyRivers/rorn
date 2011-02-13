@@ -9,7 +9,6 @@
 
 #include "Camera.h"
 #include "FreeCamera.h"
-#include "Light.h"
 #include "LookAtCamera.h"
 #include "LookToCamera.h"
 #include "Model.h"
@@ -35,9 +34,7 @@ RenderManager::RenderManager(void)
 	renderTargetView_(NULL), 
 	depthStencil_(NULL), 
 	depthStencilView_(NULL),
-	currentCamera_(NULL),
-	mainLight_(NULL),
-	ambientLightColor_(0.0f, 0.0f, 0.0f, 1.0f)
+	currentCamera_(NULL)
 {
 }
 
@@ -109,16 +106,6 @@ void RenderManager::Shutdown()
 	DiagnosticsManager::GetInstance().GetLoggingStream() << "The Render Manager shut down successfully." << std::endl;
 }
 
-Float4 RenderManager::GetAmbientLightColor() const
-{
-	return ambientLightColor_;
-}
-
-void RenderManager::SetAmbientLightColor(const Float4& color)
-{
-	ambientLightColor_ = color;
-}
-
 FreeCamera* RenderManager::CreateFreeCamera(const Vector3& position, const EulerAngles& angles)
 {
 	FreeCamera* newCamera = new FreeCamera(position, angles);
@@ -153,24 +140,6 @@ Vector3 RenderManager::GetCurrentCameraEyeDir() const
 void RenderManager::SetCurrentCamera(Camera* camera)
 {
 	currentCamera_ = camera;
-}
-
-Light* RenderManager::CreateLight(const Vector3& direction, const Float4& color)
-{
-	Light* newLight = new Light(direction, color);
-	lights_.push_back(std::unique_ptr<Light>(newLight));
-
-	return newLight;
-}
-
-Light* RenderManager::GetMainLight()
-{
-	return mainLight_;
-}
-
-void RenderManager::SetMainLight(Light* light)
-{
-	mainLight_ = light;
 }
 
 Model* RenderManager::LoadOrGetModel(const wchar_t* modelPathName)
