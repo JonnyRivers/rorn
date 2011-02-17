@@ -24,7 +24,9 @@ EulerAngles::EulerAngles(const EulerAngles& source)
 // Assignment
 EulerAngles& EulerAngles::operator=(const EulerAngles& source)
 {
-	*this = source;
+	Heading = source.Heading;
+	Bank = source.Bank;
+	Pitch = source.Pitch;
 
 	return *this;
 }

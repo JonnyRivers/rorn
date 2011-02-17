@@ -46,7 +46,9 @@ namespace Rorn
 				Maths::Vector3 MainLightDir;
 				Maths::Float4 MainLightColor;
 				Maths::Vector3 EyeDir;
-				float pad0;
+				unsigned int NumActivePointLights;
+				Maths::Float4 PointLightPositions[16];// intensities are packed in the w here
+				Maths::Float4 PointLightColors[16];
 			};
 
 			ID3D11VertexShader* vertexShader_;

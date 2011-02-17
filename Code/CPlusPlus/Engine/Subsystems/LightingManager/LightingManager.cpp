@@ -63,3 +63,22 @@ const DirectionalLight& LightingManager::GetMainLight() const
 {
 	return mainLight_;
 }
+
+void LightingManager::AddPointLight(const Vector3& position, const Float4& color, float luminosity)
+{
+	pointLights_.push_back(PointLight(position, color, luminosity));
+}
+
+unsigned int LightingManager::GetNumPointLights() const
+{
+	return pointLights_.size();
+}
+
+const PointLight& LightingManager::GetPointLight(unsigned int index) const
+{
+	std::list<PointLight>::const_iterator pointLightIter = pointLights_.begin();
+	for(unsigned int i = 0 ; i < index ; ++i)
+		++pointLightIter;
+
+	return *pointLightIter;
+}
