@@ -128,6 +128,17 @@ UntexturedSurfaceFormat::UntexturedSurfaceFormat()
 	constantBuffer.MainLightColor = LightingManager::GetInstance().GetMainLight().Color;
 	constantBuffer.PhongExponent = phongExponent;
 	constantBuffer.EyeDir = RenderManager::GetInstance().GetCurrentCameraEyeDir();
+	constantBuffer.NumActivePointLights = LightingManager::GetInstance().GetNumPointLights();
+	for(unsigned int pointLightIndex = 0 ; pointLightIndex < constantBuffer.NumActivePointLights ; ++pointLightIndex)
+	{
+		const PointLight& pointLight = LightingManager::GetInstance().GetPointLight(pointLightIndex);
+		constantBuffer.PointLightPositions[pointLightIndex].X = pointLight.Position.X;
+		constantBuffer.PointLightPositions[pointLightIndex].Y = pointLight.Position.Y;
+		constantBuffer.PointLightPositions[pointLightIndex].Z = pointLight.Position.Z;
+		constantBuffer.PointLightPositions[pointLightIndex].W = pointLight.Luminosity;
+		constantBuffer.PointLightColors[pointLightIndex] = pointLight.Color;
+	}
+
 	deviceContext->UpdateSubresource( constantBuffer_, 0, NULL, &constantBuffer, 0, 0 );
 
     deviceContext->IASetInputLayout( vertexLayout_ );

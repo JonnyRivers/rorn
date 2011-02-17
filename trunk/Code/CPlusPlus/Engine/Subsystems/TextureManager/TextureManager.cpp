@@ -39,7 +39,8 @@ void TextureManager::Shutdown()
 		textureIter->second->Release();
 	textures_.clear();
 
-	device_->Release();
+	if(device_ != NULL)
+		device_->Release();
 
 	DiagnosticsManager::GetInstance().GetLoggingStream() << "The Texture Manager shut down successfully." << std::endl;
 }

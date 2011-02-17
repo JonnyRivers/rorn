@@ -40,5 +40,6 @@ namespace Rorn.Tools.ModelCompiler
         internal Vector4 Position { get; private set; }
         internal Vector4 Normal { get; private set; }
         internal Vector2 DiffuseUV { get; private set; }
+        internal Vector4 PointLighting { get; private set; }
     }
 }

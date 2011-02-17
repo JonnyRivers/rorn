@@ -24,12 +24,15 @@ cbuffer ConstantBuffer : register( b0 )
 	float3 MainLightDir;
 	float4 MainLightColor;
 	float3 EyeDir;
-	float pad0;
+	unsigned int NumActivePointLights;
+	float4 PointLightPositions[16];
+	float4 PointLightColors[16];
 }
 
 //--------------------------------------------------------------------------------------
 struct VS_OUTPUT
 {
+	float4 WorldPosition : POSITION;
     float4 Position : SV_POSITION;
     float4 Normal : NORMAL;
 	float2 DiffuseUV : TEXCOORD0;
@@ -41,10 +44,11 @@ struct VS_OUTPUT
 VS_OUTPUT VS( float4 Position : POSITION, float4 Normal : NORMAL, float2 DiffuseUV : TEXCOORD0 )
 {
     VS_OUTPUT output = (VS_OUTPUT)0;
-    output.Position = mul( Position, ModelToWorld );
-    output.Position = mul( output.Position, WorldToProjection );
+    output.WorldPosition = mul( Position, ModelToWorld );
+    output.Position = mul( output.WorldPosition, WorldToProjection );
     output.Normal = mul( Normal, ModelToWorld );
 	output.DiffuseUV = DiffuseUV;
+
     return output;
 }
 
@@ -60,8 +64,25 @@ float4 PS( VS_OUTPUT input ) : SV_Target
     finalColor += saturate( diffuseTextureSample * AmbientLightColor );
 
 	// Diffuse lighting
+
+	// main light
 	float minusLightNormalDotProduct = -dot( MainLightDir, input.Normal);
     finalColor += saturate( minusLightNormalDotProduct * MainLightColor * diffuseTextureSample );
+
+	// point lights
+	for(unsigned int pointLightIndex = 0 ; pointLightIndex < NumActivePointLights ; ++pointLightIndex)
+	{
+		float4 pointLightPosition = PointLightPositions[pointLightIndex];
+		float4 pointLightColor = PointLightColors[pointLightIndex];
+		float pointLightIntensity = pointLightPosition.w;
+		pointLightPosition.w = 1;
+		float distanceToPointLight = distance( pointLightPosition, input.WorldPosition );
+		float lightIntensity = pointLightIntensity / (12.5663701 * distanceToPointLight * distanceToPointLight);
+		float4 lightColour = lightIntensity * pointLightColor;
+		float4 lightDirection = normalize(input.WorldPosition - pointLightPosition);
+		float minusLightNormalDotProduct = -dot( lightDirection, input.Normal);
+		finalColor += saturate( minusLightNormalDotProduct * lightColour * diffuseTextureSample );
+	}
 
 	// Specular lighting
 	if( minusLightNormalDotProduct > 0 )
@@ -74,5 +95,5 @@ float4 PS( VS_OUTPUT input ) : SV_Target
 	
 	finalColor.a = 1;
 
-    return finalColor;
+	return finalColor;;
 }

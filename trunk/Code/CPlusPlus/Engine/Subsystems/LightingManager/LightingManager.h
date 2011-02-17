@@ -25,6 +25,9 @@ namespace Rorn
 			void SetAmbientLightColor(const Maths::Float4& color);
 			void SetUpMainLight(const Maths::Vector3& direction, const Maths::Float4& color);
 			const DirectionalLight& GetMainLight() const;
+			void AddPointLight(const Maths::Vector3& position, const Maths::Float4& color, float luminosity);
+			unsigned int GetNumPointLights() const;
+			const PointLight& GetPointLight(unsigned int index) const;
 		private:
 			static LightingManager& instance_;
 

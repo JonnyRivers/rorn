@@ -78,11 +78,21 @@ BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* comma
 
 	// Setup the main directional light
 	Vector3 mainLightDirection(0, -sin(Rorn::Maths::PiOverFour), sin(Rorn::Maths::PiOverFour));
-	Float4 mainLightColor(1.0f, 1.0f, 1.0f, 1.0f);
+	Float4 mainLightColor(0.0f, 0.0f, 0.0f, 1.0f);
 	LightingManager::GetInstance().SetUpMainLight(mainLightDirection, mainLightColor);
 
+	// TEMP - setup point lights for pool table
+	LightingManager::GetInstance().AddPointLight(
+		Vector3(-24.0f, 50.0f, 0.0f),
+		Float4(1.0f, 1.0f, 1.0f, 1.0f),
+		60000.0f);
+	LightingManager::GetInstance().AddPointLight(
+		Vector3(24.0f, 50.0f, 0.0f),
+		Float4(1.0f, 1.0f, 1.0f, 1.0f),
+		60000.0f);
+
 	// Setup ambient lighting
-	Float4 ambientLightColor(0.2f, 0.2f, 0.2f, 1.0f);
+	Float4 ambientLightColor(0.1f, 0.1f, 0.1f, 1.0f);
 	LightingManager::GetInstance().SetAmbientLightColor(ambientLightColor);
 
 	return TRUE;
