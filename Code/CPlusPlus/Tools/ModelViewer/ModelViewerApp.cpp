@@ -82,10 +82,10 @@ BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* comma
 	LightingManager::GetInstance().SetUpMainLight(mainLightDirection, mainLightColor);
 
 	// TEMP - setup point lights for pool table
-	LightingManager::GetInstance().AddPointLight(
+	/*LightingManager::GetInstance().AddPointLight(
 		Vector3(-24.0f, 50.0f, 0.0f),
 		Float4(1.0f, 1.0f, 1.0f, 1.0f),
-		60000.0f);
+		60000.0f);*/
 	LightingManager::GetInstance().AddPointLight(
 		Vector3(24.0f, 50.0f, 0.0f),
 		Float4(1.0f, 1.0f, 1.0f, 1.0f),

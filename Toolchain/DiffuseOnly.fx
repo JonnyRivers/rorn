@@ -63,28 +63,11 @@ float4 PS( VS_OUTPUT input ) : SV_Target
 	float4 diffuseTextureSample = txDiffuse.Sample( samLinear, input.DiffuseUV );
     finalColor += saturate( diffuseTextureSample * AmbientLightColor );
 
-	// Diffuse lighting
-
-	// main light
+	// main light - diffuse
 	float minusLightNormalDotProduct = -dot( MainLightDir, input.Normal);
     finalColor += saturate( minusLightNormalDotProduct * MainLightColor * diffuseTextureSample );
 
-	// point lights
-	for(unsigned int pointLightIndex = 0 ; pointLightIndex < NumActivePointLights ; ++pointLightIndex)
-	{
-		float4 pointLightPosition = PointLightPositions[pointLightIndex];
-		float4 pointLightColor = PointLightColors[pointLightIndex];
-		float pointLightIntensity = pointLightPosition.w;
-		pointLightPosition.w = 1;
-		float distanceToPointLight = distance( pointLightPosition, input.WorldPosition );
-		float lightIntensity = pointLightIntensity / (12.5663701 * distanceToPointLight * distanceToPointLight);
-		float4 lightColour = lightIntensity * pointLightColor;
-		float4 lightDirection = normalize(input.WorldPosition - pointLightPosition);
-		float minusLightNormalDotProduct = -dot( lightDirection, input.Normal);
-		finalColor += saturate( minusLightNormalDotProduct * lightColour * diffuseTextureSample );
-	}
-
-	// Specular lighting
+	// main light - specular
 	if( minusLightNormalDotProduct > 0 )
 	{
 		float3 mainLightReflection = reflect(MainLightDir, input.Normal);
@@ -92,8 +75,33 @@ float4 PS( VS_OUTPUT input ) : SV_Target
 		float specularFactor = pow( minusEyeLightDotProduct, PhongExponent );
 		finalColor += saturate( specularFactor * MainLightColor * SpecularColor );
 	}
+
+	// point lights
+	for(unsigned int pointLightIndex = 0 ; pointLightIndex < NumActivePointLights ; ++pointLightIndex)
+	{
+		// diffuse		
+		float4 pointLightPosition = PointLightPositions[pointLightIndex];
+		float4 pointLightColor = PointLightColors[pointLightIndex];
+		float pointLightIntensity = pointLightPosition.w;
+		pointLightPosition.w = 1;
+		float distanceToPointLight = distance( pointLightPosition, input.WorldPosition );
+		float lightIntensity = pointLightIntensity / (12.5663701 * distanceToPointLight * distanceToPointLight);
+		float4 lightColor = lightIntensity * pointLightColor;
+		float4 lightDirection = normalize(input.WorldPosition - pointLightPosition);
+		float minusLightNormalDotProduct = -dot( lightDirection, input.Normal);
+		finalColor += saturate( minusLightNormalDotProduct * lightColor * diffuseTextureSample );
+
+		// specular
+		if( minusLightNormalDotProduct > 0 )
+		{
+			float3 lightReflection = reflect(lightDirection, input.Normal);
+			float minusEyeLightDotProduct = -dot( EyeDir, lightReflection );
+			float specularFactor = pow( minusEyeLightDotProduct, PhongExponent );
+			finalColor += saturate( specularFactor * lightColor * SpecularColor );
+		}
+	}
 	
 	finalColor.a = 1;
 
-	return finalColor;;
+	return finalColor;
 }
