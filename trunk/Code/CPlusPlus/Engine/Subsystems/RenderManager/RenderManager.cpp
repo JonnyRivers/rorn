@@ -175,8 +175,8 @@ void RenderManager::Step()
 	// Setup the world_to_view and view_to_projection matrices based on the current camera (& other settings)
 	assert(currentCamera_ != NULL);
 	Matrix4x4 worldToViewMatrix = currentCamera_->BuildWorldToViewMatrix();
-	Matrix4x4 viewToProjectionMatrix = BuildViewToProjectionMatrix( PiOverFour, aspectRatio_, 0.01f, 10000.0f );
-	Matrix4x4 worldToProjectionMatrix = worldToViewMatrix * viewToProjectionMatrix;// model on XMMatrixMultiply(worldToViewMatrix, viewToProjectionMatrix);
+	Matrix4x4 viewToProjectionMatrix = BuildViewToProjectionMatrix( PiOverFour, aspectRatio_, 0.1f, 10000.0f );
+	Matrix4x4 worldToProjectionMatrix = worldToViewMatrix * viewToProjectionMatrix;
 
 	std::list<std::unique_ptr<ModelInstance>>::const_iterator instanceIter;
 	for(instanceIter = modelInstances_.cbegin() ; instanceIter != modelInstances_.cend() ; ++instanceIter)

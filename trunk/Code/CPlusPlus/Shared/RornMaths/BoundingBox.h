@@ -12,6 +12,7 @@ namespace Rorn
 			BoundingBox();
 			BoundingBox(float minX, float minY, float minZ, float maxX, float maxY, float maxZ);
 
+			float GetBoundingRadius() const;
 			Vector3 GetMinimum() const;
 			Vector3 GetMaximum() const;
 			Vector3 GetCentre() const;
