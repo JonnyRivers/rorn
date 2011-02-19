@@ -1,5 +1,7 @@
 #include "BoundingBox.h"
 
+#include <algorithm>
+
 using namespace Rorn::Maths;
 
 BoundingBox::BoundingBox()
@@ -10,6 +12,16 @@ BoundingBox::BoundingBox()
 BoundingBox::BoundingBox(float minX, float minY, float minZ, float maxX, float maxY, float maxZ)
 	: minimum_(minX, minY, minZ), maximum_(maxX, maxY, maxZ)
 {
+}
+
+float BoundingBox::GetBoundingRadius() const
+{
+	float sizeX = maximum_.X - minimum_.X;
+	float sizeY = maximum_.Y - minimum_.Y;
+	float sizeZ = maximum_.Z - minimum_.Z;
+
+	// just return half the biggest dimension
+	return (std::max(sizeX, std::max(sizeY, sizeZ) ) * 0.5f);
 }
 
 Vector3 BoundingBox::GetMinimum() const

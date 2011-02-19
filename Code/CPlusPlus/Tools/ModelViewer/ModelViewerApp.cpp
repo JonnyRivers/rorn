@@ -82,17 +82,17 @@ BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* comma
 	LightingManager::GetInstance().SetUpMainLight(mainLightDirection, mainLightColor);
 
 	// TEMP - setup point lights for pool table
-	/*LightingManager::GetInstance().AddPointLight(
-		Vector3(-24.0f, 50.0f, 0.0f),
-		Float4(1.0f, 1.0f, 1.0f, 1.0f),
-		60000.0f);*/
 	LightingManager::GetInstance().AddPointLight(
-		Vector3(24.0f, 50.0f, 0.0f),
+		Vector3(-600.0f, 1270.0f, 0.0f),
 		Float4(1.0f, 1.0f, 1.0f, 1.0f),
-		60000.0f);
+		60000000.0f);// distances are in mm, so luminosity is 60W * 1000^2
+	LightingManager::GetInstance().AddPointLight(
+		Vector3(600.0f, 1270.0f, 0.0f),
+		Float4(1.0f, 1.0f, 1.0f, 1.0f),
+		60000000.0f);// distances are is in mm, so luminosity is 60W * 1000^2
 
 	// Setup ambient lighting
-	Float4 ambientLightColor(0.1f, 0.1f, 0.1f, 1.0f);
+	Float4 ambientLightColor(0.05f, 0.05f, 0.05f, 1.0f);
 	LightingManager::GetInstance().SetAmbientLightColor(ambientLightColor);
 
 	return TRUE;
@@ -120,11 +120,12 @@ VOID ModelViewerApp::Step()
 
 	// TODO - refactor this out into some sort of 'camera controller'
 	// Move the camera
-	float translationSpeed = 10.0f;// distance per second
+	// base translation speed is quarter of the instances bouding radius per second
+	float translationSpeed = model_->GetBoundingBox().GetBoundingRadius() * 0.25f;
 	if(InputManager::GetInstance().IsKeyDown(DIK_LSHIFT))
-		translationSpeed = 50.0f;
+		translationSpeed *= 5.0f;
 	else if(InputManager::GetInstance().IsKeyDown(DIK_LCONTROL))
-		translationSpeed = 2.0f;
+		translationSpeed *= 0.2f;
 
 	Rorn::Maths::Vector3 translation(0.0f, 0.0f, 0.0f);
 	if( InputManager::GetInstance().IsKeyDown(DIK_D) )
