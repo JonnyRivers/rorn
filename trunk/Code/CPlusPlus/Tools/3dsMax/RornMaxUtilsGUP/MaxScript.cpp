@@ -5,6 +5,7 @@
 
 // Shared includes
 #include "../../../Shared/Text/ci_string.h"
+#include "../../../Shared/WindowsRegistry/WindowsRegistry.h"
 
 // Local includes
 #include "SceneExporter.h"
@@ -36,8 +37,12 @@ Value* RornUtils_ExportCompileAndView_cf(Value** arg_list, int count)
 	exporter.ExportScene( exportPath );
 
 	// compile
+	std::string modelCompilerPathname;
+	Rorn::WindowsRegistry::GetRegistryTextValue(Rorn::WindowsRegistry::LocalMachine, "SOFTWARE\\Riversoft\\Rorn", "ModelCompilerPathname", modelCompilerPathname);
 
 	// view
+	std::string modelViewerPathname;
+	Rorn::WindowsRegistry::GetRegistryTextValue(Rorn::WindowsRegistry::LocalMachine, "SOFTWARE\\Riversoft\\Rorn", "ModelViewerPathname", modelViewerPathname);
 
 	return &ok;
 }
