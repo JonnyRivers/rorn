@@ -9,6 +9,7 @@
 #include <stdmat.h>
 
 #include "..\..\..\Shared\FileIO\XML\DocumentBuilder.h"
+#include "..\..\..\Shared\Text\ci_string.h"
 
 #include "TextureExporter.h"
 
@@ -18,7 +19,7 @@ public:
 	SceneExporter(Interface* maxInterface);
 	~SceneExporter(void);
 
-	void ExportScene(const std::string& filename);
+	void ExportScene(const Rorn::Text::ci_string& filename);
 private:
 	void ExportNodeRecursive(INode* parentNode, Rorn::XML::HierarchyElement& parentElement);
 	void ExportNode(INode* node, Rorn::XML::HierarchyElement& nodeElement);

@@ -22,7 +22,7 @@ SceneExporter::~SceneExporter(void)
 {
 }
 
-void SceneExporter::ExportScene(const std::string& exportPathName)
+void SceneExporter::ExportScene(const Rorn::Text::ci_string& exportPathName)
 {
 	// Reset the state (to allow multiple uses)
 	xmlDocBuilder_ = Rorn::XML::DocumentBuilder("Scene");
@@ -38,7 +38,7 @@ void SceneExporter::ExportScene(const std::string& exportPathName)
 	ExportMaterials(xmlDocBuilder_.GetRootElement());
 	xmlDocBuilder_.Save(exportPathName.c_str());
 
-	std::string exportDirectory = Rorn::Text::Path::GetDirectoryFromPathName(exportPathName);
+	Rorn::Text::ci_string exportDirectory = Rorn::Text::Path::GetDirectoryFromPathName(exportPathName);
 	textureExporter_.CopyTexturesToDirectory(exportDirectory.c_str());
 }
 
@@ -226,6 +226,6 @@ void SceneExporter::ExportStandardMaterial(StdMat* material, Rorn::XML::Hierarch
 void SceneExporter::ExportDiffuseBitmap(BitmapTex* diffuseBitmap, Rorn::XML::HierarchyElement& textureMapsElement)
 {
 	Rorn::XML::HierarchyElement& diffuseMapElement = textureMapsElement.AddChildHierarchyElement("DiffuseMap");
-	std::string targetTexturePathName = textureExporter_.RegisterTexture(diffuseBitmap->GetMapName());
+	Rorn::Text::ci_string targetTexturePathName = textureExporter_.RegisterTexture(diffuseBitmap->GetMapName());
 	diffuseMapElement.AddChildValueElement("PathName", targetTexturePathName.c_str());
 }

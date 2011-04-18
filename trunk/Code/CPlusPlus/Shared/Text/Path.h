@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include "ci_string.h"
 
 namespace Rorn
 {
@@ -8,8 +8,8 @@ namespace Rorn
 	{
 		namespace Path
 		{
-			std::string GetDirectoryFromPathName(const std::string& pathName);
-			std::string GetFileNameFromPathName(const std::string& pathName);
+			Rorn::Text::ci_string GetDirectoryFromPathName(const Rorn::Text::ci_string& pathName);
+			Rorn::Text::ci_string GetFileNameFromPathName(const Rorn::Text::ci_string& pathName);
 		}
 	}
 }

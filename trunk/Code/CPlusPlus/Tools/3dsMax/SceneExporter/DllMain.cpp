@@ -2,11 +2,11 @@
 #include <Max.h>
 
 // Local includes
-#include "RornSceneExporter.h"
-#include "RornSceneExporterClassDesc.h"
+#include "RornMaxUtilsGUP.h"
+#include "RornMaxUtilsGUPClassDesc.h"
 
 // Static data
-static RornSceneExporterClassDesc theRornSceneExporterClassDesc;
+static RornMaxUtilsGUPClassDesc theRornMaxUtilsClassDesc;
 
 BOOL WINAPI DllMain(HINSTANCE hinstDLL, ULONG fdwReason, LPVOID lpvReserved) 
 {
@@ -26,7 +26,7 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, ULONG fdwReason, LPVOID lpvReserved)
 
 __declspec( dllexport ) const TCHAR* LibDescription() 
 { 
-	return _T("3DS File Exporter (Autodesk)"); 
+	return _T("Rorn Engine Max Utilities"); 
 }
 
 __declspec( dllexport ) int LibNumberClasses() 
@@ -39,7 +39,7 @@ __declspec( dllexport ) ClassDesc* LibClassDesc(int i)
 	switch(i) 
 	{
 		case 0:  
-			return &theRornSceneExporterClassDesc; 
+			return &theRornMaxUtilsClassDesc; 
 		default: 
 			return 0; break;
 	}
@@ -54,5 +54,5 @@ __declspec( dllexport ) ULONG LibVersion()
 // Let the plug-in register itself for deferred loading
 __declspec( dllexport ) ULONG CanAutoDefer()
 {
-	return 1;
+	return 0;
 }

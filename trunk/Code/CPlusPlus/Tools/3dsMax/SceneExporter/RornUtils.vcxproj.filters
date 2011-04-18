@@ -28,12 +28,6 @@
     <ClCompile Include="DllMain.cpp">
       <Filter>Max SDK Interop</Filter>
     </ClCompile>
-    <ClCompile Include="RornSceneExporter.cpp">
-      <Filter>Max SDK Interop</Filter>
-    </ClCompile>
-    <ClCompile Include="RornSceneExporterClassDesc.cpp">
-      <Filter>Max SDK Interop</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\Shared\3DSMax\SDKHelper.cpp">
       <Filter>Shared\3DSMax</Filter>
     </ClCompile>
@@ -67,14 +61,17 @@
     <ClCompile Include="..\..\..\Shared\Text\Path.cpp">
       <Filter>Shared\Text</Filter>
     </ClCompile>
+    <ClCompile Include="MaxScript.cpp">
+      <Filter>Max SDK Interop</Filter>
+    </ClCompile>
+    <ClCompile Include="RornMaxUtilsGUP.cpp">
+      <Filter>Max SDK Interop</Filter>
+    </ClCompile>
+    <ClCompile Include="RornMaxUtilsGUPClassDesc.cpp">
+      <Filter>Max SDK Interop</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="RornSceneExporter.h">
-      <Filter>Max SDK Interop</Filter>
-    </ClInclude>
-    <ClInclude Include="RornSceneExporterClassDesc.h">
-      <Filter>Max SDK Interop</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\Shared\3DSMax\SDKHelper.h">
       <Filter>Shared\3DSMax</Filter>
     </ClInclude>
@@ -111,9 +108,15 @@
     <ClInclude Include="..\..\..\Shared\Text\Path.h">
       <Filter>Shared\Text</Filter>
     </ClInclude>
+    <ClInclude Include="RornMaxUtilsGUP.h">
+      <Filter>Max SDK Interop</Filter>
+    </ClInclude>
+    <ClInclude Include="RornMaxUtilsGUPClassDesc.h">
+      <Filter>Max SDK Interop</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="SceneExporter.def">
+    <None Include="RornUtils.def">
       <Filter>Max SDK Interop</Filter>
     </None>
   </ItemGroup>
