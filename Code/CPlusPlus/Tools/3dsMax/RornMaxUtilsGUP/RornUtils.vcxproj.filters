@@ -23,6 +23,9 @@
     <Filter Include="Shared\Text">
       <UniqueIdentifier>{81cee635-c1f0-4b35-8272-f5f93ff5e08b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shared\WindowsRegistry">
+      <UniqueIdentifier>{959ccab6-406d-4734-801c-a40dbab429f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DllMain.cpp">
@@ -70,6 +73,9 @@
     <ClCompile Include="RornMaxUtilsGUPClassDesc.cpp">
       <Filter>Max SDK Interop</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Shared\WindowsRegistry\WindowsRegistry.cpp">
+      <Filter>Shared\WindowsRegistry</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Shared\3DSMax\SDKHelper.h">
@@ -113,6 +119,9 @@
     </ClInclude>
     <ClInclude Include="RornMaxUtilsGUPClassDesc.h">
       <Filter>Max SDK Interop</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Shared\WindowsRegistry\WindowsRegistry.h">
+      <Filter>Shared\WindowsRegistry</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

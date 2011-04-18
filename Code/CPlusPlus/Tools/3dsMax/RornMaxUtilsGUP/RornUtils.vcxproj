@@ -335,6 +335,7 @@
     <ClCompile Include="..\..\..\Shared\FileIO\XML\ValueElement.cpp" />
     <ClCompile Include="..\..\..\Shared\FileIO\XML\Writer.cpp" />
     <ClCompile Include="..\..\..\Shared\Text\Path.cpp" />
+    <ClCompile Include="..\..\..\Shared\WindowsRegistry\WindowsRegistry.cpp" />
     <ClCompile Include="DllMain.cpp" />
     <ClCompile Include="MaxScript.cpp" />
     <ClCompile Include="RornMaxUtilsGUP.cpp" />
@@ -353,6 +354,7 @@
     <ClInclude Include="..\..\..\Shared\FileIO\XML\Writer.h" />
     <ClInclude Include="..\..\..\Shared\Text\ci_string.h" />
     <ClInclude Include="..\..\..\Shared\Text\Path.h" />
+    <ClInclude Include="..\..\..\Shared\WindowsRegistry\WindowsRegistry.h" />
     <ClInclude Include="RornMaxUtilsGUP.h" />
     <ClInclude Include="RornMaxUtilsGUPClassDesc.h" />
     <ClInclude Include="SceneExporter.h" />
