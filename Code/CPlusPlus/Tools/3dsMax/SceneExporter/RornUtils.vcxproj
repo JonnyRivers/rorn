@@ -20,6 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{C690B74F-43F2-4DE3-B807-7A99B4521520}</ProjectGuid>
+    <ProjectName>RornUtils</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
@@ -84,10 +85,10 @@
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|x64'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|x64'" />
-    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.dle</TargetExt>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">RornSceneExporter</TargetName>
-    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">RornSceneExporter</TargetName>
-    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.dle</TargetExt>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.gup</TargetExt>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">RornUtils</TargetName>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">RornUtils</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.gup</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Midl>
@@ -112,7 +113,7 @@
       <PrecompiledHeaderOutputFile>$(Configuration)\Exporter.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>.\$(Configuration)/</AssemblerListingLocation>
       <ObjectFileName>.\$(Configuration)/</ObjectFileName>
-      <ProgramDataBaseFileName>$(Configuration)/RornExporter.dle.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(Configuration)/RornExporter.gup.pdb</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
@@ -126,12 +127,12 @@
     </ResourceCompile>
     <Link>
       <AdditionalOptions>  %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>comctl32.lib;core.lib;geom.lib;gfx.lib;helpsys.lib;maxutil.lib;mesh.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>comctl32.lib;core.lib;geom.lib;gfx.lib;gup.lib;helpsys.lib;maxscrpt.lib;maxutil.lib;mesh.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>..\..\..\..\..\Toolchain\maxPlugins\x86\$(TargetFileName)</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\sdk\lib\x86\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libcp.lib;libci.lib;msvcirt.lib;libcmt.lib;libcmtd.lib;msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ModuleDefinitionFile>.\SceneExporter.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>.\RornUtils.def</ModuleDefinitionFile>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <ProgramDatabaseFile>$(Configuration)\3dsexp.dle.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
@@ -228,7 +229,7 @@
       <PrecompiledHeaderOutputFile>$(ConfigurationName)\Exporter.pch</PrecompiledHeaderOutputFile>
       <AssemblerListingLocation>.\$(ConfigurationName)/</AssemblerListingLocation>
       <ObjectFileName>.\$(ConfigurationName)/</ObjectFileName>
-      <ProgramDataBaseFileName>$(Configuration)/RornExporter.dle.pdb</ProgramDataBaseFileName>
+      <ProgramDataBaseFileName>$(Configuration)/RornExporter.gup.pdb</ProgramDataBaseFileName>
       <WarningLevel>Level3</WarningLevel>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <CompileAs>Default</CompileAs>
@@ -241,12 +242,12 @@
     </ResourceCompile>
     <Link>
       <AdditionalOptions>   %(AdditionalOptions)</AdditionalOptions>
-      <AdditionalDependencies>comctl32.lib;core.lib;geom.lib;gfx.lib;helpsys.lib;maxutil.lib;mesh.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>comctl32.lib;core.lib;geom.lib;gfx.lib;gup.lib;helpsys.lib;maxscrpt.lib;maxutil.lib;mesh.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OutputFile>..\..\..\..\..\Toolchain\maxPlugins\x86\$(TargetFileName)</OutputFile>
       <SuppressStartupBanner>true</SuppressStartupBanner>
       <AdditionalLibraryDirectories>..\sdk\lib\x86\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <IgnoreSpecificDefaultLibraries>libcp.lib;libci.lib;msvcirt.lib;libcmt.lib;libcmtd.lib;msvcrtd.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
-      <ModuleDefinitionFile>.\SceneExporter.def</ModuleDefinitionFile>
+      <ModuleDefinitionFile>.\RornUtils.def</ModuleDefinitionFile>
       <ProgramDatabaseFile>$(Configuration)\3dsexp.dle.pdb</ProgramDatabaseFile>
       <SubSystem>Windows</SubSystem>
       <OptimizeReferences>true</OptimizeReferences>
@@ -335,8 +336,9 @@
     <ClCompile Include="..\..\..\Shared\FileIO\XML\Writer.cpp" />
     <ClCompile Include="..\..\..\Shared\Text\Path.cpp" />
     <ClCompile Include="DllMain.cpp" />
-    <ClCompile Include="RornSceneExporter.cpp" />
-    <ClCompile Include="RornSceneExporterClassDesc.cpp" />
+    <ClCompile Include="MaxScript.cpp" />
+    <ClCompile Include="RornMaxUtilsGUP.cpp" />
+    <ClCompile Include="RornMaxUtilsGUPClassDesc.cpp" />
     <ClCompile Include="SceneExporter.cpp" />
     <ClCompile Include="SceneValidator.cpp" />
     <ClCompile Include="TextureExporter.cpp" />
@@ -351,14 +353,14 @@
     <ClInclude Include="..\..\..\Shared\FileIO\XML\Writer.h" />
     <ClInclude Include="..\..\..\Shared\Text\ci_string.h" />
     <ClInclude Include="..\..\..\Shared\Text\Path.h" />
-    <ClInclude Include="RornSceneExporter.h" />
-    <ClInclude Include="RornSceneExporterClassDesc.h" />
+    <ClInclude Include="RornMaxUtilsGUP.h" />
+    <ClInclude Include="RornMaxUtilsGUPClassDesc.h" />
     <ClInclude Include="SceneExporter.h" />
     <ClInclude Include="SceneValidator.h" />
     <ClInclude Include="TextureExporter.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="SceneExporter.def" />
+    <None Include="RornUtils.def" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

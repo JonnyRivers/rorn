@@ -6,16 +6,16 @@
 
 #include "../../../Shared/Text/Path.h"
 
-std::string TextureExporter::RegisterTexture(const char* rawSourcePathName)
+Rorn::Text::ci_string TextureExporter::RegisterTexture(const char* rawSourcePathName)
 {
 	Rorn::Text::ci_string sourcePathName(rawSourcePathName);
-	std::map<Rorn::Text::ci_string, std::string>::const_iterator pathNameIter = 
+	std::map<Rorn::Text::ci_string, Rorn::Text::ci_string>::const_iterator pathNameIter = 
 		sourceTargetPathNameMap_.find(sourcePathName);
 	if(pathNameIter == sourceTargetPathNameMap_.end())
 	{
-		std::string targetFileName = Rorn::Text::Path::GetFileNameFromPathName(rawSourcePathName);
+		Rorn::Text::ci_string targetFileName = Rorn::Text::Path::GetFileNameFromPathName(rawSourcePathName);
 		sourceTargetPathNameMap_.insert(
-			std::make_pair<Rorn::Text::ci_string, std::string>(sourcePathName, targetFileName));
+			std::make_pair<Rorn::Text::ci_string, Rorn::Text::ci_string>(sourcePathName, targetFileName));
 
 		return targetFileName;
 	}
@@ -27,7 +27,7 @@ std::string TextureExporter::RegisterTexture(const char* rawSourcePathName)
 
 void TextureExporter::CopyTexturesToDirectory(const char* directory) const
 {
-	std::map<Rorn::Text::ci_string, std::string>::const_iterator pathNameIter;
+	std::map<Rorn::Text::ci_string, Rorn::Text::ci_string>::const_iterator pathNameIter;
 	for(pathNameIter = sourceTargetPathNameMap_.begin() ; pathNameIter != sourceTargetPathNameMap_.end() ; ++pathNameIter)
 	{
 		LPCSTR sourcePathName = pathNameIter->first.c_str();
