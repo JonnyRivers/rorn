@@ -26,6 +26,9 @@
     <Filter Include="Shared\WindowsRegistry">
       <UniqueIdentifier>{959ccab6-406d-4734-801c-a40dbab429f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shared\Process">
+      <UniqueIdentifier>{4f8a543f-773a-48e4-96c8-ab59b5474421}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DllMain.cpp">
@@ -76,6 +79,9 @@
     <ClCompile Include="..\..\..\Shared\WindowsRegistry\WindowsRegistry.cpp">
       <Filter>Shared\WindowsRegistry</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Shared\Process\Process.cpp">
+      <Filter>Shared\Process</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Shared\3DSMax\SDKHelper.h">
@@ -122,6 +128,9 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Shared\WindowsRegistry\WindowsRegistry.h">
       <Filter>Shared\WindowsRegistry</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Shared\Process\Process.h">
+      <Filter>Shared\Process</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
