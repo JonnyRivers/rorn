@@ -334,6 +334,7 @@
     <ClCompile Include="..\..\..\Shared\FileIO\XML\HierarchyElement.cpp" />
     <ClCompile Include="..\..\..\Shared\FileIO\XML\ValueElement.cpp" />
     <ClCompile Include="..\..\..\Shared\FileIO\XML\Writer.cpp" />
+    <ClCompile Include="..\..\..\Shared\Process\Process.cpp" />
     <ClCompile Include="..\..\..\Shared\Text\Path.cpp" />
     <ClCompile Include="..\..\..\Shared\WindowsRegistry\WindowsRegistry.cpp" />
     <ClCompile Include="DllMain.cpp" />
@@ -352,6 +353,7 @@
     <ClInclude Include="..\..\..\Shared\FileIO\XML\HierarchyElement.h" />
     <ClInclude Include="..\..\..\Shared\FileIO\XML\ValueElement.h" />
     <ClInclude Include="..\..\..\Shared\FileIO\XML\Writer.h" />
+    <ClInclude Include="..\..\..\Shared\Process\Process.h" />
     <ClInclude Include="..\..\..\Shared\Text\ci_string.h" />
     <ClInclude Include="..\..\..\Shared\Text\Path.h" />
     <ClInclude Include="..\..\..\Shared\WindowsRegistry\WindowsRegistry.h" />

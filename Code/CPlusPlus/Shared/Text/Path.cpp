@@ -27,3 +27,23 @@ Rorn::Text::ci_string Rorn::Text::Path::GetFileNameFromPathName(const Rorn::Text
 	// The pathname is not a pathname.  Could throw here.
 	return Rorn::Text::ci_string();
 }
+
+Rorn::Text::ci_string Rorn::Text::Path::ChangeExtension(const Rorn::Text::ci_string& pathName, const Rorn::Text::ci_string& extension)
+{
+	Rorn::Text::ci_string directory = GetDirectoryFromPathName(pathName);
+	Rorn::Text::ci_string existingFilename = GetFileNameFromPathName(pathName);
+
+	Rorn::Text::ci_string::size_type firstDotPos = existingFilename.find_first_of('.');
+	Rorn::Text::ci_string newFilename;
+	if(firstDotPos != Rorn::Text::ci_string::npos)
+	{
+		newFilename = existingFilename.substr(0, firstDotPos) + "." + extension;
+	}
+	else
+	{
+		newFilename = existingFilename + "." + extension;
+	}
+
+	Rorn::Text::ci_string result = directory + "\\" + newFilename;
+	return result;
+}
