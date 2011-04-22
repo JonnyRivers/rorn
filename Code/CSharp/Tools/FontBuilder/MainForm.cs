@@ -19,7 +19,7 @@ namespace FontBuilder
         private void OnLoadForm(object sender, EventArgs e)
         {
             SelectedFont = new Font("Arial", 10, FontStyle.Regular);
-            SelectedOutputDirectory = Application.StartupPath;
+            SelectedOutputPathname = Application.StartupPath + "\\arial10regular.font";
             SelectedColor = Color.White;
         }
 
@@ -35,12 +35,12 @@ namespace FontBuilder
             }
         }
 
-        private void OnBrowseOutputDirectory(object sender, EventArgs e)
+        private void OnBrowseOutputPathname(object sender, EventArgs e)
         {
-            string selectedDirectory;
-            if (OpenBrowseForDirectory(SelectedOutputDirectory, "Open Directory", "all files (*.*)|*.*", out selectedDirectory))
+            string selectedPathname;
+            if (SaveBrowseForFontFile(SelectedOutputPathname, out selectedPathname))
             {
-                SelectedOutputDirectory = selectedDirectory;
+                SelectedOutputPathname = selectedPathname;
             }
         }
 
@@ -61,7 +61,7 @@ namespace FontBuilder
             try
             {
                 FontBuilder fontBuilder = new FontBuilder();
-                fontBuilder.Build(SelectedOutputDirectory, SelectedFont, SelectedColor);
+                fontBuilder.Build(SelectedOutputPathname, SelectedFont, SelectedColor);
             }
             catch (Exception ex)
             {
@@ -69,23 +69,28 @@ namespace FontBuilder
             }
         }
 
-        private static bool OpenBrowseForDirectory(string initialDir, string description, string filter, out string selectedDirectory)
+        private static bool SaveBrowseForFontFile(string initialDir, out string filePath)
         {
-            using (FolderBrowserDialog openFolderDlg = new FolderBrowserDialog())
-            {
-                openFolderDlg.SelectedPath = initialDir;
-                openFolderDlg.ShowNewFolderButton = false;
-                openFolderDlg.Description = description;
+            return SaveBrowseForFile(initialDir, out filePath, "Save Font File", "font files (*.font)|*.font");
+        }
 
-                DialogResult result = openFolderDlg.ShowDialog();
+        private static bool SaveBrowseForFile(string initialDir, out string filePath, string dialogTitle, string filter)
+        {
+            using (SaveFileDialog saveFileDlg = new SaveFileDialog())
+            {
+                saveFileDlg.Title = dialogTitle;
+                saveFileDlg.InitialDirectory = initialDir;
+                saveFileDlg.Filter = filter;
+
+                DialogResult result = saveFileDlg.ShowDialog();
 
                 if (result == DialogResult.Cancel)
                 {
-                    selectedDirectory = "";
+                    filePath = "";
                     return false;
                 }
 
-                selectedDirectory = openFolderDlg.SelectedPath;
+                filePath = saveFileDlg.FileName;
             }
 
             return true;
@@ -105,13 +110,13 @@ namespace FontBuilder
             }
         }
 
-        private string SelectedOutputDirectory
+        private string SelectedOutputPathname
         {
-            get { return selectedOutputDirectory_; }
+            get { return selectedOutputPathname_; }
             set
             {
-                selectedOutputDirectory_ = value;
-                textBoxOutputDirectory.Text = selectedOutputDirectory_;
+                selectedOutputPathname_ = value;
+                textBoxOutputPathname.Text = selectedOutputPathname_;
             }
         }
 
@@ -126,7 +131,7 @@ namespace FontBuilder
         }
 
         private Font selectedFont_;
-        private string selectedOutputDirectory_;
+        private string selectedOutputPathname_;
         private Color selectedColor_;
     }
 }

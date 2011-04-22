@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FontBuilder.cs" />
+    <Compile Include="Glyph.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
