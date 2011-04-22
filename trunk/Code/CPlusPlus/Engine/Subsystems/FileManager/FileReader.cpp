@@ -16,7 +16,8 @@ FileReader::FileReader(const wchar_t* pathName)
 
 FileReader::~FileReader()
 {
-	CloseHandle(fileHandle_);
+	if( IsFileHandleValid() )
+		CloseHandle(fileHandle_);
 }
 
 void FileReader::ReadData(void* buffer, int length)
@@ -41,3 +42,7 @@ float FileReader::ReadFloat()
 	return value;
 }
 
+bool FileReader::IsFileHandleValid() const
+{
+	return (fileHandle_ != INVALID_HANDLE_VALUE);
+}

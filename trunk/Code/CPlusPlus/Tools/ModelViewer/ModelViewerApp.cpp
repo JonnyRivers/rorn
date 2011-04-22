@@ -1,6 +1,8 @@
 #include "StdAfx.h"
 #include "ModelViewerApp.h"
 
+#include <sstream>
+
 #include "../../Engine/Subsystems/DiagnosticsManager/DiagnosticsManager.h"
 #include "../../Engine/Subsystems/InputManager/InputManager.h"
 #include "../../Engine/Subsystems/LightingManager/LightingManager.h"
@@ -65,6 +67,15 @@ BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* comma
 		return FALSE;
 
 	model_ = RenderManager::GetInstance().LoadOrGetModel(commandLine);
+
+	if( model_ == NULL )
+	{
+		std::wstringstream errorStream;
+		errorStream << "Unable to load model at '" << commandLine << "'.";
+		DiagnosticsManager::GetInstance().ReportError(errorStream.str().c_str());
+		return FALSE;
+	}
+
 	const Rorn::Maths::BoundingBox& modelBoundingBox = model_->GetBoundingBox();
 
 	Matrix4x4 instanceToWorldMatrix = Matrix4x4::BuildIdentity();

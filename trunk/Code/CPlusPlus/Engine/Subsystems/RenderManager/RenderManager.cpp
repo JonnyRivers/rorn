@@ -145,10 +145,13 @@ void RenderManager::SetCurrentCamera(Camera* camera)
 Model* RenderManager::LoadOrGetModel(const wchar_t* modelPathName)
 {
 	Model* newModel = new Model();
-	newModel->LoadFromFile(modelPathName, device_);
-	models_.push_back(std::unique_ptr<Model>(newModel));
+	if(newModel->LoadFromFile(modelPathName, device_))
+	{
+		models_.push_back(std::unique_ptr<Model>(newModel));
+		return newModel;
+	}
 
-	return newModel;
+	return NULL;
 }
 
 ModelInstance* RenderManager::CreateModelInstance(Model* model, const Matrix4x4& instanceToWorldMatrix)

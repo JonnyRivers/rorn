@@ -20,9 +20,12 @@ Model::~Model(void)
 {
 }
 
-void Model::LoadFromFile(const wchar_t* modelPathName, ID3D11Device* device)
+bool Model::LoadFromFile(const wchar_t* modelPathName, ID3D11Device* device)
 {
 	FileReader fileReader(modelPathName);
+
+	if( !fileReader.IsFileHandleValid() )
+		return false;
 
 	// TODO validate version and file identifier
 	char fileIdentifierBuffer[9];
@@ -70,6 +73,8 @@ void Model::LoadFromFile(const wchar_t* modelPathName, ID3D11Device* device)
 			renderCommands_.push_back(std::unique_ptr<RenderCommand>(newRenderCommand));
 		}
 	}
+
+	return true;
 }
 
 const BoundingBox& Model::GetBoundingBox() const
