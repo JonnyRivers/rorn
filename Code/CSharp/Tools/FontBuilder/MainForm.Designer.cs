@@ -91,6 +91,7 @@
             this.textBoxOutputPathname.Name = "textBoxOutputPathname";
             this.textBoxOutputPathname.Size = new System.Drawing.Size(418, 20);
             this.textBoxOutputPathname.TabIndex = 1;
+            this.textBoxOutputPathname.TextChanged += new System.EventHandler(this.OnOutputPathnameChanged);
             // 
             // label2
             // 

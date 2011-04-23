@@ -35,6 +35,11 @@ namespace FontBuilder
             }
         }
 
+        private void OnOutputPathnameChanged(object sender, EventArgs e)
+        {
+            SelectedOutputPathname = textBoxOutputPathname.Text;
+        }
+
         private void OnBrowseOutputPathname(object sender, EventArgs e)
         {
             string selectedPathname;
