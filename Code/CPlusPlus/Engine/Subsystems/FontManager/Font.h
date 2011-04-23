@@ -11,18 +11,17 @@ namespace Rorn
 {
 	namespace Engine
 	{
-
-		class Texture
+		class Font
 		{
-		public:
-			Texture();
-			
-			HRESULT Load(ID3D11Device* device, int dataSize, const void* const data);
-			void Release();
+			friend class FontManager;
 
-			ID3D11ShaderResourceView* GetUnderlyingTexture();// goodbye encapsulation
+		public:
+			void Release();
 		private:
-			ID3D11ShaderResourceView* shaderResourceView_;
+			Font();
+
+			bool Load(const wchar_t* fontPathname);
+			// font data
 		};
 	}
 }
