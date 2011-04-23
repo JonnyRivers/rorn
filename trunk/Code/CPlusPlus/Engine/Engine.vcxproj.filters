@@ -25,6 +25,9 @@
     <Filter Include="Subsystems\LightingManager">
       <UniqueIdentifier>{ec63490c-591f-4e16-8b9d-573759adb77c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Subsystems\FontManager">
+      <UniqueIdentifier>{754fde68-8fcd-404d-9f9b-aa8a05026944}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Subsystems\RenderManager\RenderManager.cpp">
@@ -96,6 +99,12 @@
     <ClCompile Include="Subsystems\LightingManager\PointLight.cpp">
       <Filter>Subsystems\LightingManager</Filter>
     </ClCompile>
+    <ClCompile Include="Subsystems\FontManager\Font.cpp">
+      <Filter>Subsystems\FontManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\FontManager\FontManager.cpp">
+      <Filter>Subsystems\FontManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Subsystems\RenderManager\RenderManager.h">
@@ -166,6 +175,12 @@
     </ClInclude>
     <ClInclude Include="Subsystems\LightingManager\PointLight.h">
       <Filter>Subsystems\LightingManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\FontManager\Font.h">
+      <Filter>Subsystems\FontManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\FontManager\FontManager.h">
+      <Filter>Subsystems\FontManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

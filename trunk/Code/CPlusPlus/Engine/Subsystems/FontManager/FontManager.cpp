@@ -1,4 +1,4 @@
-#include "TextureManager.h"
+#include "FontManager.h"
 
 #include <cassert>
 
@@ -6,61 +6,54 @@
 
 using namespace Rorn::Engine;
 
-/*static*/ TextureManager& TextureManager::instance_ = TextureManager();// init static instance
+/*static*/ FontManager& FontManager::instance_ = FontManager();// init static instance
 
-/*static*/ TextureManager& TextureManager::GetInstance()
+/*static*/ FontManager& FontManager::GetInstance()
 {
 	return instance_;
 }
 
-TextureManager::TextureManager(void)
-	: device_(NULL), nextTextureId_(1)
+FontManager::FontManager(void)
 {
 }
 
-HRESULT TextureManager::Startup(ID3D11Device* device)
+HRESULT FontManager::Startup()
 {
-	DiagnosticsManager::GetInstance().GetLoggingStream() << "The Texture Manager is starting up." << std::endl;
+	DiagnosticsManager::GetInstance().GetLoggingStream() << "The Font Manager is starting up." << std::endl;
 
-	device_ = device;
-	device_->AddRef();
 
-	DiagnosticsManager::GetInstance().GetLoggingStream() << "The Texture Manager started up successfully." << std::endl;
+
+	DiagnosticsManager::GetInstance().GetLoggingStream() << "The Font Manager started up successfully." << std::endl;
 
 	return S_OK;
 }
 
-void TextureManager::Shutdown()
+void FontManager::Shutdown()
 {
-	DiagnosticsManager::GetInstance().GetLoggingStream() << "The Texture Manager is shutting down." << std::endl;
+	DiagnosticsManager::GetInstance().GetLoggingStream() << "The Font Manager is shutting down." << std::endl;
 
-	std::map<int, std::unique_ptr<Texture>>::iterator textureIter;
-	for(textureIter = textures_.begin() ; textureIter != textures_ .end() ; ++textureIter)
-		textureIter->second->Release();
-	textures_.clear();
+	std::list<std::unique_ptr<Font>>::iterator fontIter;
+	for(fontIter = fonts_.begin() ; fontIter != fonts_ .end() ; ++fontIter)
+		(*fontIter)->Release();
+	fonts_.clear();
 
-	if(device_ != NULL)
-		device_->Release();
-
-	DiagnosticsManager::GetInstance().GetLoggingStream() << "The Texture Manager shut down successfully." << std::endl;
+	DiagnosticsManager::GetInstance().GetLoggingStream() << "The Font Manager shut down successfully." << std::endl;
 }
 
-void TextureManager::Step()
+void FontManager::Step()
 {
 }
 
-int TextureManager::CreateTexture(const void* data, int dataLength)
+Font* FontManager::LoadOrGetFont(const wchar_t* fontPathname)
 {
-	Rorn::Engine::Texture* newTexture = new Rorn::Engine::Texture();
-	newTexture->Load(device_, dataLength, data);
-	textures_.insert(
-		std::make_pair<int, std::unique_ptr<Texture>>(
-			nextTextureId_, std::unique_ptr<Texture>(newTexture)));
+	Rorn::Engine::Font* newFont = new Rorn::Engine::Font();
+	if( newFont->Load(fontPathname) )
+	{
+		fonts_.push_back( std::unique_ptr<Font>(newFont) );
 
-	return nextTextureId_++;
+		return newFont;
+	}
+
+	return NULL;
 }
 
-ID3D11ShaderResourceView* TextureManager::GetTexture(int textureId)
-{
-	return textures_.find(textureId)->second->GetUnderlyingTexture();
-}

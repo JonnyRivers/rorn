@@ -1,37 +1,32 @@
 #pragma once
 
-#include <map>
+#include <list>
 
 #include <windows.h>
 
-#include <d3d11.h>
-
-#include "Texture.h"
+#include "Font.h"
 
 namespace Rorn
 {
 	namespace Engine
 	{
-		class TextureManager
+		class FontManager
 		{
 		public:
-			static TextureManager& GetInstance();
+			static FontManager& GetInstance();
 
-			HRESULT Startup(ID3D11Device* device);
+			HRESULT Startup();
 			void Shutdown();
 
 			void Step();
 
-			int CreateTexture(const void* data, int dataLength);
-			ID3D11ShaderResourceView* GetTexture(int textureId);
+			Font* LoadOrGetFont(const wchar_t* fontPathname);
 		private:
-			static TextureManager& instance_;
+			static FontManager& instance_;
 
-			TextureManager(void);
+			FontManager(void);
 
-			ID3D11Device* device_;
-			int nextTextureId_;
-			std::map<int, std::unique_ptr<Texture>> textures_;
+			std::list<std::unique_ptr<Font>> fonts_;
 		};
 	}
 }

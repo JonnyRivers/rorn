@@ -14,6 +14,8 @@
     <ClInclude Include="Subsystems\DiagnosticsManager\DiagnosticsManager.h" />
     <ClInclude Include="Subsystems\FileManager\FileManager.h" />
     <ClInclude Include="Subsystems\FileManager\FileReader.h" />
+    <ClInclude Include="Subsystems\FontManager\Font.h" />
+    <ClInclude Include="Subsystems\FontManager\FontManager.h" />
     <ClInclude Include="Subsystems\InputManager\InputManager.h" />
     <ClInclude Include="Subsystems\LightingManager\DirectionalLight.h" />
     <ClInclude Include="Subsystems\LightingManager\LightingManager.h" />
@@ -39,6 +41,8 @@
     <ClCompile Include="Subsystems\DiagnosticsManager\DiagnosticsManager.cpp" />
     <ClCompile Include="Subsystems\FileManager\FileManager.cpp" />
     <ClCompile Include="Subsystems\FileManager\FileReader.cpp" />
+    <ClCompile Include="Subsystems\FontManager\Font.cpp" />
+    <ClCompile Include="Subsystems\FontManager\FontManager.cpp" />
     <ClCompile Include="Subsystems\InputManager\InputManager.cpp" />
     <ClCompile Include="Subsystems\LightingManager\DirectionalLight.cpp" />
     <ClCompile Include="Subsystems\LightingManager\LightingManager.cpp" />

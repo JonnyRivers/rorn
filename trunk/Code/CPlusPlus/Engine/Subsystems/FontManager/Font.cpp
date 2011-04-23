@@ -1,32 +1,16 @@
-#include "Texture.h"
+#include "Font.h"
 
 using namespace Rorn::Engine;
 
-Texture::Texture() : shaderResourceView_(NULL)
+Font::Font()
 {
 }
 
-HRESULT Texture::Load(ID3D11Device* device, int dataSize, const void* const data)
+bool Font::Load(const wchar_t* fontPathname)
 {
-	HRESULT hr = D3DX11CreateShaderResourceViewFromMemory(
-		device,
-		data,
-		dataSize,
-		NULL,
-		NULL,
-		&shaderResourceView_,
-		NULL);
-
-	return hr;
+	return false;
 }
 
-void Texture::Release()
+void Font::Release()
 {
-	if (shaderResourceView_ != NULL)
-		shaderResourceView_->Release();
-}
-
-ID3D11ShaderResourceView* Texture::GetUnderlyingTexture()
-{
-	return shaderResourceView_;
 }
