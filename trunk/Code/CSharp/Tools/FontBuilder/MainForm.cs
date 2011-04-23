@@ -60,8 +60,7 @@ namespace FontBuilder
         {
             try
             {
-                FontBuilder fontBuilder = new FontBuilder();
-                fontBuilder.Build(SelectedOutputPathname, SelectedFont, SelectedColor);
+                FontBuilder.Build(SelectedOutputPathname, SelectedFont, SelectedColor);
             }
             catch (Exception ex)
             {

@@ -8,37 +8,33 @@ namespace FontBuilder
 {
     internal class FontBuilder
     {
-        internal FontBuilder()
+        internal static void Build(string fontPathname, Font font, Color color)
         {
-        }
-
-        internal void Build(string fontPathname, Font font, Color color)
-        {
-            glyphs_ = new List<Glyph>();
+            var glyphs = new List<Glyph>();
             foreach (char character in charactersToDraw_)
-                glyphs_.Add(new Glyph(character));
+                glyphs.Add(new Glyph(character));
 
-            MeasureGlyphs(font);
-            int outputTextureDimension = DetermineOutputTextureDimension();
+            MeasureGlyphs(glyphs, font);
+            int outputTextureDimension = DetermineOutputTextureDimension(glyphs);
             string pngPathname = System.IO.Path.ChangeExtension(System.IO.Path.GetTempFileName(), ".png");
             using (Bitmap outputImage = new Bitmap(outputTextureDimension, outputTextureDimension, System.Drawing.Imaging.PixelFormat.Format32bppArgb))
             {
-                OutputGlyphsToImage(font, color, outputImage);
+                OutputGlyphsToImage(glyphs, font, color, outputImage);
                 outputImage.Save(pngPathname);
             }
             string ddsPathname = System.IO.Path.GetTempFileName();
             ConvertToDDS(pngPathname, ddsPathname);
-            System.IO.File.Copy(pngPathname, System.IO.Path.ChangeExtension(fontPathname, ".png"));
+#if _DEBUG_OUTPUT_TEMP_IMAGES
+            //System.IO.File.Copy(pngPathname, System.IO.Path.ChangeExtension(fontPathname, ".png"));
+            //System.IO.File.Copy(ddsPathname, System.IO.Path.ChangeExtension(fontPathname, ".dds"));
+#endif
             System.IO.File.Delete(pngPathname);
             byte[] ddsData = System.IO.File.ReadAllBytes(ddsPathname);
-            System.IO.File.Copy(ddsPathname, System.IO.Path.ChangeExtension(fontPathname, ".dds"));
             System.IO.File.Delete(ddsPathname);
-            WriteFontFile(fontPathname, ddsData);
-
-            glyphs_ = null;
+            WriteFontFile(fontPathname, glyphs, ddsData);
         }
 
-        private void MeasureGlyphs(Font font)
+        private static void MeasureGlyphs(IEnumerable<Glyph> glyphs, Font font)
         {
             Dictionary<uint, SizeF> glyphMeasurements = new Dictionary<uint, SizeF>();
             int sketchBitmapDimensions = (int)(font.SizeInPoints * 2);
@@ -46,7 +42,7 @@ namespace FontBuilder
             {
                 using (Graphics graphics = Graphics.FromImage(sketchBitmap))
                 {
-                    foreach (Glyph glyph in glyphs_)
+                    foreach (Glyph glyph in glyphs)
                     {
                         string stringToMeasure = "";
                         stringToMeasure += glyph.TextCharacter;
@@ -58,24 +54,24 @@ namespace FontBuilder
             }
         }
 
-        private int DetermineOutputTextureDimension()
+        private static int DetermineOutputTextureDimension(IEnumerable<Glyph> glyphs)
         {
             int outputTextureDimension = 64;
 
             while (true)
             {
-                if (GlyphsWillFitOutputTextureDimension(outputTextureDimension))
+                if (GlyphsWillFitOutputTextureDimension(glyphs, outputTextureDimension))
                     return outputTextureDimension;
                 else
                     outputTextureDimension *= 2;
             }
         }
 
-        private bool GlyphsWillFitOutputTextureDimension(int outputTextureDimension)
+        private static bool GlyphsWillFitOutputTextureDimension(IEnumerable<Glyph> glyphs, int outputTextureDimension)
         {
             uint nextGlyphX = 0;
             uint nextGlyphY = 0;
-            foreach (Glyph glyph in glyphs_)
+            foreach (Glyph glyph in glyphs)
             {
                 if (nextGlyphX + glyph.Width > outputTextureDimension)// check for overflow of width
                 {
@@ -92,7 +88,7 @@ namespace FontBuilder
             return true;
         }
 
-        private void OutputGlyphsToImage(Font font, Color color, Bitmap image)
+        private static void OutputGlyphsToImage(IEnumerable<Glyph> glyphs, Font font, Color color, Bitmap image)
         {
             using (Graphics graphics = Graphics.FromImage(image))
             {
@@ -102,7 +98,7 @@ namespace FontBuilder
                     graphics.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
                     uint currentGlyphX = 0;
                     uint currentGlyphY = 0;
-                    foreach (Glyph glyph in glyphs_)
+                    foreach (Glyph glyph in glyphs)
                     {
                         if (currentGlyphX + glyph.Width > image.Width)// check for overflow of width
                         {
@@ -115,6 +111,10 @@ namespace FontBuilder
                         graphics.DrawString(stringToDraw, font, textBrush, (float)currentGlyphX, (float)currentGlyphY);
                         glyph.X = currentGlyphX;
                         glyph.Y = currentGlyphY;
+                        glyph.StartU = (float)((double)glyph.X / (double)image.Width);
+                        glyph.StartV = (float)((double)glyph.Y / (double)image.Height);
+                        glyph.EndU = glyph.StartU + (float)((double)glyph.Width / (double)image.Width);
+                        glyph.EndV = glyph.StartV + (float)((double)glyph.Height / (double)image.Height);
 
                         currentGlyphX += glyph.Width;
                     }
@@ -122,7 +122,7 @@ namespace FontBuilder
             }
         }
 
-        private void ConvertToDDS(string sourcePathname, string ddsPathname)
+        private static void ConvertToDDS(string sourcePathname, string ddsPathname)
         {
             // Run nvcompress, which must live alongside the executing assembly (for now)
             string modelCompilerPathName = System.Reflection.Assembly.GetExecutingAssembly().Location;
@@ -136,7 +136,7 @@ namespace FontBuilder
             nvcompressProcess.WaitForExit();
         }
 
-        private void WriteFontFile(string pathname, byte[] ddsData)
+        private static void WriteFontFile(string pathname, IEnumerable<Glyph> glyphs, byte[] ddsData)
         {
             using (System.IO.BinaryWriter writer = new System.IO.BinaryWriter(System.IO.File.Create(pathname)))
             {
@@ -151,16 +151,20 @@ namespace FontBuilder
 
                 writer.Write(CurrentVersionNumber);
 
-                uint numGlyphs = (uint)glyphs_.Count;
+                uint numGlyphs = (uint)glyphs.Count();
                 writer.Write(numGlyphs);
 
-                foreach (Glyph glyph in glyphs_)
+                foreach (Glyph glyph in glyphs)
                 {
                     writer.Write(glyph.CharacterCode);
                     writer.Write(glyph.X);
                     writer.Write(glyph.Y);
                     writer.Write(glyph.Width);
                     writer.Write(glyph.Height);
+                    writer.Write(glyph.StartU);
+                    writer.Write(glyph.StartV);
+                    writer.Write(glyph.EndU);
+                    writer.Write(glyph.EndV);
                 }
                 
                 uint ddsDataLength = (uint)ddsData.Length;
@@ -171,14 +175,12 @@ namespace FontBuilder
 
         private static uint CurrentVersionNumber = 1;
 
-        private char[] charactersToDraw_ = new char[]
+        private static char[] charactersToDraw_ = new char[]
         {
             '1', '2', '3', '4', '5', '6', '7', '8', '9',
             'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
             '`', '¬', '!', '"', '£', '$', '%', '^', '&', '*', '(', ')', '-', '_', '=', '+', '[', '{', ']', '}', ';', ':', '\'', '@', '#', '~', '\\', '|', ',', '<', '.', '>', '/', '?'
         };
-
-        private List<Glyph> glyphs_;
     }
 }
