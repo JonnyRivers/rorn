@@ -13,8 +13,9 @@ namespace Rorn
 			~FileReader();
 
 			void ReadData(void* buffer, int length);
-			int ReadInt();
 			float ReadFloat();
+			int ReadInt();
+			unsigned int ReadUInt();
 
 			bool IsFileHandleValid() const;
 		private:

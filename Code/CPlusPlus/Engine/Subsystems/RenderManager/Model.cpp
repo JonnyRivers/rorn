@@ -25,7 +25,7 @@ bool Model::LoadFromFile(const wchar_t* modelPathName, ID3D11Device* device)
 	FileReader fileReader(modelPathName);
 
 	if( !fileReader.IsFileHandleValid() )
-		return false;
+		return false;// better error handling
 
 	// TODO validate version and file identifier
 	char fileIdentifierBuffer[9];

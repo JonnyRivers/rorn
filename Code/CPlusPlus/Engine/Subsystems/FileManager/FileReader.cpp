@@ -26,6 +26,14 @@ void FileReader::ReadData(void* buffer, int length)
 	ReadFile(fileHandle_, buffer, length, &bytesRead, NULL);
 }
 
+float FileReader::ReadFloat()
+{
+	float value;
+	ReadData(&value, sizeof(value));
+
+	return value;
+}
+
 int FileReader::ReadInt()
 {
 	int value;
@@ -34,9 +42,9 @@ int FileReader::ReadInt()
 	return value;
 }
 
-float FileReader::ReadFloat()
+unsigned int FileReader::ReadUInt()
 {
-	float value;
+	unsigned int value;
 	ReadData(&value, sizeof(value));
 
 	return value;
