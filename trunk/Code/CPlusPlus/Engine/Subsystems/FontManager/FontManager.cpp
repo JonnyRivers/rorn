@@ -1,6 +1,7 @@
 #include "FontManager.h"
 
 #include <cassert>
+#include <sstream>
 
 #include "../DiagnosticsManager/DiagnosticsManager.h"
 
@@ -21,7 +22,15 @@ HRESULT FontManager::Startup()
 {
 	DiagnosticsManager::GetInstance().GetLoggingStream() << "The Font Manager is starting up." << std::endl;
 
-
+	std::wstring debugFontPathname(L"debug.font");
+	debugTextFont_ = LoadOrGetFont(debugFontPathname.c_str());
+	if( debugTextFont_ == NULL )
+	{
+		std::wstringstream errorStream;
+		errorStream << "Unable to load debug text font from '" << debugFontPathname << "'";
+		DiagnosticsManager::GetInstance().ReportError(errorStream.str().c_str());
+		return E_FAIL;
+	}
 
 	DiagnosticsManager::GetInstance().GetLoggingStream() << "The Font Manager started up successfully." << std::endl;
 

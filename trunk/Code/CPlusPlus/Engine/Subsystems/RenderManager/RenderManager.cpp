@@ -6,6 +6,7 @@
 
 #include "../DiagnosticsManager/DiagnosticsManager.h"
 #include "../TextureManager/TextureManager.h"
+#include "../FontManager/FontManager.h"
 
 #include "Camera.h"
 #include "FreeCamera.h"
@@ -59,6 +60,12 @@ HRESULT RenderManager::Startup(HWND hwnd)
 		return hr;
 
 	hr = TextureManager::GetInstance().Startup(device_);
+	if ( FAILED(hr) )
+		return hr;
+
+	hr = FontManager::GetInstance().Startup();
+	if ( FAILED(hr) )
+		return hr;
 
 	DiagnosticsManager::GetInstance().GetLoggingStream() << "The Render Manager started up successfully." << std::endl;
 
@@ -68,6 +75,8 @@ HRESULT RenderManager::Startup(HWND hwnd)
 void RenderManager::Shutdown()
 {
 	DiagnosticsManager::GetInstance().GetLoggingStream() << "The Render Manager is shutting down." << std::endl;
+
+	FontManager::GetInstance().Shutdown();
 
 	TextureManager::GetInstance().Shutdown();
 
@@ -165,6 +174,7 @@ ModelInstance* RenderManager::CreateModelInstance(Model* model, const Matrix4x4&
 void RenderManager::Step()
 {
 	TextureManager::GetInstance().Step();
+	FontManager::GetInstance().Step();
 
 	// Just clear the backbuffer
     float ClearColor[4] = { 0.0f, 0.125f, 0.3f, 1.0f }; //red,green,blue,alpha

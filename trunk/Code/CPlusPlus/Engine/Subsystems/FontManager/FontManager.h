@@ -27,6 +27,7 @@ namespace Rorn
 			FontManager(void);
 
 			std::list<std::unique_ptr<Font>> fonts_;
+			Font* debugTextFont_;
 		};
 	}
 }

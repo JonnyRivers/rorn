@@ -2,10 +2,7 @@
 
 #include <map>
 
-#include <windows.h>
-
-#include <d3d11.h>
-#include <d3dx11.h>
+#include "Glyph.h"
 
 namespace Rorn
 {
@@ -18,10 +15,12 @@ namespace Rorn
 		public:
 			void Release();
 		private:
-			Font();
+			Font();// Only FontManager has access
 
-			bool Load(const wchar_t* fontPathname);
-			// font data
+			bool Load(const wchar_t* fontPathname);// Only FontManager has access
+
+			std::map<unsigned int, Glyph> glyphs_;
+			int textureId_;
 		};
 	}
 }

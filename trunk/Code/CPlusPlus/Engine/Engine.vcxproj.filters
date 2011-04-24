@@ -105,6 +105,9 @@
     <ClCompile Include="Subsystems\FontManager\FontManager.cpp">
       <Filter>Subsystems\FontManager</Filter>
     </ClCompile>
+    <ClCompile Include="Subsystems\FontManager\Glyph.cpp">
+      <Filter>Subsystems\FontManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Subsystems\RenderManager\RenderManager.h">
@@ -180,6 +183,9 @@
       <Filter>Subsystems\FontManager</Filter>
     </ClInclude>
     <ClInclude Include="Subsystems\FontManager\FontManager.h">
+      <Filter>Subsystems\FontManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\FontManager\Glyph.h">
       <Filter>Subsystems\FontManager</Filter>
     </ClInclude>
   </ItemGroup>
