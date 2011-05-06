@@ -57,7 +57,21 @@ float TimeManager::GetFPS() const
 	for(frameTimeIter = previousFrameTimes_.cbegin() ; frameTimeIter != previousFrameTimes_.cend() ; ++frameTimeIter)
 		totalFrameTimes += *frameTimeIter;
 
-	float fps = static_cast<float>(maxFramesRecorded_) / totalFrameTimes;
+	float fps = static_cast<float>(previousFrameTimes_.size()) / totalFrameTimes;
 
 	return fps;
+}
+
+void TimeManager::SleepTillNextFrame() const
+{
+	const float secondsPerFrame_ = 1.0f / 60.0f;
+	float timePassed = 0.0f;
+
+	while( timePassed < secondsPerFrame_ )
+	{
+		LARGE_INTEGER timeAtThisStep;
+		::QueryPerformanceCounter(&timeAtThisStep);
+		timePassed = static_cast<float>(timeAtThisStep.QuadPart - timeAtLastStep_.QuadPart) / static_cast<float>(timerFrequency_.QuadPart);
+	}
+
 }

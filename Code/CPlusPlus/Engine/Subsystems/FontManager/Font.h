@@ -14,6 +14,9 @@ namespace Rorn
 
 		public:
 			void Release();
+
+			int GetTextureId() const { return textureId_; }
+			const Glyph* GetGlyph(unsigned int characterCode) const;
 		private:
 			Font();// Only FontManager has access
 

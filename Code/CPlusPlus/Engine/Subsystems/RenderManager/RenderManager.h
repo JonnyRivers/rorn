@@ -12,6 +12,8 @@
 #include "../../../Shared/RornMaths/Matrix4x4.h"
 #include "../../../Shared/RornMaths/Vector3.h"
 
+#include "BlitRenderCommand.h"
+
 namespace Rorn
 {
 	namespace Engine
@@ -40,6 +42,9 @@ namespace Rorn
 
 			Model* LoadOrGetModel(const wchar_t* modelPathName);
 			ModelInstance* CreateModelInstance(Model* model, const Maths::Matrix4x4& instanceToWorldMatrix);
+
+			// TODO remove this from here
+			void AddDebugText(const char* text, float x, float y);
 
 			void Step();
 		private:
@@ -76,6 +81,7 @@ namespace Rorn
 			// Geometry
 			std::list<std::unique_ptr<Model>> models_;
 			std::list<std::unique_ptr<ModelInstance>>  modelInstances_;
+			std::list<std::unique_ptr<BlitRenderCommand>> debugTextCommands_;
 		};
 	}
 }

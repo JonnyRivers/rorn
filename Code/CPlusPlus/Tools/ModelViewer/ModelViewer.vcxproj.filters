@@ -23,6 +23,7 @@
     </None>
     <None Include="..\..\..\..\Toolchain\Untextured.fx" />
     <None Include="..\..\..\..\Toolchain\DiffuseOnly.fx" />
+    <None Include="..\..\..\..\Toolchain\Blit.fx" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">

@@ -21,6 +21,7 @@ namespace Rorn
 			void Step();
 
 			Font* LoadOrGetFont(const wchar_t* fontPathname);
+			const Font& GetDebugTextFont() const { return *debugTextFont_; }
 		private:
 			static FontManager& instance_;
 

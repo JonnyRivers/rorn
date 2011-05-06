@@ -9,14 +9,14 @@ namespace Rorn
 		public:
 			Glyph(unsigned int x, unsigned int y, unsigned int width, unsigned int height, float startU, float startV, float endU, float endV);
 
-			unsigned int GetX() { return x_; }
-			unsigned int GetY() { return y_; }
-			unsigned int GetWidth() { return width_; }
-			unsigned int GetHeight() { return height_; }
-			float GetStartU() { return startU_; }
-			float GetStartV() { return startV_; }
-			float GetEndU() { return endU_; }
-			float GetEndV() { return endV_; }
+			unsigned int GetX() const { return x_; }
+			unsigned int GetY() const { return y_; }
+			unsigned int GetWidth() const { return width_; }
+			unsigned int GetHeight() const { return height_; }
+			float GetStartU() const { return startU_; }
+			float GetStartV() const { return startV_; }
+			float GetEndU() const { return endU_; }
+			float GetEndV() const { return endV_; }
 		private:
 			unsigned int x_;
 			unsigned int y_;

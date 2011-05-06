@@ -65,4 +65,3 @@ Font* FontManager::LoadOrGetFont(const wchar_t* fontPathname)
 
 	return NULL;
 }
-

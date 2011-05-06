@@ -15,6 +15,7 @@ namespace Rorn
 
 			void Step(float& timePassed);
 			float GetFPS() const;
+			void SleepTillNextFrame() const;
 		private:
 			static TimeManager& instance_;
 
