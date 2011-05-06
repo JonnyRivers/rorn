@@ -401,11 +401,14 @@ Matrix4x4 RenderManager::BuildViewToProjectionMatrix(
 
 void RenderManager::AddDebugText(const char* text, float x, float y)// x and y are in homogenous screen coordinates
 {
+	static BlitRenderCommand::VertexFormat vertexData[BlitRenderCommand::MaxNumVerts];
+	static int indexData[BlitRenderCommand::MaxNumVerts];
+
 	int numCharacters = strlen(text);
 	const Font& debugTextFont = FontManager::GetInstance().GetDebugTextFont();
 	// Update the vertex and index buffer of the associated blit render command
 	int vertexCount = numCharacters * 6;// 2 triangles per character
-	BlitRenderCommand::VertexFormat* vertexData = new BlitRenderCommand::VertexFormat[vertexCount];
+	
 	int currentVertexIndex = 0;
 	float currentX = x;
 	float currentY = y;
@@ -476,14 +479,8 @@ void RenderManager::AddDebugText(const char* text, float x, float y)// x and y a
 	}
 
 	int indexCount = vertexCount;
-	int* indexData = new int[indexCount];
 	for(int index = 0 ; index < indexCount ; ++index)
-	{
 		indexData[index] = index;
-	}
 
 	(*debugTextCommands_.begin())->UpdateData(deviceContext_, vertexCount, vertexData, indexCount, indexData);
-
-	delete [] vertexData;
-	delete [] indexData;
 }
