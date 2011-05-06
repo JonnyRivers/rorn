@@ -25,6 +25,8 @@ namespace Rorn
 			void Draw(ID3D11DeviceContext* deviceContext);
 
 			void Release();
+
+			static const unsigned int MaxNumVerts = 1024;
 		private:
 			int textureId_;
 

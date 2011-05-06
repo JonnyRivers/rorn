@@ -81,6 +81,7 @@ namespace Rorn
 			// Geometry
 			std::list<std::unique_ptr<Model>> models_;
 			std::list<std::unique_ptr<ModelInstance>>  modelInstances_;
+
 			std::list<std::unique_ptr<BlitRenderCommand>> debugTextCommands_;
 		};
 	}

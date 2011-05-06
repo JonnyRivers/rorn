@@ -19,7 +19,7 @@ BlitRenderCommand::BlitRenderCommand(ID3D11Device* device, int textureId)
 	  indexBuffer_(NULL)
 {
 	// Zero vertex data
-	vertexCount_ = 1024;
+	vertexCount_ = BlitRenderCommand::MaxNumVerts;
 	vertexDataSize_ = vertexCount_ * sizeof(BlitRenderCommand::VertexFormat);
 	BlitRenderCommand::VertexFormat* vertices = new BlitRenderCommand::VertexFormat[vertexCount_];
 	memset(vertices, 0, vertexDataSize_);
@@ -39,7 +39,7 @@ BlitRenderCommand::BlitRenderCommand(ID3D11Device* device, int textureId)
 	delete [] vertices;
 
 	// Read index data
-	indexCount_ = 1024;
+	indexCount_ = BlitRenderCommand::MaxNumVerts;
 	indexDataSize_ = indexCount_ * sizeof(unsigned int);
 	unsigned int* indices = new unsigned int[indexCount_];
 	memset(indices, 0, indexDataSize_);
