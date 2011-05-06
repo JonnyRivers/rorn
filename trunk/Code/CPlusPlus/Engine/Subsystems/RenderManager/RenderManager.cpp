@@ -17,6 +17,10 @@
 
 #include "UntexturedSurfaceFormat.h"
 #include "DiffuseOnlySurfaceFormat.h"
+#include "BlitSurfaceFormat.h"
+
+#include "../FontManager/Font.h"
+#include "../FontManager/Glyph.h"
 
 using namespace Rorn::Engine;
 using namespace Rorn::Maths;
@@ -67,6 +71,11 @@ HRESULT RenderManager::Startup(HWND hwnd)
 	if ( FAILED(hr) )
 		return hr;
 
+	// setup the one debug text command
+	int debugFontTextureId = FontManager::GetInstance().GetDebugTextFont().GetTextureId();
+	BlitRenderCommand* newDebugTextRenderCommand = new BlitRenderCommand(device_, debugFontTextureId);
+	debugTextCommands_.push_back(std::unique_ptr<BlitRenderCommand>(newDebugTextRenderCommand));
+
 	DiagnosticsManager::GetInstance().GetLoggingStream() << "The Render Manager started up successfully." << std::endl;
 
 	return S_OK;
@@ -80,6 +89,10 @@ void RenderManager::Shutdown()
 
 	TextureManager::GetInstance().Shutdown();
 
+	std::list<std::unique_ptr<BlitRenderCommand>>::iterator debugTextCommandIter;
+	for(debugTextCommandIter = debugTextCommands_.begin() ; debugTextCommandIter != debugTextCommands_ .end() ; ++debugTextCommandIter)
+		(*debugTextCommandIter)->Release();
+
 	std::list<std::unique_ptr<Model>>::iterator modelIter;
 	for(modelIter = models_.begin() ; modelIter != models_ .end() ; ++modelIter)
 		(*modelIter)->Release();
@@ -88,6 +101,7 @@ void RenderManager::Shutdown()
 	modelInstances_.clear();
 	cameras_.clear();
 
+	BlitSurfaceFormat::GetInstance().Release();
 	DiffuseOnlySurfaceFormat::GetInstance().Release();
 	UntexturedSurfaceFormat::GetInstance().Release();
 
@@ -195,6 +209,12 @@ void RenderManager::Step()
 	for(instanceIter = modelInstances_.cbegin() ; instanceIter != modelInstances_.cend() ; ++instanceIter)
 	{
 		(*instanceIter)->Draw(deviceContext_, worldToProjectionMatrix);
+	}
+
+	std::list<std::unique_ptr<BlitRenderCommand>>::const_iterator debugTextCommandIter;
+	for(debugTextCommandIter = debugTextCommands_.cbegin() ; debugTextCommandIter != debugTextCommands_.cend() ; ++debugTextCommandIter)
+	{
+		(*debugTextCommandIter)->Draw(deviceContext_);
 	}
 
     swapChain_->Present( 0, 0 );
@@ -354,6 +374,11 @@ HRESULT RenderManager::SetupSurfaceFormats()
 		return hr;
 	DiagnosticsManager::GetInstance().GetLoggingStream() << "Successfully setup Diffuse Only Surface Format" << std::endl;
 
+	hr = BlitSurfaceFormat::GetInstance().Initialize(device_);
+	if( FAILED(hr) )
+		return hr;
+	DiagnosticsManager::GetInstance().GetLoggingStream() << "Successfully setup Blit Surface Format" << std::endl;
+
 	return S_OK;
 }
 
@@ -372,4 +397,93 @@ Matrix4x4 RenderManager::BuildViewToProjectionMatrix(
 		 0.0f, height, 0.0f,             0.0f,
 		 0.0f,   0.0f,  m33,             1.0f,
 		 0.0f,   0.0f, -m33 * nearClipZ, 1.0f);
+}
+
+void RenderManager::AddDebugText(const char* text, float x, float y)// x and y are in homogenous screen coordinates
+{
+	int numCharacters = strlen(text);
+	const Font& debugTextFont = FontManager::GetInstance().GetDebugTextFont();
+	// Update the vertex and index buffer of the associated blit render command
+	int vertexCount = numCharacters * 6;// 2 triangles per character
+	BlitRenderCommand::VertexFormat* vertexData = new BlitRenderCommand::VertexFormat[vertexCount];
+	int currentVertexIndex = 0;
+	float currentX = x;
+	float currentY = y;
+	for(int characterIndex = 0 ; characterIndex < numCharacters ; ++characterIndex)
+	{
+		const Glyph* thisGlyph = debugTextFont.GetGlyph( text[characterIndex] );
+		assert(thisGlyph != NULL);
+		float glyphWidthPixels = static_cast<float>(thisGlyph->GetWidth());
+		float glyphHeightPixels = static_cast<float>(thisGlyph->GetHeight());
+		float glyphWidth = glyphWidthPixels / static_cast<float>(outputWidth_) * 2.0f;// from pixels to a -1 to 1 range
+		float glyphHeight = glyphHeightPixels / static_cast<float>(outputHeight_) * 2.0f;// from pixels to a -1 to 1 range
+		float leftPos = currentX;
+		float topPos = currentY;
+		float rightPos = leftPos + glyphWidth;
+		float bottomPos = topPos - glyphHeight;
+
+		// top left
+		vertexData[currentVertexIndex].Position.X = leftPos;
+		vertexData[currentVertexIndex].Position.Y = topPos;
+		vertexData[currentVertexIndex].Position.Z = 0.5f;
+		vertexData[currentVertexIndex].Position.W = 1.0f;
+		vertexData[currentVertexIndex].DiffuseUV.X = thisGlyph->GetStartU();
+		vertexData[currentVertexIndex].DiffuseUV.Y = thisGlyph->GetStartV();
+		++currentVertexIndex;
+		// top right
+		vertexData[currentVertexIndex].Position.X = rightPos;
+		vertexData[currentVertexIndex].Position.Y = topPos;
+		vertexData[currentVertexIndex].Position.Z = 0.5f;
+		vertexData[currentVertexIndex].Position.W = 1.0f;
+		vertexData[currentVertexIndex].DiffuseUV.X = thisGlyph->GetEndU();
+		vertexData[currentVertexIndex].DiffuseUV.Y = thisGlyph->GetStartV();
+		++currentVertexIndex;
+		// bottom right
+		vertexData[currentVertexIndex].Position.X = rightPos;
+		vertexData[currentVertexIndex].Position.Y = bottomPos;
+		vertexData[currentVertexIndex].Position.Z = 0.5f;
+		vertexData[currentVertexIndex].Position.W = 1.0f;
+		vertexData[currentVertexIndex].DiffuseUV.X = thisGlyph->GetEndU();
+		vertexData[currentVertexIndex].DiffuseUV.Y = thisGlyph->GetEndV();
+		++currentVertexIndex;
+
+		// bottom right
+		vertexData[currentVertexIndex].Position.X = rightPos;
+		vertexData[currentVertexIndex].Position.Y = bottomPos;
+		vertexData[currentVertexIndex].Position.Z = 0.5f;
+		vertexData[currentVertexIndex].Position.W = 1.0f;
+		vertexData[currentVertexIndex].DiffuseUV.X = thisGlyph->GetEndU();
+		vertexData[currentVertexIndex].DiffuseUV.Y = thisGlyph->GetEndV();
+		++currentVertexIndex;
+		// bottom left
+		vertexData[currentVertexIndex].Position.X = leftPos;
+		vertexData[currentVertexIndex].Position.Y = bottomPos;
+		vertexData[currentVertexIndex].Position.Z = 0.5f;
+		vertexData[currentVertexIndex].Position.W = 1.0f;
+		vertexData[currentVertexIndex].DiffuseUV.X = thisGlyph->GetStartU();
+		vertexData[currentVertexIndex].DiffuseUV.Y = thisGlyph->GetEndV();
+		++currentVertexIndex;
+		// top left
+		vertexData[currentVertexIndex].Position.X = leftPos;
+		vertexData[currentVertexIndex].Position.Y = topPos;
+		vertexData[currentVertexIndex].Position.Z = 0.5f;
+		vertexData[currentVertexIndex].Position.W = 1.0f;
+		vertexData[currentVertexIndex].DiffuseUV.X = thisGlyph->GetStartU();
+		vertexData[currentVertexIndex].DiffuseUV.Y = thisGlyph->GetStartV();
+		++currentVertexIndex;
+
+		currentX += glyphWidth;
+	}
+
+	int indexCount = vertexCount;
+	int* indexData = new int[indexCount];
+	for(int index = 0 ; index < indexCount ; ++index)
+	{
+		indexData[index] = index;
+	}
+
+	(*debugTextCommands_.begin())->UpdateData(deviceContext_, vertexCount, vertexData, indexCount, indexData);
+
+	delete [] vertexData;
+	delete [] indexData;
 }

@@ -108,6 +108,12 @@
     <ClCompile Include="Subsystems\FontManager\Glyph.cpp">
       <Filter>Subsystems\FontManager</Filter>
     </ClCompile>
+    <ClCompile Include="Subsystems\RenderManager\BlitRenderCommand.cpp">
+      <Filter>Subsystems\RenderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\RenderManager\BlitSurfaceFormat.cpp">
+      <Filter>Subsystems\RenderManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Subsystems\RenderManager\RenderManager.h">
@@ -187,6 +193,12 @@
     </ClInclude>
     <ClInclude Include="Subsystems\FontManager\Glyph.h">
       <Filter>Subsystems\FontManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\RenderManager\BlitRenderCommand.h">
+      <Filter>Subsystems\RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\RenderManager\BlitSurfaceFormat.h">
+      <Filter>Subsystems\RenderManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

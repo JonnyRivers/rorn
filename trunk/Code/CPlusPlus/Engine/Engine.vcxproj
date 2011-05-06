@@ -21,6 +21,8 @@
     <ClInclude Include="Subsystems\LightingManager\DirectionalLight.h" />
     <ClInclude Include="Subsystems\LightingManager\LightingManager.h" />
     <ClInclude Include="Subsystems\LightingManager\PointLight.h" />
+    <ClInclude Include="Subsystems\RenderManager\BlitRenderCommand.h" />
+    <ClInclude Include="Subsystems\RenderManager\BlitSurfaceFormat.h" />
     <ClInclude Include="Subsystems\RenderManager\Camera.h" />
     <ClInclude Include="Subsystems\RenderManager\DiffuseOnlyRenderCommand.h" />
     <ClInclude Include="Subsystems\RenderManager\DiffuseOnlySurfaceFormat.h" />
@@ -49,6 +51,8 @@
     <ClCompile Include="Subsystems\LightingManager\DirectionalLight.cpp" />
     <ClCompile Include="Subsystems\LightingManager\LightingManager.cpp" />
     <ClCompile Include="Subsystems\LightingManager\PointLight.cpp" />
+    <ClCompile Include="Subsystems\RenderManager\BlitRenderCommand.cpp" />
+    <ClCompile Include="Subsystems\RenderManager\BlitSurfaceFormat.cpp" />
     <ClCompile Include="Subsystems\RenderManager\Camera.cpp" />
     <ClCompile Include="Subsystems\RenderManager\DiffuseOnlyRenderCommand.cpp" />
     <ClCompile Include="Subsystems\RenderManager\DiffuseOnlySurfaceFormat.cpp" />

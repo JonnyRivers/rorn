@@ -168,7 +168,13 @@ VOID ModelViewerApp::Step()
 		}
 	}
 
+	char fpsText[64];
+	sprintf(fpsText, "FPS: %f", TimeManager::GetInstance().GetFPS());
+	RenderManager::GetInstance().AddDebugText(fpsText, -1.0f, 1.0f);
+
 	RenderManager::GetInstance().Step();
+
+	TimeManager::GetInstance().SleepTillNextFrame();
 }
 
 ATOM ModelViewerApp::RegisterClass()

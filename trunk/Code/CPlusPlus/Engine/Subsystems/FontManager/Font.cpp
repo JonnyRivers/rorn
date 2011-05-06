@@ -60,3 +60,13 @@ bool Font::Load(const wchar_t* fontPathname)
 void Font::Release()
 {
 }
+
+const Glyph* Font::GetGlyph(unsigned int characterCode) const
+{
+	std::map<unsigned int, Glyph>::const_iterator findGlyphIter = glyphs_.find(characterCode);
+
+	if( findGlyphIter != glyphs_.end() )
+		return &findGlyphIter->second;
+
+	return NULL;
+}
