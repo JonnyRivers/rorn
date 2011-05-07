@@ -67,6 +67,7 @@ namespace Rorn
 			ID3D11RenderTargetView* renderTargetView_;
 			ID3D11Texture2D* depthStencil_;
 			ID3D11DepthStencilView* depthStencilView_;
+			ID3D11BlendState* blendState_;
 			D3D_DRIVER_TYPE driverType_;
 			D3D_FEATURE_LEVEL featureLevel_;
 
