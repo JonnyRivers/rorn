@@ -39,6 +39,7 @@ RenderManager::RenderManager(void)
 	renderTargetView_(NULL), 
 	depthStencil_(NULL), 
 	depthStencilView_(NULL),
+	blendState_(NULL),
 	currentCamera_(NULL)
 {
 }
@@ -104,6 +105,9 @@ void RenderManager::Shutdown()
 	BlitSurfaceFormat::GetInstance().Release();
 	DiffuseOnlySurfaceFormat::GetInstance().Release();
 	UntexturedSurfaceFormat::GetInstance().Release();
+
+	if( blendState_ != NULL )
+		blendState_->Release();
 
 	if( depthStencil_ != NULL )
 		depthStencil_->Release();
@@ -345,6 +349,29 @@ HRESULT RenderManager::SetupRenderTargetView()
 
     deviceContext_->OMSetRenderTargets( 1, &renderTargetView_, depthStencilView_ );
 
+	D3D11_BLEND_DESC blendStateDescription;
+	memset(&blendStateDescription, 0, sizeof(blendStateDescription));
+    blendStateDescription.RenderTarget[0].BlendEnable = true;
+    blendStateDescription.RenderTarget[0].SrcBlend                  = D3D11_BLEND_SRC_ALPHA;        //D3D11_BLEND_SRC_COLOR;
+    blendStateDescription.RenderTarget[0].DestBlend                 = D3D11_BLEND_INV_SRC_ALPHA;//D3D11_BLEND_DEST_COLOR;
+    blendStateDescription.RenderTarget[0].SrcBlendAlpha             = D3D11_BLEND_ONE;//D3D11_BLEND_SRC_ALPHA;
+    blendStateDescription.RenderTarget[0].DestBlendAlpha			= D3D11_BLEND_ONE;//D3D11_BLEND_DEST_ALPHA;
+    blendStateDescription.RenderTarget[0].BlendOp                   = D3D11_BLEND_OP_ADD;
+    blendStateDescription.RenderTarget[0].BlendOpAlpha              = D3D11_BLEND_OP_ADD;
+    blendStateDescription.RenderTarget[0].RenderTargetWriteMask		= D3D11_COLOR_WRITE_ENABLE_ALL;
+
+	hr = device_->CreateBlendState(&blendStateDescription, &blendState_);
+	if( FAILED( hr ) )
+	{
+		DiagnosticsManager::GetInstance().ReportError(hr, L"Error during creation of Blend State");
+        return hr;
+	}
+	DiagnosticsManager::GetInstance().GetLoggingStream() << "Successfully created Blend State" << std::endl;
+
+	float blendFactor[] = { 1.0f,1.0f,1.0f,1.0f };
+    UINT sampleMask   = 0xffffffff;
+    deviceContext_->OMSetBlendState(blendState_, blendFactor, sampleMask);
+
 	return S_OK;
 }
 
@@ -428,7 +455,7 @@ void RenderManager::AddDebugText(const char* text, float x, float y)// x and y a
 		// top left
 		vertexData[currentVertexIndex].Position.X = leftPos;
 		vertexData[currentVertexIndex].Position.Y = topPos;
-		vertexData[currentVertexIndex].Position.Z = 0.5f;
+		vertexData[currentVertexIndex].Position.Z = 0.0f;
 		vertexData[currentVertexIndex].Position.W = 1.0f;
 		vertexData[currentVertexIndex].DiffuseUV.X = thisGlyph->GetStartU();
 		vertexData[currentVertexIndex].DiffuseUV.Y = thisGlyph->GetStartV();
@@ -436,7 +463,7 @@ void RenderManager::AddDebugText(const char* text, float x, float y)// x and y a
 		// top right
 		vertexData[currentVertexIndex].Position.X = rightPos;
 		vertexData[currentVertexIndex].Position.Y = topPos;
-		vertexData[currentVertexIndex].Position.Z = 0.5f;
+		vertexData[currentVertexIndex].Position.Z = 0.0f;
 		vertexData[currentVertexIndex].Position.W = 1.0f;
 		vertexData[currentVertexIndex].DiffuseUV.X = thisGlyph->GetEndU();
 		vertexData[currentVertexIndex].DiffuseUV.Y = thisGlyph->GetStartV();
@@ -444,7 +471,7 @@ void RenderManager::AddDebugText(const char* text, float x, float y)// x and y a
 		// bottom right
 		vertexData[currentVertexIndex].Position.X = rightPos;
 		vertexData[currentVertexIndex].Position.Y = bottomPos;
-		vertexData[currentVertexIndex].Position.Z = 0.5f;
+		vertexData[currentVertexIndex].Position.Z = 0.0f;
 		vertexData[currentVertexIndex].Position.W = 1.0f;
 		vertexData[currentVertexIndex].DiffuseUV.X = thisGlyph->GetEndU();
 		vertexData[currentVertexIndex].DiffuseUV.Y = thisGlyph->GetEndV();
@@ -453,7 +480,7 @@ void RenderManager::AddDebugText(const char* text, float x, float y)// x and y a
 		// bottom right
 		vertexData[currentVertexIndex].Position.X = rightPos;
 		vertexData[currentVertexIndex].Position.Y = bottomPos;
-		vertexData[currentVertexIndex].Position.Z = 0.5f;
+		vertexData[currentVertexIndex].Position.Z = 0.0f;
 		vertexData[currentVertexIndex].Position.W = 1.0f;
 		vertexData[currentVertexIndex].DiffuseUV.X = thisGlyph->GetEndU();
 		vertexData[currentVertexIndex].DiffuseUV.Y = thisGlyph->GetEndV();
@@ -461,7 +488,7 @@ void RenderManager::AddDebugText(const char* text, float x, float y)// x and y a
 		// bottom left
 		vertexData[currentVertexIndex].Position.X = leftPos;
 		vertexData[currentVertexIndex].Position.Y = bottomPos;
-		vertexData[currentVertexIndex].Position.Z = 0.5f;
+		vertexData[currentVertexIndex].Position.Z = 0.0f;
 		vertexData[currentVertexIndex].Position.W = 1.0f;
 		vertexData[currentVertexIndex].DiffuseUV.X = thisGlyph->GetStartU();
 		vertexData[currentVertexIndex].DiffuseUV.Y = thisGlyph->GetEndV();
@@ -469,7 +496,7 @@ void RenderManager::AddDebugText(const char* text, float x, float y)// x and y a
 		// top left
 		vertexData[currentVertexIndex].Position.X = leftPos;
 		vertexData[currentVertexIndex].Position.Y = topPos;
-		vertexData[currentVertexIndex].Position.Z = 0.5f;
+		vertexData[currentVertexIndex].Position.Z = 0.0f;
 		vertexData[currentVertexIndex].Position.W = 1.0f;
 		vertexData[currentVertexIndex].DiffuseUV.X = thisGlyph->GetStartU();
 		vertexData[currentVertexIndex].DiffuseUV.Y = thisGlyph->GetStartV();
