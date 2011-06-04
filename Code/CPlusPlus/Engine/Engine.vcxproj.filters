@@ -28,6 +28,24 @@
     <Filter Include="Subsystems\FontManager">
       <UniqueIdentifier>{754fde68-8fcd-404d-9f9b-aa8a05026944}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Interfaces">
+      <UniqueIdentifier>{0c98311a-3692-41f5-a50a-8fd76daf982d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Subsystems\Diagnostics">
+      <UniqueIdentifier>{24a5b198-637d-49c2-b553-fbe3efef4f6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Subsystems\Input">
+      <UniqueIdentifier>{c571481a-ef19-45f6-9b5c-ac8584ec0c99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Exceptions">
+      <UniqueIdentifier>{4ad20ce8-3caf-4732-9d94-1f95b741f13b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shared">
+      <UniqueIdentifier>{5911bb82-4aad-4c67-a393-b8ada4609bb3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shared\ErrorCodes">
+      <UniqueIdentifier>{c03ba7b4-5c44-465f-87c9-5aea8d42df97}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Subsystems\RenderManager\RenderManager.cpp">
@@ -114,6 +132,22 @@
     <ClCompile Include="Subsystems\RenderManager\BlitSurfaceFormat.cpp">
       <Filter>Subsystems\RenderManager</Filter>
     </ClCompile>
+    <ClCompile Include="PCEngine.cpp" />
+    <ClCompile Include="Subsystems\Diagnostics\PCDiagnostics.cpp">
+      <Filter>Subsystems\Diagnostics</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Input\DirectXInputManager.cpp">
+      <Filter>Subsystems\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Input\DirectXKeyboard.cpp">
+      <Filter>Subsystems\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Input\DirectXMouse.cpp">
+      <Filter>Subsystems\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Shared\ErrorCodes\HResultFormatter .cpp">
+      <Filter>Shared\ErrorCodes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Subsystems\RenderManager\RenderManager.h">
@@ -199,6 +233,37 @@
     </ClInclude>
     <ClInclude Include="Subsystems\RenderManager\BlitSurfaceFormat.h">
       <Filter>Subsystems\RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\IEngine.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="PCEngine.h" />
+    <ClInclude Include="Subsystems\Diagnostics\PCDiagnostics.h">
+      <Filter>Subsystems\Diagnostics</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\IDiagnostics.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Input\DirectXInputManager.h">
+      <Filter>Subsystems\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Input\DirectXKeyboard.h">
+      <Filter>Subsystems\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Input\DirectXMouse.h">
+      <Filter>Subsystems\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\IKeyboard.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\IMouse.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions\initialisation_exception.h">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Shared\ErrorCodes\HResultFormatter.h">
+      <Filter>Shared\ErrorCodes</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -13,6 +13,9 @@
 #include "../../Engine/Subsystems/TextureManager/TextureManager.h"
 #include "../../Engine/Subsystems/TimeManager/TimeManager.h"
 
+#include "../../Engine/PCEngine.h"
+#include "../../Engine/Interfaces/IEngine.h"
+
 #include "../../Shared/RornMaths/Constants.h"
 #include "../../Shared/RornMaths/BoundingBox.h"
 #include "../../Shared/RornMaths/Float4.h"
@@ -53,6 +56,24 @@ BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* comma
 
 	ShowWindow(windowHandle_, cmdShow);
 	UpdateWindow(windowHandle_);
+
+	IEngine* theEngine = NULL;
+	try
+	{
+		theEngine = PCEngine::Startup(windowHandle_);
+	}
+	catch(Rorn::Engine::initialisation_exception& ex)
+	{
+		::MessageBoxA(windowHandle_, ex.what(), "Unable to create engine", MB_OK);
+		return FALSE;
+	}
+
+	if( theEngine == NULL )
+		return FALSE;
+
+	theEngine->GetDiagnostics()->GetLoggingStream() << "The Model Viewer says: 'Hello world!'" << std::endl;
+
+	PCEngine::Shutdown(theEngine);
 
 	HRESULT hr = DiagnosticsManager::GetInstance().Startup(windowHandle_);
 	if( FAILED(hr) )
