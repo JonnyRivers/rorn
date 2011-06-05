@@ -4,6 +4,8 @@
 
 #include "../../../Shared/ErrorCodes/HResultFormatter.h"
 
+#include "../../Exceptions/initialisation_exception.h"
+
 #include "DirectXKeyboard.h"
 
 using namespace Rorn::Engine;

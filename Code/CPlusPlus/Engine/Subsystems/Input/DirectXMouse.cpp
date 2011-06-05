@@ -2,6 +2,8 @@
 
 #include "../../../Shared/ErrorCodes/HResultFormatter.h"
 
+#include "../../Exceptions/initialisation_exception.h"
+
 #include "DirectXMouse.h"
 
 using namespace Rorn::Engine;

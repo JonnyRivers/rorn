@@ -26,6 +26,7 @@
     <ClInclude Include="Subsystems\FontManager\FontManager.h" />
     <ClInclude Include="Subsystems\FontManager\Glyph.h" />
     <ClInclude Include="Subsystems\InputManager\InputManager.h" />
+    <ClInclude Include="Subsystems\Input\DirectInput8Wrapper.h" />
     <ClInclude Include="Subsystems\Input\DirectXInputManager.h" />
     <ClInclude Include="Subsystems\Input\DirectXKeyboard.h" />
     <ClInclude Include="Subsystems\Input\DirectXMouse.h" />
@@ -62,6 +63,7 @@
     <ClCompile Include="Subsystems\FontManager\FontManager.cpp" />
     <ClCompile Include="Subsystems\FontManager\Glyph.cpp" />
     <ClCompile Include="Subsystems\InputManager\InputManager.cpp" />
+    <ClCompile Include="Subsystems\Input\DirectInput8Wrapper.cpp" />
     <ClCompile Include="Subsystems\Input\DirectXInputManager.cpp" />
     <ClCompile Include="Subsystems\Input\DirectXKeyboard.cpp" />
     <ClCompile Include="Subsystems\Input\DirectXMouse.cpp" />

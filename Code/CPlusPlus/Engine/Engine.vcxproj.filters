@@ -148,6 +148,9 @@
     <ClCompile Include="..\Shared\ErrorCodes\HResultFormatter .cpp">
       <Filter>Shared\ErrorCodes</Filter>
     </ClCompile>
+    <ClCompile Include="Subsystems\Input\DirectInput8Wrapper.cpp">
+      <Filter>Subsystems\Input</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Subsystems\RenderManager\RenderManager.h">
@@ -264,6 +267,9 @@
     </ClInclude>
     <ClInclude Include="..\Shared\ErrorCodes\HResultFormatter.h">
       <Filter>Shared\ErrorCodes</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Input\DirectInput8Wrapper.h">
+      <Filter>Subsystems\Input</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

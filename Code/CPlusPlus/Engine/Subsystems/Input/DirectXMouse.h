@@ -5,8 +5,6 @@
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 
-#include "../../Exceptions/initialisation_exception.h"
-
 #include "../../Interfaces/IDiagnostics.h"
 
 #include "../../Interfaces/IMouse.h"

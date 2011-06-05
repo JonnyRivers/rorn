@@ -5,10 +5,9 @@
 #define DIRECTINPUT_VERSION 0x0800
 #include <dinput.h>
 
-#include "../../Exceptions/initialisation_exception.h"
-
 #include "../../Interfaces/IDiagnostics.h"
 
+#include "DirectInput8Wrapper.h"
 #include "DirectXKeyboard.h"
 #include "DirectXMouse.h"
 
@@ -29,10 +28,9 @@ namespace Rorn
 			DirectXInputManager& operator=(DirectXInputManager&);
 
 			IDiagnostics* diagnostics_;
-			IDirectInput8* directInputSubsystem_;
-
-			DirectXKeyboard* keyboard_;
-			DirectXMouse* mouse_;
+			DirectInput8Wrapper directInput_;
+			DirectXKeyboard keyboard_;
+			DirectXMouse mouse_;
 		};
 	}
 }
