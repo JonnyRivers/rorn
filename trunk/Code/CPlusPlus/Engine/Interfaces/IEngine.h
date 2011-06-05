@@ -3,6 +3,7 @@
 #include "IDiagnostics.h"
 #include "IKeyboard.h"
 #include "IMouse.h"
+#include "IRenderer.h"
 
 namespace Rorn
 {
@@ -14,6 +15,7 @@ namespace Rorn
 			virtual IDiagnostics* GetDiagnostics() = 0;
 			virtual const IKeyboard* GetKeyboard() const = 0;
 			virtual const IMouse* GetMouse() const = 0;
+			virtual IRenderer* GetRenderer() = 0;
 		};
 	}
 }

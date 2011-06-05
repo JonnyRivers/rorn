@@ -46,6 +46,9 @@
     <Filter Include="Shared\ErrorCodes">
       <UniqueIdentifier>{c03ba7b4-5c44-465f-87c9-5aea8d42df97}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Subsystems\Renderer">
+      <UniqueIdentifier>{db145db7-78ed-4f91-8c07-8d5ea3080695}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Subsystems\RenderManager\RenderManager.cpp">
@@ -150,6 +153,30 @@
     </ClCompile>
     <ClCompile Include="Subsystems\Input\DirectInput8Wrapper.cpp">
       <Filter>Subsystems\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\DirectXRenderer.cpp">
+      <Filter>Subsystems\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\ScreenCoordinates.cpp">
+      <Filter>Subsystems\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\D3DBlendStateWrapper.cpp">
+      <Filter>Subsystems\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\D3DDepthStencilTextureWrapper.cpp">
+      <Filter>Subsystems\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\D3DDepthStencilViewWrapper.cpp">
+      <Filter>Subsystems\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\D3DDeviceWrapper.cpp">
+      <Filter>Subsystems\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\D3DRenderTargetViewWrapper.cpp">
+      <Filter>Subsystems\Renderer</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\D3DViewportWrapper.cpp">
+      <Filter>Subsystems\Renderer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -270,6 +297,33 @@
     </ClInclude>
     <ClInclude Include="Subsystems\Input\DirectInput8Wrapper.h">
       <Filter>Subsystems\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\DirectXRenderer.h">
+      <Filter>Subsystems\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\ScreenCoordinates.h">
+      <Filter>Subsystems\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\IRenderer.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\D3DBlendStateWrapper.h">
+      <Filter>Subsystems\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\D3DDepthStencilTextureWrapper.h">
+      <Filter>Subsystems\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\D3DDepthStencilViewWrapper.h">
+      <Filter>Subsystems\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\D3DDeviceWrapper.h">
+      <Filter>Subsystems\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\D3DRenderTargetViewWrapper.h">
+      <Filter>Subsystems\Renderer</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\D3DViewportWrapper.h">
+      <Filter>Subsystems\Renderer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

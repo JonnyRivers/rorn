@@ -68,9 +68,6 @@ BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* comma
 		return FALSE;
 	}
 
-	if( theEngine == NULL )
-		return FALSE;
-
 	theEngine->GetDiagnostics()->GetLoggingStream() << "The Model Viewer says: 'Hello world!'" << std::endl;
 
 	PCEngine::Shutdown(theEngine);
