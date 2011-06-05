@@ -16,6 +16,7 @@
     <ClInclude Include="Interfaces\IDiagnostics.h" />
     <ClInclude Include="Interfaces\IKeyboard.h" />
     <ClInclude Include="Interfaces\IMouse.h" />
+    <ClInclude Include="Interfaces\IRenderer.h" />
     <ClInclude Include="PCEngine.h" />
     <ClInclude Include="Interfaces\IEngine.h" />
     <ClInclude Include="Subsystems\DiagnosticsManager\DiagnosticsManager.h" />
@@ -33,6 +34,14 @@
     <ClInclude Include="Subsystems\LightingManager\DirectionalLight.h" />
     <ClInclude Include="Subsystems\LightingManager\LightingManager.h" />
     <ClInclude Include="Subsystems\LightingManager\PointLight.h" />
+    <ClInclude Include="Subsystems\Renderer\D3DBlendStateWrapper.h" />
+    <ClInclude Include="Subsystems\Renderer\D3DDepthStencilTextureWrapper.h" />
+    <ClInclude Include="Subsystems\Renderer\D3DDepthStencilViewWrapper.h" />
+    <ClInclude Include="Subsystems\Renderer\D3DDeviceWrapper.h" />
+    <ClInclude Include="Subsystems\Renderer\D3DRenderTargetViewWrapper.h" />
+    <ClInclude Include="Subsystems\Renderer\D3DViewportWrapper.h" />
+    <ClInclude Include="Subsystems\Renderer\DirectXRenderer.h" />
+    <ClInclude Include="Subsystems\Renderer\ScreenCoordinates.h" />
     <ClInclude Include="Subsystems\RenderManager\BlitRenderCommand.h" />
     <ClInclude Include="Subsystems\RenderManager\BlitSurfaceFormat.h" />
     <ClInclude Include="Subsystems\RenderManager\Camera.h" />
@@ -70,6 +79,14 @@
     <ClCompile Include="Subsystems\LightingManager\DirectionalLight.cpp" />
     <ClCompile Include="Subsystems\LightingManager\LightingManager.cpp" />
     <ClCompile Include="Subsystems\LightingManager\PointLight.cpp" />
+    <ClCompile Include="Subsystems\Renderer\D3DBlendStateWrapper.cpp" />
+    <ClCompile Include="Subsystems\Renderer\D3DDepthStencilTextureWrapper.cpp" />
+    <ClCompile Include="Subsystems\Renderer\D3DDepthStencilViewWrapper.cpp" />
+    <ClCompile Include="Subsystems\Renderer\D3DDeviceWrapper.cpp" />
+    <ClCompile Include="Subsystems\Renderer\D3DRenderTargetViewWrapper.cpp" />
+    <ClCompile Include="Subsystems\Renderer\D3DViewportWrapper.cpp" />
+    <ClCompile Include="Subsystems\Renderer\DirectXRenderer.cpp" />
+    <ClCompile Include="Subsystems\Renderer\ScreenCoordinates.cpp" />
     <ClCompile Include="Subsystems\RenderManager\BlitRenderCommand.cpp" />
     <ClCompile Include="Subsystems\RenderManager\BlitSurfaceFormat.cpp" />
     <ClCompile Include="Subsystems\RenderManager\Camera.cpp" />
