@@ -3,6 +3,7 @@
 #include "../../../Shared/ErrorCodes/HResultFormatter.h"
 
 #include "../../Exceptions/initialisation_exception.h"
+#include "../../Exceptions/input_exception.h"
 
 #include "DirectXMouse.h"
 
@@ -60,6 +61,15 @@ DirectXMouse::~DirectXMouse()
 		device_->Release();
 
 	diagnostics_->GetLoggingStream() << "DirectXMouse instance was destroyed successfully." << std::endl;
+}
+
+void DirectXMouse::Step()
+{
+	HRESULT hr;
+	if( FAILED( hr = device_->GetDeviceState(sizeof(deviceState_), &deviceState_) ) )
+	{
+		throw input_exception("Unable to update mouse device state");
+	}
 }
 
 /*virtual*/ bool DirectXMouse::IsLeftButtonDown() const

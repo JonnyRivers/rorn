@@ -19,6 +19,8 @@ namespace Rorn
 			DirectXKeyboard(HWND applicationWindowHandle, IDiagnostics* diagnostics, IDirectInput8* directInput);
 			~DirectXKeyboard();
 
+			void Step();
+
 			virtual bool IsKeyDown(int key) const;
 		private:
 			DirectXKeyboard(DirectXKeyboard&);

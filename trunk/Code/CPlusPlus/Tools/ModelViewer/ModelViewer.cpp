@@ -4,9 +4,6 @@
 #include "stdafx.h"
 #include "ModelViewer.h"
 
-#include "../../Engine/Subsystems/RenderManager/RenderManager.h"
-#include "../../Engine/Subsystems/TimeManager/TimeManager.h"
-
 #include "ModelViewerApp.h"
 
 int APIENTRY _tWinMain(HINSTANCE instanceHandle,

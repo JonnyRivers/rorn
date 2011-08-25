@@ -4,30 +4,6 @@
     <Filter Include="Subsystems">
       <UniqueIdentifier>{e37e9a6e-4d7e-4f3d-a88c-dc36008656b4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Subsystems\RenderManager">
-      <UniqueIdentifier>{14ad3a17-91e6-4484-8d4d-25f2bb3f131a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Subsystems\FileManager">
-      <UniqueIdentifier>{fae890fc-1782-4ee2-ae02-9d205c1e70e7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Subsystems\TimeManager">
-      <UniqueIdentifier>{dee123ca-d015-4d47-ab72-f38582d5a5af}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Subsystems\DiagnosticsManager">
-      <UniqueIdentifier>{c5c97769-5a33-4688-9d53-e6476a00a4b8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Subsystems\TextureManager">
-      <UniqueIdentifier>{95d53b9e-ad5b-4f83-a3fc-ee1666b67577}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Subsystems\InputManager">
-      <UniqueIdentifier>{fa7e16db-6308-4ff5-a14e-556a5289b65e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Subsystems\LightingManager">
-      <UniqueIdentifier>{ec63490c-591f-4e16-8b9d-573759adb77c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Subsystems\FontManager">
-      <UniqueIdentifier>{754fde68-8fcd-404d-9f9b-aa8a05026944}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Interfaces">
       <UniqueIdentifier>{0c98311a-3692-41f5-a50a-8fd76daf982d}</UniqueIdentifier>
     </Filter>
@@ -49,92 +25,32 @@
     <Filter Include="Subsystems\Renderer">
       <UniqueIdentifier>{db145db7-78ed-4f91-8c07-8d5ea3080695}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Subsystems\Renderer\GraphicsDevice">
+      <UniqueIdentifier>{79d23e77-5c6d-478a-b382-668f04f3567b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Subsystems\FileSystem">
+      <UniqueIdentifier>{64336d0a-3a49-49f0-b29d-89c9f691ca00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Subsystems\Renderer\Camera">
+      <UniqueIdentifier>{b0285aa4-8e12-4f11-8da5-91150c8d7e5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Subsystems\Renderer\Lighting">
+      <UniqueIdentifier>{1227c505-3cbd-4973-a510-4fe0e4cf8037}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Subsystems\Renderer\Model">
+      <UniqueIdentifier>{033e49d7-4a6c-4507-9c79-ce80dd6f7d4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Subsystems\Renderer\Material">
+      <UniqueIdentifier>{84470644-7cc7-4d07-b3a7-c22becd503b5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Subsystems\Timekeeper">
+      <UniqueIdentifier>{bb79960a-4a10-498a-810a-4ac209114ba3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Subsystems\Renderer\Font">
+      <UniqueIdentifier>{e246d76c-39b3-4ba2-9ebc-5905991f6a9a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Subsystems\RenderManager\RenderManager.cpp">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\RenderManager\Camera.cpp">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\RenderManager\Model.cpp">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\RenderManager\ModelInstance.cpp">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\RenderManager\RenderCommand.cpp">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\RenderManager\UntexturedSurfaceFormat.cpp">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\RenderManager\ShaderCompiler.cpp">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\FileManager\FileManager.cpp">
-      <Filter>Subsystems\FileManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\FileManager\FileReader.cpp">
-      <Filter>Subsystems\FileManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\RenderManager\UntexturedRenderCommand.cpp">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\TimeManager\TimeManager.cpp">
-      <Filter>Subsystems\TimeManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\DiagnosticsManager\DiagnosticsManager.cpp">
-      <Filter>Subsystems\DiagnosticsManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\RenderManager\LookAtCamera.cpp">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\RenderManager\DiffuseOnlyRenderCommand.cpp">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\RenderManager\DiffuseOnlySurfaceFormat.cpp">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\TextureManager\TextureManager.cpp">
-      <Filter>Subsystems\TextureManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\TextureManager\Texture.cpp">
-      <Filter>Subsystems\TextureManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\InputManager\InputManager.cpp">
-      <Filter>Subsystems\InputManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\RenderManager\FreeCamera.cpp">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\RenderManager\LookToCamera.cpp">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\LightingManager\DirectionalLight.cpp">
-      <Filter>Subsystems\LightingManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\LightingManager\LightingManager.cpp">
-      <Filter>Subsystems\LightingManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\LightingManager\PointLight.cpp">
-      <Filter>Subsystems\LightingManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\FontManager\Font.cpp">
-      <Filter>Subsystems\FontManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\FontManager\FontManager.cpp">
-      <Filter>Subsystems\FontManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\FontManager\Glyph.cpp">
-      <Filter>Subsystems\FontManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\RenderManager\BlitRenderCommand.cpp">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\RenderManager\BlitSurfaceFormat.cpp">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClCompile>
     <ClCompile Include="PCEngine.cpp" />
     <ClCompile Include="Subsystems\Diagnostics\PCDiagnostics.cpp">
       <Filter>Subsystems\Diagnostics</Filter>
@@ -154,116 +70,77 @@
     <ClCompile Include="Subsystems\Input\DirectInput8Wrapper.cpp">
       <Filter>Subsystems\Input</Filter>
     </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3DGraphicsDevice.cpp">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3DPixelShader.cpp">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3DVertexShader.cpp">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3DConstantBuffer.cpp">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClCompile>
     <ClCompile Include="Subsystems\Renderer\DirectXRenderer.cpp">
       <Filter>Subsystems\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="Subsystems\Renderer\ScreenCoordinates.cpp">
-      <Filter>Subsystems\Renderer</Filter>
+    <ClCompile Include="Subsystems\FileSystem\PCFileReader.cpp">
+      <Filter>Subsystems\FileSystem</Filter>
     </ClCompile>
-    <ClCompile Include="Subsystems\Renderer\D3DBlendStateWrapper.cpp">
-      <Filter>Subsystems\Renderer</Filter>
+    <ClCompile Include="Subsystems\FileSystem\PCFileSystem.cpp">
+      <Filter>Subsystems\FileSystem</Filter>
     </ClCompile>
-    <ClCompile Include="Subsystems\Renderer\D3DDepthStencilTextureWrapper.cpp">
-      <Filter>Subsystems\Renderer</Filter>
+    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3DTexture.cpp">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
     </ClCompile>
-    <ClCompile Include="Subsystems\Renderer\D3DDepthStencilViewWrapper.cpp">
-      <Filter>Subsystems\Renderer</Filter>
+    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3DIndexBuffer.cpp">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
     </ClCompile>
-    <ClCompile Include="Subsystems\Renderer\D3DDeviceWrapper.cpp">
-      <Filter>Subsystems\Renderer</Filter>
+    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3DVertexBuffer.cpp">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
     </ClCompile>
-    <ClCompile Include="Subsystems\Renderer\D3DRenderTargetViewWrapper.cpp">
-      <Filter>Subsystems\Renderer</Filter>
+    <ClCompile Include="Subsystems\Renderer\Camera\Camera.cpp">
+      <Filter>Subsystems\Renderer\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="Subsystems\Renderer\D3DViewportWrapper.cpp">
-      <Filter>Subsystems\Renderer</Filter>
+    <ClCompile Include="Subsystems\Renderer\Camera\FreeCamera.cpp">
+      <Filter>Subsystems\Renderer\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\Lighting\AmbientLight.cpp">
+      <Filter>Subsystems\Renderer\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\Lighting\MainLight.cpp">
+      <Filter>Subsystems\Renderer\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\Lighting\PointLight.cpp">
+      <Filter>Subsystems\Renderer\Lighting</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\Model\Model.cpp">
+      <Filter>Subsystems\Renderer\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\Model\ModelInstance.cpp">
+      <Filter>Subsystems\Renderer\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\Model\RenderCommand.cpp">
+      <Filter>Subsystems\Renderer\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\Material\Material.cpp">
+      <Filter>Subsystems\Renderer\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Timekeeper\PCTimekeeper.cpp">
+      <Filter>Subsystems\Timekeeper</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3DSamplerState.cpp">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\Font\Font.cpp">
+      <Filter>Subsystems\Renderer\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\Font\Glyph.cpp">
+      <Filter>Subsystems\Renderer\Font</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Subsystems\RenderManager\RenderManager.h">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\RenderManager\Camera.h">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\RenderManager\Model.h">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\RenderManager\ModelInstance.h">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\RenderManager\RenderCommand.h">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\RenderManager\UntexturedSurfaceFormat.h">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\RenderManager\ShaderCompiler.h">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\FileManager\FileManager.h">
-      <Filter>Subsystems\FileManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\FileManager\FileReader.h">
-      <Filter>Subsystems\FileManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\RenderManager\UntexturedRenderCommand.h">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\TimeManager\TimeManager.h">
-      <Filter>Subsystems\TimeManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\DiagnosticsManager\DiagnosticsManager.h">
-      <Filter>Subsystems\DiagnosticsManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\RenderManager\LookAtCamera.h">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\RenderManager\DiffuseOnlyRenderCommand.h">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\RenderManager\DiffuseOnlySurfaceFormat.h">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\TextureManager\TextureManager.h">
-      <Filter>Subsystems\TextureManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\TextureManager\Texture.h">
-      <Filter>Subsystems\TextureManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\InputManager\InputManager.h">
-      <Filter>Subsystems\InputManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\RenderManager\FreeCamera.h">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\RenderManager\LookToCamera.h">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\LightingManager\DirectionalLight.h">
-      <Filter>Subsystems\LightingManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\LightingManager\LightingManager.h">
-      <Filter>Subsystems\LightingManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\LightingManager\PointLight.h">
-      <Filter>Subsystems\LightingManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\FontManager\Font.h">
-      <Filter>Subsystems\FontManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\FontManager\FontManager.h">
-      <Filter>Subsystems\FontManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\FontManager\Glyph.h">
-      <Filter>Subsystems\FontManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\RenderManager\BlitRenderCommand.h">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\RenderManager\BlitSurfaceFormat.h">
-      <Filter>Subsystems\RenderManager</Filter>
-    </ClInclude>
     <ClInclude Include="Interfaces\IEngine.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
@@ -298,32 +175,146 @@
     <ClInclude Include="Subsystems\Input\DirectInput8Wrapper.h">
       <Filter>Subsystems\Input</Filter>
     </ClInclude>
-    <ClInclude Include="Subsystems\Renderer\DirectXRenderer.h">
-      <Filter>Subsystems\Renderer</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\Renderer\ScreenCoordinates.h">
-      <Filter>Subsystems\Renderer</Filter>
-    </ClInclude>
     <ClInclude Include="Interfaces\IRenderer.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="Subsystems\Renderer\D3DBlendStateWrapper.h">
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3DGraphicsDevice.h">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\IGraphicsDevice.h">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3DPixelShader.h">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3DVertexShader.h">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\IPixelShader.h">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\IVertexShader.h">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3DConstantBuffer.h">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\IConstantBuffer.h">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\DirectXRenderer.h">
       <Filter>Subsystems\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="Subsystems\Renderer\D3DDepthStencilTextureWrapper.h">
-      <Filter>Subsystems\Renderer</Filter>
+    <ClInclude Include="Interfaces\IFileReader.h">
+      <Filter>Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="Subsystems\Renderer\D3DDepthStencilViewWrapper.h">
-      <Filter>Subsystems\Renderer</Filter>
+    <ClInclude Include="Interfaces\IFileSystem.h">
+      <Filter>Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="Subsystems\Renderer\D3DDeviceWrapper.h">
-      <Filter>Subsystems\Renderer</Filter>
+    <ClInclude Include="Subsystems\FileSystem\PCFileReader.h">
+      <Filter>Subsystems\FileSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Subsystems\Renderer\D3DRenderTargetViewWrapper.h">
-      <Filter>Subsystems\Renderer</Filter>
+    <ClInclude Include="Subsystems\FileSystem\PCFileSystem.h">
+      <Filter>Subsystems\FileSystem</Filter>
     </ClInclude>
-    <ClInclude Include="Subsystems\Renderer\D3DViewportWrapper.h">
-      <Filter>Subsystems\Renderer</Filter>
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3DTexture.h">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\ITexture.h">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\IIndexBuffer.h">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\IVertexBuffer.h">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3DIndexBuffer.h">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3DVertexBuffer.h">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions\filesystem_exception.h">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions\model_load_exception.h">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions\rorn_engine_exception.h">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\IModel.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\IModelInstance.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\Camera\Camera.h">
+      <Filter>Subsystems\Renderer\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\Camera\FreeCamera.h">
+      <Filter>Subsystems\Renderer\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\Lighting\AmbientLight.h">
+      <Filter>Subsystems\Renderer\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\Lighting\MainLight.h">
+      <Filter>Subsystems\Renderer\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\Lighting\PointLight.h">
+      <Filter>Subsystems\Renderer\Lighting</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\Model\Model.h">
+      <Filter>Subsystems\Renderer\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\Model\ModelInstance.h">
+      <Filter>Subsystems\Renderer\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\Model\RenderCommand.h">
+      <Filter>Subsystems\Renderer\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\Material\ConstantBufferTypes.h">
+      <Filter>Subsystems\Renderer\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\Material\Material.h">
+      <Filter>Subsystems\Renderer\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\Material\VertexFormatFlags.h">
+      <Filter>Subsystems\Renderer\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\IFreeCamera.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Timekeeper\PCTimekeeper.h">
+      <Filter>Subsystems\Timekeeper</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions\input_exception.h">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\Material\MaterialType.h">
+      <Filter>Subsystems\Renderer\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3DSamplerState.h">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\ISamplerState.h">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\ICamera.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\Font\Font.h">
+      <Filter>Subsystems\Renderer\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\Font\Glyph.h">
+      <Filter>Subsystems\Renderer\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions\font_load_exception.h">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\Model\BlitVertexFormat.h">
+      <Filter>Subsystems\Renderer\Model</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
