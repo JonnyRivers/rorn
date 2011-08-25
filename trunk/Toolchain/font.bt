@@ -1,0 +1,24 @@
+//--------------------------------------
+// Rorn font format
+// Author: Jonny Rivers
+//--------------------------------------
+
+struct Glyph
+{
+	unsigned int characterCode;
+	unsigned int x;
+	unsigned int y;
+	unsigned int width;
+	unsigned int height;
+	float startU;
+	float startV;
+	float endU;
+	float endV;
+};
+
+char fileId[8];
+unsigned int versionNumber;
+unsigned int numGlyphs;
+Glyph glyphs[numGlyphs];
+unsigned int textureSize;
+char textureData[textureSize];

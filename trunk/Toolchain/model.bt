@@ -1,0 +1,87 @@
+//--------------------------------------
+// Rorn model container format
+// Author: Jonny Rivers
+//--------------------------------------
+
+struct BoundingBox
+{
+	float minX;
+	float minY;
+	float minZ;
+	float maxX;
+	float maxY;
+	float maxZ;
+};
+
+struct Texture
+{
+	unsigned int id;
+	unsigned int dataSize;
+	char data[dataSize];
+};
+
+struct Colour
+{
+	float red;
+	float green;
+	float blue;
+	float alpha;
+};
+
+struct Float2
+{
+	float x;
+	float y;
+};
+
+struct Float4
+{
+	float x;
+	float y;
+	float z;
+	float w;
+};
+
+struct UntexturedVertex
+{
+	Float4 position;
+	Float4 normal;
+};
+
+struct DiffuseOnlyVertex
+{
+	Float4 position;
+	Float4 normal;
+	Float2 diffuseUV;
+};
+
+struct RenderCommand
+{
+	unsigned int type;
+	unsigned int geometryType;
+	Colour ambientColour;
+	Colour diffuseColour;
+	Colour specularColour;
+	float phongExponent;
+	if( type == 0 )
+	{
+		unsigned int numVertices;
+		UntexturedVertex vertices[numVertices] <optimize=false>;
+	}
+	else if( type == 1 )
+	{
+		unsigned int diffuseTextureId;
+		unsigned int numVertices;
+		DiffuseOnlyVertex vertices[numVertices] <optimize=false>;
+	}
+	unsigned int numIndices;
+	unsigned int indices[numIndices];
+};
+
+char fileId[8];
+unsigned int versionNumber;
+BoundingBox boundingBox;
+unsigned int numTextures;
+unsigned int numRenderCommands;
+Texture textures[numTextures] <optimize=false>;
+RenderCommand renderCommand[numRenderCommands] <optimize=false>;
