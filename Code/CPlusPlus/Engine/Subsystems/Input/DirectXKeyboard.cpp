@@ -5,6 +5,7 @@
 #include "../../../Shared/ErrorCodes/HResultFormatter.h"
 
 #include "../../Exceptions/initialisation_exception.h"
+#include "../../Exceptions/input_exception.h"
 
 #include "DirectXKeyboard.h"
 
@@ -62,6 +63,15 @@ DirectXKeyboard::~DirectXKeyboard()
 		device_->Release();
 
 	diagnostics_->GetLoggingStream() << "DirectXKeyboard instance was destroyed successfully." << std::endl;
+}
+
+void DirectXKeyboard::Step()
+{
+	HRESULT hr;
+	if( FAILED( hr = device_->GetDeviceState(sizeof(deviceState_), deviceState_) ) )
+	{
+		throw input_exception("Unable to update keyboard device state");
+	}
 }
 
 /*virtual*/ bool DirectXKeyboard::IsKeyDown(int key) const

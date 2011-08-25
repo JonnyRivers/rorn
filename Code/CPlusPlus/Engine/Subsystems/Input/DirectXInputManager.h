@@ -21,6 +21,8 @@ namespace Rorn
 			DirectXInputManager(HWND applicationWindowHandle, IDiagnostics* diagnostics);
 			~DirectXInputManager();
 
+			void Step();
+
 			const IKeyboard* GetKeyboard() const;
 			const IMouse* GetMouse() const;
 		private:

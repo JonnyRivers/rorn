@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Engine/Subsystems/RenderManager/RenderManager.h"
+#include "../../Engine/Interfaces/IEngine.h"
 
 #include <windows.h>
 
@@ -25,7 +25,8 @@ private:
 	TCHAR windowClassName_[maxLoadString_];
 	HWND windowHandle_;
 
-	Rorn::Engine::FreeCamera* camera_;
-	Rorn::Engine::Model* model_;
-	Rorn::Engine::ModelInstance* modelInstance_;
+	Rorn::Engine::IEngine* theEngine_;
+	unsigned int cameraId_;
+	unsigned int modelId_;
+	unsigned int modelInstanceId_;
 };

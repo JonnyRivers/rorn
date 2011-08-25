@@ -18,7 +18,7 @@ DirectInput8Wrapper::DirectInput8Wrapper(IDiagnostics* diagnostics) : diagnostic
     {
 		diagnostics->GetLoggingStream() << "Unable to create DirectInput subsystem.  HRESULT details follow." << std::endl;
 		diagnostics->GetLoggingStream() << Rorn::ErrorCodes::HResultFormatter::FormatHResult(hr);
-		throw initialisation_exception("Unable to create DirectInput subsystem");
+		throw initialisation_exception("Unable to create DirectInput subsystem.");
 	}
 
 	diagnostics_->GetLoggingStream() << "DirectInput8Wrapper instance was created successfully." << std::endl;

@@ -19,6 +19,8 @@ namespace Rorn
 			DirectXMouse(HWND applicationWindowHandle, IDiagnostics* diagnostics, IDirectInput8* directInput);
 			~DirectXMouse();
 
+			void Step();
+
 			virtual bool IsLeftButtonDown() const;
 			virtual bool IsRightButtonDown() const;
 			virtual bool IsWheelButtonDown() const;

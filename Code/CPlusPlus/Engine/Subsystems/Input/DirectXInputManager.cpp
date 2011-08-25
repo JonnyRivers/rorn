@@ -22,6 +22,12 @@ DirectXInputManager::~DirectXInputManager()
 	diagnostics_->GetLoggingStream() << "The DirectXInputManager subsystem is being destroyed." << std::endl;
 }
 
+void DirectXInputManager::Step()
+{
+	keyboard_.Step();
+	mouse_.Step();
+}
+
 const IKeyboard* DirectXInputManager::GetKeyboard() const
 {
 	return &keyboard_;
