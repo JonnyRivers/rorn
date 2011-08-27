@@ -7,6 +7,9 @@
     <ClCompile Include="BoundingBox.cpp" />
     <ClCompile Include="Float2.cpp" />
     <ClCompile Include="EulerAngles.cpp" />
+    <ClCompile Include="Direction.cpp" />
+    <ClCompile Include="Position.cpp" />
+    <ClCompile Include="UnitDirection.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Vector3.h" />
@@ -16,5 +19,8 @@
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Float2.h" />
     <ClInclude Include="EulerAngles.h" />
+    <ClInclude Include="Direction.h" />
+    <ClInclude Include="Position.h" />
+    <ClInclude Include="UnitDirection.h" />
   </ItemGroup>
 </Project>

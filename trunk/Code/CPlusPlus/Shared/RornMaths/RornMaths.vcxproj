@@ -12,19 +12,25 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BoundingBox.cpp" />
+    <ClCompile Include="Direction.cpp" />
     <ClCompile Include="EulerAngles.cpp" />
     <ClCompile Include="Float2.cpp" />
     <ClCompile Include="Float4.cpp" />
     <ClCompile Include="Matrix4x4.cpp" />
+    <ClCompile Include="Position.cpp" />
+    <ClCompile Include="UnitDirection.cpp" />
     <ClCompile Include="Vector3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BoundingBox.h" />
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="Direction.h" />
     <ClInclude Include="EulerAngles.h" />
     <ClInclude Include="Float2.h" />
     <ClInclude Include="Float4.h" />
     <ClInclude Include="Matrix4x4.h" />
+    <ClInclude Include="Position.h" />
+    <ClInclude Include="UnitDirection.h" />
     <ClInclude Include="Vector3.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
