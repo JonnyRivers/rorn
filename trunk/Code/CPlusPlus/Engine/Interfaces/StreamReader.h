@@ -15,7 +15,7 @@ namespace Rorn
 			~StreamReader();
 
 			StreamReader(StreamReader&);// Responsibility of stream ownership is transferred on copy
-			StreamReader& operator=(StreamReader&);
+			StreamReader& operator=(StreamReader&);// Responsibility of stream ownership is transferred on copy
 
 			void ReadData(void* buffer, int length);
 			float ReadFloat();
