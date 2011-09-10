@@ -4,6 +4,8 @@
 
 #include "PCFileSystem.h"
 
+#include "PCFileStream.h"
+
 using namespace Rorn::Engine;
 
 PCFileSystem::PCFileSystem(IDiagnostics* diagnostics) : diagnostics_(diagnostics)
@@ -15,26 +17,8 @@ PCFileSystem::~PCFileSystem()
 {
 }
 
-IFileReader* PCFileSystem::CreateFileReader(const wchar_t* pathname)
+/*virtual*/ StreamReader PCFileSystem::OpenRead(const wchar_t* pathname)
 {
-	PCFileReader* newFileReader = new PCFileReader(pathname);
-	openFileReaders_.push_back( std::unique_ptr<PCFileReader>(newFileReader) );
-
-	return newFileReader;
+	return StreamReader(new PCFileStream(pathname));// The reader takes ownership of the stream
 }
 
-void PCFileSystem::DestroyFileReader(IFileReader* fileReader)
-{
-	std::list<std::unique_ptr<PCFileReader>>::iterator fileReaderIter;
-	for(fileReaderIter = openFileReaders_.begin() ; fileReaderIter != openFileReaders_.end() ; )
-	{
-		if( fileReaderIter->get() == fileReader )
-		{
-			fileReaderIter = openFileReaders_.erase(fileReaderIter);
-		}
-		else
-		{
-			++fileReaderIter;
-		}
-	}
-}

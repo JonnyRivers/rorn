@@ -111,39 +111,39 @@ void DirectXRenderer::Draw()
 /*virtual*/ unsigned int DirectXRenderer::LoadModel(const wchar_t* modelPathName)
 {
 	// This is too long and needs to be refactored further
-	IFileReader* fileReader = fileSystem_->CreateFileReader(modelPathName);
+	StreamReader fileReader = fileSystem_->OpenRead(modelPathName);
 
 	char fileIdentifierBuffer[9];
-	fileReader->ReadData(fileIdentifierBuffer, 8);
+	fileReader.ReadData(fileIdentifierBuffer, 8);
 	fileIdentifierBuffer[8] = '\0';
 	if(strcmp("RORNMODL", fileIdentifierBuffer) != 0)
 	{
 		throw model_load_exception("Attempt to load model with invalid file identifier, 'RORNMODL' was expected");
 	}
-	unsigned int versionNumber = fileReader->ReadUInt();
+	unsigned int versionNumber = fileReader.ReadUInt();
 	if( versionNumber != 1)
 	{
 		throw model_load_exception("Attempt to load model with invalid version number, 1 was expected");
 	}
-	float bbMinX = fileReader->ReadFloat();
-	float bbMinY = fileReader->ReadFloat();
-	float bbMinZ = fileReader->ReadFloat();
-	float bbMaxX = fileReader->ReadFloat();
-	float bbMaxY = fileReader->ReadFloat();
-	float bbMaxZ = fileReader->ReadFloat();
+	float bbMinX = fileReader.ReadFloat();
+	float bbMinY = fileReader.ReadFloat();
+	float bbMinZ = fileReader.ReadFloat();
+	float bbMaxX = fileReader.ReadFloat();
+	float bbMaxY = fileReader.ReadFloat();
+	float bbMaxZ = fileReader.ReadFloat();
 	Maths::BoundingBox boundingBox = Maths::BoundingBox(bbMinX, bbMinY, bbMinZ, bbMaxX, bbMaxY, bbMaxZ);
-	unsigned int numCompiledTextures = fileReader->ReadUInt();
-	unsigned int numRenderCommands = fileReader->ReadUInt();
+	unsigned int numCompiledTextures = fileReader.ReadUInt();
+	unsigned int numRenderCommands = fileReader.ReadUInt();
 
 	std::map<unsigned int, unsigned int> textureIdMap;// map from this model's texture index to the engine's texture id
 
 	std::vector<unsigned int> createdTextureIds(numCompiledTextures);
 	for(unsigned int compiledTextureIndex = 0 ; compiledTextureIndex != numCompiledTextures ; ++compiledTextureIndex)
 	{
-		unsigned int modelTextureId = fileReader->ReadUInt();
-		unsigned int compiledTextureDataLength = fileReader->ReadUInt();
+		unsigned int modelTextureId = fileReader.ReadUInt();
+		unsigned int compiledTextureDataLength = fileReader.ReadUInt();
 		unsigned char* compiledTextureData = new unsigned char[compiledTextureDataLength];
-		fileReader->ReadData(compiledTextureData, compiledTextureDataLength);
+		fileReader.ReadData(compiledTextureData, compiledTextureDataLength);
 		unsigned int deviceTextureId = graphicsDevice_->CreateTexture(compiledTextureData, compiledTextureDataLength);
 		textureIdMap[modelTextureId] = deviceTextureId;// Store the model file->device mapping
 		delete [] compiledTextureData;
@@ -154,7 +154,7 @@ void DirectXRenderer::Draw()
 	std::vector<unsigned int> renderCommandIds(numRenderCommands);
 	for(int renderCommandIndex = 0 ; renderCommandIndex != numRenderCommands ; ++renderCommandIndex)
 	{
-		unsigned int materialType = fileReader->ReadUInt();
+		unsigned int materialType = fileReader.ReadUInt();
 
 		// Could this be moved tools side?
 		bool commandHasDiffuseMaterial = false;
@@ -173,33 +173,33 @@ void DirectXRenderer::Draw()
 			throw model_load_exception("Attempt to load model with invalid material type, a value between 0 and 1 was expected");
 		}
 
-		unsigned int geometryType = fileReader->ReadUInt();
+		unsigned int geometryType = fileReader.ReadUInt();
 		Rorn::Maths::Float4 ambientColour;
-		fileReader->ReadFloat4(ambientColour);
+		fileReader.ReadFloat4(ambientColour);
 		Rorn::Maths::Float4 diffuseColour;
-		fileReader->ReadFloat4(diffuseColour);
+		fileReader.ReadFloat4(diffuseColour);
 		Rorn::Maths::Float4 specularColour;
-		fileReader->ReadFloat4(specularColour);
-		float phongExponent = fileReader->ReadFloat();
+		fileReader.ReadFloat4(specularColour);
+		float phongExponent = fileReader.ReadFloat();
 
 		unsigned int deviceDiffuseTextureId;
 		if(commandHasDiffuseMaterial)
 		{
-			unsigned int modelDiffuseTextureId = fileReader->ReadUInt();
+			unsigned int modelDiffuseTextureId = fileReader.ReadUInt();
 			deviceDiffuseTextureId = textureIdMap[modelDiffuseTextureId];
 		}
 
-		unsigned int numVertices = fileReader->ReadUInt();
+		unsigned int numVertices = fileReader.ReadUInt();
 		unsigned int vertexDataSize = numVertices * vertexStride;
 		unsigned char* vertexData = new unsigned char[vertexDataSize];
-		fileReader->ReadData(vertexData, vertexDataSize);
+		fileReader.ReadData(vertexData, vertexDataSize);
 		unsigned int vertexBufferId = graphicsDevice_->CreateVertexBuffer(vertexData, vertexDataSize);
 		delete [] vertexData;
 		
-		unsigned int numIndices = fileReader->ReadUInt();
+		unsigned int numIndices = fileReader.ReadUInt();
 		unsigned int indexDataSize = numIndices * sizeof(unsigned int);
 		unsigned char* indexData = new unsigned char[indexDataSize];
-		fileReader->ReadData(indexData, indexDataSize);
+		fileReader.ReadData(indexData, indexDataSize);
 		unsigned int indexBufferId = graphicsDevice_->CreateIndexBuffer(indexData, indexDataSize);
 		delete [] indexData;
 
@@ -210,8 +210,6 @@ void DirectXRenderer::Draw()
 
 		renderCommandIds[renderCommandIndex] = newId;
 	}
-
-	fileSystem_->DestroyFileReader(fileReader);
 
 	unsigned int newId = models_.size();
 	Model* newModel = new Model(boundingBox, createdTextureIds, renderCommandIds);
@@ -487,46 +485,44 @@ unsigned int DirectXRenderer::CreateDebugTextRenderCommand()
 
 unsigned int DirectXRenderer::LoadFont(const wchar_t* fontPathName)
 {
-	IFileReader* fileReader = fileSystem_->CreateFileReader(fontPathName);
+	StreamReader fileReader = fileSystem_->OpenRead(fontPathName);
 
 	char fileIdentifierBuffer[9];
-	fileReader->ReadData(fileIdentifierBuffer, 8);
+	fileReader.ReadData(fileIdentifierBuffer, 8);
 	fileIdentifierBuffer[8] = '\0';
 	if(strcmp("RORNFONT", fileIdentifierBuffer) != 0)
 	{
 		throw font_load_exception("Attempt to load font with invalid file identifier, 'RORNFONT' was expected");
 	}
 
-	unsigned int versionNumber = fileReader->ReadUInt();
+	unsigned int versionNumber = fileReader.ReadUInt();
 	if( versionNumber != 1)
 	{
 		throw model_load_exception("Attempt to load font with invalid version number, 1 was expected");
 	}
 
-	unsigned int numGlyphs = fileReader->ReadUInt();
+	unsigned int numGlyphs = fileReader.ReadUInt();
 	std::map<unsigned int, Glyph> glyphMap;
 	for(unsigned int glyphIndex = 0; glyphIndex < numGlyphs ; ++glyphIndex)
 	{
-		unsigned int characterCode = fileReader->ReadUInt();
-		unsigned int x = fileReader->ReadUInt();
-		unsigned int y = fileReader->ReadUInt();
-		unsigned int width = fileReader->ReadUInt();
-		unsigned int height = fileReader->ReadUInt();
-		float startU = fileReader->ReadFloat();
-		float startV = fileReader->ReadFloat();
-		float endU = fileReader->ReadFloat();
-		float endV = fileReader->ReadFloat();
+		unsigned int characterCode = fileReader.ReadUInt();
+		unsigned int x = fileReader.ReadUInt();
+		unsigned int y = fileReader.ReadUInt();
+		unsigned int width = fileReader.ReadUInt();
+		unsigned int height = fileReader.ReadUInt();
+		float startU = fileReader.ReadFloat();
+		float startV = fileReader.ReadFloat();
+		float endU = fileReader.ReadFloat();
+		float endV = fileReader.ReadFloat();
 
 		glyphMap.insert(std::make_pair<unsigned int, Glyph>(characterCode, Glyph(x, y, width, height, startU, startV, endU, endV)));
 	}
 	
-	unsigned int compiledTextureDataLength = fileReader->ReadUInt();
+	unsigned int compiledTextureDataLength = fileReader.ReadUInt();
 	unsigned char* compiledTextureData = new unsigned char[compiledTextureDataLength];
-	fileReader->ReadData(compiledTextureData, compiledTextureDataLength);
+	fileReader.ReadData(compiledTextureData, compiledTextureDataLength);
 	unsigned int deviceTextureId = graphicsDevice_->CreateTexture(compiledTextureData, compiledTextureDataLength);
 	delete [] compiledTextureData;
-
-	fileSystem_->DestroyFileReader(fileReader);
 
 	unsigned int newId = fonts_.size();
 	Font* newFont = new Font(glyphMap, deviceTextureId);

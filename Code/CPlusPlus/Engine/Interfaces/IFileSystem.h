@@ -1,6 +1,6 @@
 #pragma once
 
-#include "IFileReader.h"
+#include "StreamReader.h"
 
 namespace Rorn
 {
@@ -9,8 +9,7 @@ namespace Rorn
 		struct IFileSystem
 		{
 		public:
-			virtual IFileReader* CreateFileReader(const wchar_t* pathname) = 0;
-			virtual void DestroyFileReader(IFileReader* fileReader) = 0;
+			virtual StreamReader OpenRead(const wchar_t* pathname) = 0;
 		};
 	}
 }

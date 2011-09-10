@@ -85,9 +85,6 @@
     <ClCompile Include="Subsystems\Renderer\DirectXRenderer.cpp">
       <Filter>Subsystems\Renderer</Filter>
     </ClCompile>
-    <ClCompile Include="Subsystems\FileSystem\PCFileReader.cpp">
-      <Filter>Subsystems\FileSystem</Filter>
-    </ClCompile>
     <ClCompile Include="Subsystems\FileSystem\PCFileSystem.cpp">
       <Filter>Subsystems\FileSystem</Filter>
     </ClCompile>
@@ -138,6 +135,12 @@
     </ClCompile>
     <ClCompile Include="Subsystems\Renderer\Font\Glyph.cpp">
       <Filter>Subsystems\Renderer\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\FileSystem\PCFileStream.cpp">
+      <Filter>Subsystems\FileSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\FileSystem\StreamReader.cpp">
+      <Filter>Subsystems\FileSystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -205,14 +208,8 @@
     <ClInclude Include="Subsystems\Renderer\DirectXRenderer.h">
       <Filter>Subsystems\Renderer</Filter>
     </ClInclude>
-    <ClInclude Include="Interfaces\IFileReader.h">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="Interfaces\IFileSystem.h">
       <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\FileSystem\PCFileReader.h">
-      <Filter>Subsystems\FileSystem</Filter>
     </ClInclude>
     <ClInclude Include="Subsystems\FileSystem\PCFileSystem.h">
       <Filter>Subsystems\FileSystem</Filter>
@@ -315,6 +312,15 @@
     </ClInclude>
     <ClInclude Include="Subsystems\Renderer\Model\BlitVertexFormat.h">
       <Filter>Subsystems\Renderer\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\FileSystem\PCFileStream.h">
+      <Filter>Subsystems\FileSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\Stream.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\StreamReader.h">
+      <Filter>Interfaces</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

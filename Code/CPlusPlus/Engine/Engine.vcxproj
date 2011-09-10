@@ -20,7 +20,6 @@
     <ClInclude Include="Exceptions\rorn_engine_exception.h" />
     <ClInclude Include="Interfaces\ICamera.h" />
     <ClInclude Include="Interfaces\IDiagnostics.h" />
-    <ClInclude Include="Interfaces\IFileReader.h" />
     <ClInclude Include="Interfaces\IFileSystem.h" />
     <ClInclude Include="Interfaces\IFreeCamera.h" />
     <ClInclude Include="Interfaces\IKeyboard.h" />
@@ -28,10 +27,12 @@
     <ClInclude Include="Interfaces\IModelInstance.h" />
     <ClInclude Include="Interfaces\IMouse.h" />
     <ClInclude Include="Interfaces\IRenderer.h" />
+    <ClInclude Include="Interfaces\Stream.h" />
+    <ClInclude Include="Interfaces\StreamReader.h" />
     <ClInclude Include="PCEngine.h" />
     <ClInclude Include="Interfaces\IEngine.h" />
     <ClInclude Include="Subsystems\Diagnostics\PCDiagnostics.h" />
-    <ClInclude Include="Subsystems\FileSystem\PCFileReader.h" />
+    <ClInclude Include="Subsystems\FileSystem\PCFileStream.h" />
     <ClInclude Include="Subsystems\FileSystem\PCFileSystem.h" />
     <ClInclude Include="Subsystems\Input\DirectInput8Wrapper.h" />
     <ClInclude Include="Subsystems\Input\DirectXInputManager.h" />
@@ -75,8 +76,9 @@
     <ClCompile Include="..\Shared\ErrorCodes\HResultFormatter .cpp" />
     <ClCompile Include="PCEngine.cpp" />
     <ClCompile Include="Subsystems\Diagnostics\PCDiagnostics.cpp" />
-    <ClCompile Include="Subsystems\FileSystem\PCFileReader.cpp" />
+    <ClCompile Include="Subsystems\FileSystem\PCFileStream.cpp" />
     <ClCompile Include="Subsystems\FileSystem\PCFileSystem.cpp" />
+    <ClCompile Include="Subsystems\FileSystem\StreamReader.cpp" />
     <ClCompile Include="Subsystems\Input\DirectInput8Wrapper.cpp" />
     <ClCompile Include="Subsystems\Input\DirectXInputManager.cpp" />
     <ClCompile Include="Subsystems\Input\DirectXKeyboard.cpp" />
