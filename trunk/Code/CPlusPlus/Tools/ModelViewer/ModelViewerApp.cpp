@@ -120,7 +120,7 @@ VOID ModelViewerApp::Step()
 
 	//// TODO - refactor this out into some sort of 'camera controller'
 	//// Move the camera
-	//// base translation speed is quarter of the instances bouding radius per second
+	//// base translation speed is quarter of the instance's bouding radius per second
 	float translationSpeed = model->GetBoundingBox().GetBoundingRadius() * 0.25f;
 	if( theEngine_->GetKeyboard()->IsKeyDown(DIK_LSHIFT) )
 	{
