@@ -191,14 +191,14 @@ void DirectXRenderer::Draw()
 
 		unsigned int numVertices = fileReader->ReadUInt();
 		unsigned int vertexDataSize = numVertices * vertexStride;
-		unsigned char* vertexData = new unsigned char[numVertices * vertexDataSize];
+		unsigned char* vertexData = new unsigned char[vertexDataSize];
 		fileReader->ReadData(vertexData, vertexDataSize);
 		unsigned int vertexBufferId = graphicsDevice_->CreateVertexBuffer(vertexData, vertexDataSize);
 		delete [] vertexData;
 		
 		unsigned int numIndices = fileReader->ReadUInt();
 		unsigned int indexDataSize = numIndices * sizeof(unsigned int);
-		unsigned char* indexData = new unsigned char[numIndices * indexDataSize];
+		unsigned char* indexData = new unsigned char[indexDataSize];
 		fileReader->ReadData(indexData, indexDataSize);
 		unsigned int indexBufferId = graphicsDevice_->CreateIndexBuffer(indexData, indexDataSize);
 		delete [] indexData;
