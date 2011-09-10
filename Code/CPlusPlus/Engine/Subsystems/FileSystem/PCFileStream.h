@@ -18,6 +18,9 @@ namespace Rorn
 
 			void Read(void* data, unsigned int dataSize);
 		private:
+			PCFileStream(PCFileStream&);
+			PCFileStream& operator=(PCFileStream&);
+
 			HANDLE fileHandle_;
 		};
 	}
