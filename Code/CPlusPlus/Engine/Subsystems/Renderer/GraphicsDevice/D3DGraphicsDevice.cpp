@@ -251,8 +251,9 @@ ID3DBlob* D3DGraphicsDevice::CompileShaderFromFile(const wchar_t* fileName, cons
 				"' using shader model '" << shaderModel << "'." << std::endl;
 			diagnostics_->GetLoggingStream() << "Reason: " << static_cast<const char*>(pErrorBlob->GetBufferPointer());
 			pErrorBlob->Release();
-			throw initialisation_exception("Unable to compile shader.");
 		}
+
+		throw initialisation_exception("Unable to compile shader.");
     }
 
     if( pErrorBlob != NULL ) 

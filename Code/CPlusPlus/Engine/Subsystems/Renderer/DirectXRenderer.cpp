@@ -25,21 +25,19 @@ using namespace Rorn::Engine;
 using namespace Rorn::Maths;
 
 DirectXRenderer::DirectXRenderer(HWND applicationWindowHandle, IDiagnostics* diagnostics, IFileSystem* fileSystem) 
-	: diagnostics_(diagnostics), fileSystem_(fileSystem)
+	: diagnostics_(diagnostics), fileSystem_(fileSystem), graphicsDevice_(applicationWindowHandle, diagnostics_)
 {
 	diagnostics_->GetLoggingStream() << "Renderer instance is being created." << std::endl;
 
-	graphicsDevice_ = new D3DGraphicsDevice(applicationWindowHandle, diagnostics);
-
-	Material* untexturedMaterial = new Material(diagnostics, graphicsDevice_, 
+	Material* untexturedMaterial = new Material(diagnostics, &graphicsDevice_, 
 		L"Untextured.fx", VertexFormatFlags::Position | VertexFormatFlags::Normal, sizeof(LitGeometryConstantBuffer));
 	materials_[MaterialType::Untextured] = std::unique_ptr<Material>(untexturedMaterial);
 
-	Material* diffuseOnlyMaterial = new Material(diagnostics, graphicsDevice_, 
+	Material* diffuseOnlyMaterial = new Material(diagnostics, &graphicsDevice_, 
 		L"DiffuseOnly.fx", VertexFormatFlags::Position | VertexFormatFlags::Normal | VertexFormatFlags::UV0, sizeof(LitGeometryConstantBuffer));
 	materials_[MaterialType::DiffuseOnly] = std::unique_ptr<Material>(diffuseOnlyMaterial);
 
-	Material* blitMaterial = new Material(diagnostics, graphicsDevice_, 
+	Material* blitMaterial = new Material(diagnostics, &graphicsDevice_, 
 		L"Blit.fx", VertexFormatFlags::Position | VertexFormatFlags::UV0, 0);
 	materials_[MaterialType::Blit] = std::unique_ptr<Material>(blitMaterial);
 
@@ -57,8 +55,6 @@ DirectXRenderer::DirectXRenderer(HWND applicationWindowHandle, IDiagnostics* dia
 DirectXRenderer::~DirectXRenderer()
 {
 	diagnostics_->GetLoggingStream() << "Renderer instance is being destroyed." << std::endl;
-
-	delete graphicsDevice_;
 }
 
 /*static*/ Matrix4x4 DirectXRenderer::BuildViewToProjectionMatrix(float fovAngle, float aspectRatio, float nearClipZ, float farClipZ)
@@ -85,10 +81,10 @@ void DirectXRenderer::StartFrame()
 
 void DirectXRenderer::Draw()
 {
-	graphicsDevice_->ClearView(Rorn::Maths::Float4(0.0f, 0.125f, 0.3f, 1.0f));
+	graphicsDevice_.ClearView(Rorn::Maths::Float4(0.0f, 0.125f, 0.3f, 1.0f));
 
 	Matrix4x4 worldToViewMatrix = cameras_[currentCameraId_]->BuildWorldToViewMatrix();
-	Matrix4x4 viewToProjectionMatrix = BuildViewToProjectionMatrix( PiOverFour, graphicsDevice_->GetOutputAspectRatio(), 0.1f, 10000.0f );
+	Matrix4x4 viewToProjectionMatrix = BuildViewToProjectionMatrix( PiOverFour, graphicsDevice_.GetOutputAspectRatio(), 0.1f, 10000.0f );
 	Matrix4x4 worldToProjectionMatrix = worldToViewMatrix * viewToProjectionMatrix;
 
 	std::map<unsigned int, std::unique_ptr<ModelInstance>>::const_iterator modelInstanceIter;
@@ -103,7 +99,7 @@ void DirectXRenderer::Draw()
 		DrawRenderCommand(*debugRenderCommandIter, Matrix4x4(), Matrix4x4(), Matrix4x4());
 	}
 
-	graphicsDevice_->Present();
+	graphicsDevice_.Present();
 }
 
 // Model interface
@@ -144,7 +140,7 @@ void DirectXRenderer::Draw()
 		unsigned int compiledTextureDataLength = fileReader.ReadUInt();
 		unsigned char* compiledTextureData = new unsigned char[compiledTextureDataLength];
 		fileReader.ReadData(compiledTextureData, compiledTextureDataLength);
-		unsigned int deviceTextureId = graphicsDevice_->CreateTexture(compiledTextureData, compiledTextureDataLength);
+		unsigned int deviceTextureId = graphicsDevice_.CreateTexture(compiledTextureData, compiledTextureDataLength);
 		textureIdMap[modelTextureId] = deviceTextureId;// Store the model file->device mapping
 		delete [] compiledTextureData;
 
@@ -193,17 +189,17 @@ void DirectXRenderer::Draw()
 		unsigned int vertexDataSize = numVertices * vertexStride;
 		unsigned char* vertexData = new unsigned char[vertexDataSize];
 		fileReader.ReadData(vertexData, vertexDataSize);
-		unsigned int vertexBufferId = graphicsDevice_->CreateVertexBuffer(vertexData, vertexDataSize);
+		unsigned int vertexBufferId = graphicsDevice_.CreateVertexBuffer(vertexData, vertexDataSize);
 		delete [] vertexData;
 		
 		unsigned int numIndices = fileReader.ReadUInt();
 		unsigned int indexDataSize = numIndices * sizeof(unsigned int);
 		unsigned char* indexData = new unsigned char[indexDataSize];
 		fileReader.ReadData(indexData, indexDataSize);
-		unsigned int indexBufferId = graphicsDevice_->CreateIndexBuffer(indexData, indexDataSize);
+		unsigned int indexBufferId = graphicsDevice_.CreateIndexBuffer(indexData, indexDataSize);
 		delete [] indexData;
 
-		unsigned int newId = renderCommands_.size();
+		unsigned int newId = static_cast<unsigned int>(renderCommands_.size());
 		RenderCommand* newRenderCommand = new RenderCommand(
 			static_cast<MaterialType::Type>(materialType), geometryType, ambientColour, diffuseColour, specularColour, phongExponent, deviceDiffuseTextureId, vertexBufferId, indexBufferId, vertexStride, numIndices);
 		renderCommands_.insert(std::make_pair<unsigned int, std::unique_ptr<RenderCommand>>(newId, std::unique_ptr<RenderCommand>(newRenderCommand)));
@@ -211,7 +207,7 @@ void DirectXRenderer::Draw()
 		renderCommandIds[renderCommandIndex] = newId;
 	}
 
-	unsigned int newId = models_.size();
+	unsigned int newId = static_cast<unsigned int>(models_.size());
 	Model* newModel = new Model(boundingBox, createdTextureIds, renderCommandIds);
 	models_.insert(std::make_pair<unsigned int, std::unique_ptr<Model>>(newId, std::unique_ptr<Model>(newModel)));
 
@@ -225,7 +221,7 @@ void DirectXRenderer::Draw()
 
 /*virtual*/ unsigned int DirectXRenderer::CreateModelInstance(unsigned int modelId, const Rorn::Maths::Matrix4x4& instanceToWorldMatrix)
 {
-	unsigned int newId = models_.size();
+	unsigned int newId = static_cast<unsigned int>(models_.size());
 	ModelInstance* newModel = new ModelInstance(modelId, instanceToWorldMatrix);
 	modelInstances_.insert(std::make_pair<unsigned int, std::unique_ptr<ModelInstance>>(newId, std::unique_ptr<ModelInstance>(newModel)));
 
@@ -240,7 +236,7 @@ void DirectXRenderer::Draw()
 // Camera interface
 /*virtual*/ unsigned int DirectXRenderer::CreateFreeCamera(const Rorn::Maths::Vector3& position, const Rorn::Maths::EulerAngles& eulerAngles)
 {
-	unsigned int newId = cameras_.size();
+	unsigned int newId = static_cast<unsigned int>(cameras_.size());
 	Camera* newCamera = new FreeCamera(position, eulerAngles);
 	cameras_.insert(std::make_pair<unsigned int, std::unique_ptr<Camera>>(newId, std::unique_ptr<Camera>(newCamera)));
 
@@ -271,7 +267,7 @@ void DirectXRenderer::Draw()
 
 /*virtual*/ unsigned int DirectXRenderer::CreatePointLight(const Rorn::Maths::Vector3& position, const Rorn::Maths::Float4& colour, float luminosity)
 {
-	unsigned int newId = pointLights_.size();
+	unsigned int newId = static_cast<unsigned int>(pointLights_.size());
 	PointLight* newPointLight = new PointLight(position, colour, luminosity);
 	pointLights_.insert(std::make_pair<unsigned int, std::unique_ptr<PointLight>>(newId, std::unique_ptr<PointLight>(newPointLight)));
 
@@ -289,7 +285,7 @@ void DirectXRenderer::Draw()
 
 	Font* debugFont = fonts_[debugTextFontId_].get();
 
-	unsigned int numCharacters = strlen(text);
+	unsigned int numCharacters = static_cast<unsigned int>(strlen(text));
 	unsigned int vertexCount = numCharacters * 6;// 2 triangles per glyph
 
 	int currentVertexIndex = 0;
@@ -300,8 +296,8 @@ void DirectXRenderer::Draw()
 		const Glyph& thisGlyph = debugFont->GetGlyph( text[characterIndex] );
 		float glyphWidthPixels = static_cast<float>(thisGlyph.GetWidth());
 		float glyphHeightPixels = static_cast<float>(thisGlyph.GetHeight());
-		float glyphWidth = glyphWidthPixels / static_cast<float>(graphicsDevice_->GetOutputWidth()) * 2.0f;// from pixels to a -1 to 1 range
-		float glyphHeight = glyphHeightPixels / static_cast<float>(graphicsDevice_->GetOutputHeight()) * 2.0f;// from pixels to a -1 to 1 range
+		float glyphWidth = glyphWidthPixels / static_cast<float>(graphicsDevice_.GetOutputWidth()) * 2.0f;// from pixels to a -1 to 1 range
+		float glyphHeight = glyphHeightPixels / static_cast<float>(graphicsDevice_.GetOutputHeight()) * 2.0f;// from pixels to a -1 to 1 range
 		float leftPos = currentX;
 		float topPos = currentY;
 		float rightPos = leftPos + glyphWidth;
@@ -365,8 +361,8 @@ void DirectXRenderer::Draw()
 		indexData[index] = index;
 
 	RenderCommand* nextAvailableDebugTextRenderCommand = renderCommands_[nextAvailableDebugTextRenderCommandId].get();
-	graphicsDevice_->UpdateVertexBufferData(nextAvailableDebugTextRenderCommand->GetVertexBufferId(), vertexData);
-	graphicsDevice_->UpdateIndexBufferData(nextAvailableDebugTextRenderCommand->GetIndexBufferId(), indexData);
+	graphicsDevice_.UpdateVertexBufferData(nextAvailableDebugTextRenderCommand->GetVertexBufferId(), vertexData);
+	graphicsDevice_.UpdateIndexBufferData(nextAvailableDebugTextRenderCommand->GetIndexBufferId(), indexData);
 	nextAvailableDebugTextRenderCommand->SetNumIndices(indexCount);
 
 	debugRenderCommandsIdsToDraw_.push_back(nextAvailableDebugTextRenderCommandId);
@@ -374,7 +370,7 @@ void DirectXRenderer::Draw()
 	debugTextItemsThisFrame_++;
 }
 
-void DirectXRenderer::DrawModelInstance(unsigned int modelInstanceId, const Matrix4x4& worldToViewMatrix, const Matrix4x4& worldToProjectionMatrix) const
+void DirectXRenderer::DrawModelInstance(unsigned int modelInstanceId, const Matrix4x4& worldToViewMatrix, const Matrix4x4& worldToProjectionMatrix)
 {
 	std::map<unsigned int, std::unique_ptr<ModelInstance>>::const_iterator modelInstanceIter = modelInstances_.find(modelInstanceId);
 	assert(modelInstanceIter != modelInstances_.end());
@@ -382,7 +378,7 @@ void DirectXRenderer::DrawModelInstance(unsigned int modelInstanceId, const Matr
 	DrawModel(modelInstanceIter->second->GetModelId(), modelInstanceIter->second->GetInstanceToWorldMatrix(), worldToViewMatrix, worldToProjectionMatrix);
 }
 
-void DirectXRenderer::DrawModel(unsigned int modelId, const Matrix4x4& instanceToWorldMatrix, const Matrix4x4& worldToViewMatrix, const Matrix4x4& worldToProjectionMatrix) const
+void DirectXRenderer::DrawModel(unsigned int modelId, const Matrix4x4& instanceToWorldMatrix, const Matrix4x4& worldToViewMatrix, const Matrix4x4& worldToProjectionMatrix)
 {
 	std::map<unsigned int, std::unique_ptr<Model>>::const_iterator modelIter = models_.find(modelId);
 	assert(modelIter != models_.end());
@@ -394,7 +390,7 @@ void DirectXRenderer::DrawModel(unsigned int modelId, const Matrix4x4& instanceT
 	}
 }
 
-void DirectXRenderer::DrawRenderCommand(unsigned int renderCommandId, const Matrix4x4& instanceToWorldMatrix, const Matrix4x4& worldToViewMatrix, const Matrix4x4& worldToProjectionMatrix) const
+void DirectXRenderer::DrawRenderCommand(unsigned int renderCommandId, const Matrix4x4& instanceToWorldMatrix, const Matrix4x4& worldToViewMatrix, const Matrix4x4& worldToProjectionMatrix)
 {
 	std::map<unsigned int, std::unique_ptr<RenderCommand>>::const_iterator renderCommandlIter = renderCommands_.find(renderCommandId);
 	assert(renderCommandlIter != renderCommands_.end());
@@ -419,7 +415,7 @@ void DirectXRenderer::DrawRenderCommand(unsigned int renderCommandId, const Matr
 		constantBuffer.MainLightDir = mainLight_.GetDirection();
 		constantBuffer.MainLightColor = mainLight_.GetColour();
 		constantBuffer.EyeDir = Vector3(worldToViewMatrix.M31, worldToViewMatrix.M32, worldToViewMatrix.M33);
-		constantBuffer.NumActivePointLights = pointLights_.size();
+		constantBuffer.NumActivePointLights = static_cast<unsigned int>(pointLights_.size());
 
 		std::map<unsigned int, std::unique_ptr<PointLight>>::const_iterator pointLightIter;
 		unsigned int pointLightIndex = 0;
@@ -435,47 +431,47 @@ void DirectXRenderer::DrawRenderCommand(unsigned int renderCommandId, const Matr
 			++pointLightIndex;
 		}
 
-		graphicsDevice_->UpdateConstantBufferData(material->GetConstantBufferId(), &constantBuffer);
+		graphicsDevice_.UpdateConstantBufferData(material->GetConstantBufferId(), &constantBuffer);
 	}
 
-	graphicsDevice_->SetVertexShader(material->GetVertexShaderId());
+	graphicsDevice_.SetVertexShader(material->GetVertexShaderId());
 	if(material->HasConstantBuffer())
 	{
-		graphicsDevice_->SetVertexShaderConstantBuffer(material->GetConstantBufferId());
+		graphicsDevice_.SetVertexShaderConstantBuffer(material->GetConstantBufferId());
 	}
-	graphicsDevice_->SetPixelShader(material->GetVertexShaderId());
+	graphicsDevice_.SetPixelShader(material->GetVertexShaderId());
 	if(material->HasConstantBuffer())
 	{
-		graphicsDevice_->SetPixelShaderConstantBuffer(material->GetConstantBufferId());
+		graphicsDevice_.SetPixelShaderConstantBuffer(material->GetConstantBufferId());
 	}
 	if(material->HasDiffuseMap())
 	{
-		graphicsDevice_->SetSamplerState(material->GetDiffuseSamplerStateId());
+		graphicsDevice_.SetSamplerState(material->GetDiffuseSamplerStateId());
 	}
 
 	// Make the draw call
-	graphicsDevice_->SetVertexBuffer(renderCommand->GetVertexBufferId(), renderCommand->GetVertexStride());
-	graphicsDevice_->SetIndexBuffer(renderCommand->GetIndexBufferId());
+	graphicsDevice_.SetVertexBuffer(renderCommand->GetVertexBufferId(), renderCommand->GetVertexStride());
+	graphicsDevice_.SetIndexBuffer(renderCommand->GetIndexBufferId());
 	if(material->HasDiffuseMap())
 	{
-		graphicsDevice_->SetTexture(renderCommand->GetDiffuseTextureId());
+		graphicsDevice_.SetTexture(renderCommand->GetDiffuseTextureId());
 	}
-	graphicsDevice_->DrawIndexed(renderCommand->GetNumIndices());
+	graphicsDevice_.DrawIndexed(renderCommand->GetNumIndices());
 }
 
 unsigned int DirectXRenderer::CreateDebugTextRenderCommand()
 {
 	unsigned int vertexDataSize = maxNumDebugTextRenderCommandVerts_ * sizeof(BlitVertexFormat);
 	unsigned char* vertexData = new unsigned char[vertexDataSize];
-	unsigned int vertexBufferId = graphicsDevice_->CreateVertexBuffer(vertexData, vertexDataSize);
+	unsigned int vertexBufferId = graphicsDevice_.CreateVertexBuffer(vertexData, vertexDataSize);
 	delete [] vertexData;
 
 	unsigned int indexDataSize = maxNumDebugTextRenderCommandVerts_ * sizeof(unsigned int);
 	unsigned char* indexData = new unsigned char[indexDataSize];
-	unsigned int indexBufferId = graphicsDevice_->CreateIndexBuffer(indexData, indexDataSize);
+	unsigned int indexBufferId = graphicsDevice_.CreateIndexBuffer(indexData, indexDataSize);
 	delete [] indexData;
 
-	unsigned int newId = renderCommands_.size();
+	unsigned int newId = static_cast<unsigned int>(renderCommands_.size());
 	RenderCommand* newRenderCommand = new RenderCommand(
 		MaterialType::Blit, 0, Float4(), Float4(), Float4(), 0.0f, 0, vertexBufferId, indexBufferId, sizeof(BlitVertexFormat), 0);
 	renderCommands_.insert(std::make_pair<unsigned int, std::unique_ptr<RenderCommand>>(newId, std::unique_ptr<RenderCommand>(newRenderCommand)));
@@ -521,10 +517,10 @@ unsigned int DirectXRenderer::LoadFont(const wchar_t* fontPathName)
 	unsigned int compiledTextureDataLength = fileReader.ReadUInt();
 	unsigned char* compiledTextureData = new unsigned char[compiledTextureDataLength];
 	fileReader.ReadData(compiledTextureData, compiledTextureDataLength);
-	unsigned int deviceTextureId = graphicsDevice_->CreateTexture(compiledTextureData, compiledTextureDataLength);
+	unsigned int deviceTextureId = graphicsDevice_.CreateTexture(compiledTextureData, compiledTextureDataLength);
 	delete [] compiledTextureData;
 
-	unsigned int newId = fonts_.size();
+	unsigned int newId = static_cast<unsigned int>(fonts_.size());
 	Font* newFont = new Font(glyphMap, deviceTextureId);
 	fonts_.insert(std::make_pair<unsigned int, std::unique_ptr<Font>>(newId, std::unique_ptr<Font>(newFont)));
 
