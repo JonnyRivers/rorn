@@ -9,7 +9,7 @@ macroscript RornUtils category:"Tools"
 			editText editExportPath "" pos:[73,19] width:267 height:20
 			button btnBrowseExportPath "..." pos:[347,19] width:30 height:20
 			button btnExport "Export Full Scene" pos:[13,48] width:366 height:23
-			button btnExportSelected "Export Selected Nodes Only" pos:[13,74] width:366 height:23
+			button btnExportCompileAndView "Export Full Scene, Compile and View" pos:[13,74] width:366 height:23
 		
 		on rolloutRornUtils open do
 		(
@@ -33,16 +33,6 @@ macroscript RornUtils category:"Tools"
 				setAppData rootNode 0 editExportPath.text
 			)
 		)
-		
-		on btnExport pressed  do
-		(
-			oldExportPath = getAppData rootNode 0
-			if oldExportPath != editExportPath.text do
-			(
-				setAppData rootNode 0 editExportPath.text
-			)
-			RornUtils_Export editExportPath.text
-		)
 
 		on btnBrowseExportPath pressed  do
 		(
@@ -52,6 +42,21 @@ macroscript RornUtils category:"Tools"
 			(
 				editExportPath.text = newExportPath;
 			)
+		)
+		
+		on btnExport pressed do
+		(
+			oldExportPath = getAppData rootNode 0
+			if oldExportPath != editExportPath.text do
+			(
+				setAppData rootNode 0 editExportPath.text
+			)
+			RornUtils_Export editExportPath.text
+		)
+
+		on btnExportCompileAndView pressed  do
+		(
+			RornUtils_ExportCompileAndView editExportPath.text
 		)
 
 		fn OnMyPostOpen =
