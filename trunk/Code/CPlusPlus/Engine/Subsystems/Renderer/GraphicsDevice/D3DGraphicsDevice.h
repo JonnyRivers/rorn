@@ -12,6 +12,7 @@
 
 #include "IGraphicsDevice.h"
 
+#include "D3D11DeviceWrapper.h"
 #include "D3DConstantBuffer.h"
 #include "D3DIndexBuffer.h"
 #include "D3DPixelShader.h"
@@ -19,6 +20,7 @@
 #include "D3DTexture.h"
 #include "D3DVertexBuffer.h"
 #include "D3DVertexShader.h"
+#include "OutputDimensions.h"
 
 namespace Rorn
 {
@@ -66,15 +68,8 @@ namespace Rorn
 
 			IDiagnostics* diagnostics_;
 
-			unsigned int outputWidth_;
-			unsigned int outputHeight_;
-			float aspectRatio_;
-			ID3D11Device* device_;
-#ifdef _DEBUG
-			ID3D11Debug* debug_;
-#endif
-			ID3D11DeviceContext* deviceContext_;
-			IDXGISwapChain* swapChain_;
+			OutputDimensions outputDimensions_;
+			D3D11DeviceWrapper d3d11DeviceWrapper_;
 			ID3D11RenderTargetView* renderTargetView_;
 			ID3D11Texture2D* depthStencil_;
 			ID3D11DepthStencilView* depthStencilView_;
