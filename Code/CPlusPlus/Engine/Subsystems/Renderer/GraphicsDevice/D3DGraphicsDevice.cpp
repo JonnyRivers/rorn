@@ -299,7 +299,7 @@ ID3DBlob* D3DGraphicsDevice::CompileShaderFromFile(const wchar_t* fileName, cons
 	}
 
 	ID3D11InputLayout* vertexLayout;
-	hr = device_->CreateInputLayout( &inputElements[0], inputElements.size(), pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), &vertexLayout );
+	hr = device_->CreateInputLayout( &inputElements[0], static_cast<UINT>(inputElements.size()), pVSBlob->GetBufferPointer(), pVSBlob->GetBufferSize(), &vertexLayout );
 	if( FAILED( hr ) )
 	{
 		pVSBlob->Release();
@@ -309,7 +309,7 @@ ID3DBlob* D3DGraphicsDevice::CompileShaderFromFile(const wchar_t* fileName, cons
 
 	pVSBlob->Release();
 
-	unsigned int newId = vertexShaders_.size();
+	unsigned int newId = static_cast<unsigned int>(vertexShaders_.size());
 	vertexShaders_.insert(
 		std::make_pair<unsigned int, std::unique_ptr<D3DVertexShader>>(
 			newId, std::unique_ptr<D3DVertexShader>(new D3DVertexShader(vertexShader, vertexLayout))));
@@ -330,7 +330,7 @@ ID3DBlob* D3DGraphicsDevice::CompileShaderFromFile(const wchar_t* fileName, cons
         throw initialisation_exception("Unable to create pixel shader from data blob.");
 	}
 
-	unsigned int newId = pixelShaders_.size();
+	unsigned int newId = static_cast<unsigned int>(pixelShaders_.size());
 	pixelShaders_.insert(
 		std::make_pair<unsigned int, std::unique_ptr<D3DPixelShader>>(
 			newId, std::unique_ptr<D3DPixelShader>(new D3DPixelShader(pixelShader))));
@@ -355,7 +355,7 @@ ID3DBlob* D3DGraphicsDevice::CompileShaderFromFile(const wchar_t* fileName, cons
     if( FAILED( hr ) )
         return hr;
 
-	unsigned int newId = samplerStates_.size();
+	unsigned int newId = static_cast<unsigned int>(samplerStates_.size());
 	samplerStates_.insert(
 		std::make_pair<unsigned int, std::unique_ptr<D3DSamplerState>>(
 			newId, std::unique_ptr<D3DSamplerState>(new D3DSamplerState(samplerState))));
@@ -379,7 +379,7 @@ ID3DBlob* D3DGraphicsDevice::CompileShaderFromFile(const wchar_t* fileName, cons
         throw initialisation_exception("Unable to create constant buffer.");
 	}
 
-	unsigned int newId = constantBuffers_.size();
+	unsigned int newId = static_cast<unsigned int>(constantBuffers_.size());
 	constantBuffers_.insert(
 		std::make_pair<unsigned int, std::unique_ptr<D3DConstantBuffer>>(
 			newId, std::unique_ptr<D3DConstantBuffer>(new D3DConstantBuffer(constantBuffer))));
@@ -406,7 +406,7 @@ ID3DBlob* D3DGraphicsDevice::CompileShaderFromFile(const wchar_t* fileName, cons
         throw initialisation_exception("Unable to create texture.");
 	}
 
-	unsigned int newId = textures_.size();
+	unsigned int newId = static_cast<unsigned int>(textures_.size());
 	textures_.insert(
 		std::make_pair<unsigned int, std::unique_ptr<D3DTexture>>(
 			newId, std::unique_ptr<D3DTexture>(new D3DTexture(texture))));
@@ -433,7 +433,7 @@ ID3DBlob* D3DGraphicsDevice::CompileShaderFromFile(const wchar_t* fileName, cons
         throw initialisation_exception("Unable to create vertex buffer.");
 	}
 
-	unsigned int newId = vertexBuffers_.size();
+	unsigned int newId = static_cast<unsigned int>(vertexBuffers_.size());
 	vertexBuffers_.insert(
 		std::make_pair<unsigned int, std::unique_ptr<D3DVertexBuffer>>(
 			newId, std::unique_ptr<D3DVertexBuffer>(new D3DVertexBuffer(vertexBuffer))));
@@ -460,7 +460,7 @@ ID3DBlob* D3DGraphicsDevice::CompileShaderFromFile(const wchar_t* fileName, cons
         throw initialisation_exception("Unable to create index buffer.");
 	}
 
-	unsigned int newId = indexBuffers_.size();
+	unsigned int newId = static_cast<unsigned int>(indexBuffers_.size());
 	indexBuffers_.insert(
 		std::make_pair<unsigned int, std::unique_ptr<D3DIndexBuffer>>(
 			newId, std::unique_ptr<D3DIndexBuffer>(new D3DIndexBuffer(indexBuffer))));
