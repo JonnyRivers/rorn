@@ -11,7 +11,7 @@
 #include "../../Interfaces/IDiagnostics.h"
 #include "../../Interfaces/IFileSystem.h"
 
-#include "GraphicsDevice/IGraphicsDevice.h"
+#include "GraphicsDevice/D3DGraphicsDevice.h"
 
 #include "Material/Material.h"
 #include "Material/MaterialType.h"
@@ -67,9 +67,9 @@ namespace Rorn
 			// Draw implementation
 			static Maths::Matrix4x4 BuildViewToProjectionMatrix(float fovAngle, float aspectRatio, float nearClipZ, float farClipZ);
 
-			void DrawModelInstance(unsigned int modelInstanceId, const Maths::Matrix4x4& worldToViewMatrix, const Maths::Matrix4x4& worldToProjectionMatrix) const;
-			void DrawModel(unsigned int modelId, const Maths::Matrix4x4& instanceToWorldMatrix, const Maths::Matrix4x4& worldToViewMatrix, const Maths::Matrix4x4& worldToProjectionMatrix) const;
-			void DrawRenderCommand(unsigned int renderCommandId, const Maths::Matrix4x4& instanceToWorldMatrix, const Maths::Matrix4x4& worldToViewMatrix, const Maths::Matrix4x4& worldToProjectionMatrix) const;
+			void DrawModelInstance(unsigned int modelInstanceId, const Maths::Matrix4x4& worldToViewMatrix, const Maths::Matrix4x4& worldToProjectionMatrix);
+			void DrawModel(unsigned int modelId, const Maths::Matrix4x4& instanceToWorldMatrix, const Maths::Matrix4x4& worldToViewMatrix, const Maths::Matrix4x4& worldToProjectionMatrix);
+			void DrawRenderCommand(unsigned int renderCommandId, const Maths::Matrix4x4& instanceToWorldMatrix, const Maths::Matrix4x4& worldToViewMatrix, const Maths::Matrix4x4& worldToProjectionMatrix);
 
 			// Debug rendering implementation
 			unsigned int CreateDebugTextRenderCommand();
@@ -80,7 +80,7 @@ namespace Rorn
 			// Data
 			IDiagnostics* diagnostics_;
 			IFileSystem* fileSystem_;
-			IGraphicsDevice* graphicsDevice_;
+			D3DGraphicsDevice graphicsDevice_;
 
 			// Material data
 			std::map<MaterialType::Type, std::unique_ptr<Material>> materials_;

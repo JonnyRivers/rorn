@@ -20,7 +20,7 @@ using namespace Rorn::Maths;
 
 /*static*/ HINSTANCE ModelViewerApp::instanceHandle_ = NULL;
 
-ModelViewerApp::ModelViewerApp(void)
+ModelViewerApp::ModelViewerApp(void) : theEngine_(NULL)
 {
 	
 }

@@ -13,8 +13,7 @@ DirectInput8Wrapper::DirectInput8Wrapper(IDiagnostics* diagnostics) : diagnostic
 	diagnostics_->GetLoggingStream() << "DirectInput8Wrapper instance is being created." << std::endl;
 
 	HRESULT hr;
-	if( FAILED( hr = DirectInput8Create( GetModuleHandle( NULL ), 0x0800,
-                                         IID_IDirectInput8, ( VOID** )&directInput_, NULL ) ) )
+	if( FAILED( hr = ::DirectInput8Create( GetModuleHandle( NULL ), 0x0800, IID_IDirectInput8, ( VOID** )&directInput_, NULL ) ) )
     {
 		diagnostics->GetLoggingStream() << "Unable to create DirectInput subsystem.  HRESULT details follow." << std::endl;
 		diagnostics->GetLoggingStream() << Rorn::ErrorCodes::HResultFormatter::FormatHResult(hr);
@@ -28,8 +27,7 @@ DirectInput8Wrapper::~DirectInput8Wrapper()
 {
 	diagnostics_->GetLoggingStream() << "DirectInput8Wrapper instance is being destroyed." << std::endl;
 
-	if(directInput_ != NULL)
-		directInput_->Release();
+	directInput_->Release();
 
 	diagnostics_->GetLoggingStream() << "DirectInput8Wrapper instance was destroyed successfully." << std::endl;
 }
