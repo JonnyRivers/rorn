@@ -50,6 +50,7 @@
     <ClInclude Include="Subsystems\Renderer\Camera\FreeCamera.h" />
     <ClInclude Include="Subsystems\Renderer\Font\Font.h" />
     <ClInclude Include="Subsystems\Renderer\Font\Glyph.h" />
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3D11DeviceWrapper.h" />
     <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3DConstantBuffer.h" />
     <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3DGraphicsDevice.h" />
     <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3DIndexBuffer.h" />
@@ -67,6 +68,7 @@
     <ClInclude Include="Subsystems\Renderer\GraphicsDevice\IVertexBuffer.h" />
     <ClInclude Include="Subsystems\Renderer\GraphicsDevice\IVertexShader.h" />
     <ClInclude Include="Subsystems\Renderer\DirectXRenderer.h" />
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\OutputDimensions.h" />
     <ClInclude Include="Subsystems\Renderer\Lighting\AmbientLight.h" />
     <ClInclude Include="Subsystems\Renderer\Lighting\MainLight.h" />
     <ClInclude Include="Subsystems\Renderer\Lighting\PointLight.h" />
@@ -95,6 +97,7 @@
     <ClCompile Include="Subsystems\Renderer\Camera\FreeCamera.cpp" />
     <ClCompile Include="Subsystems\Renderer\Font\Font.cpp" />
     <ClCompile Include="Subsystems\Renderer\Font\Glyph.cpp" />
+    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3D11DeviceWrapper.cpp" />
     <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3DConstantBuffer.cpp" />
     <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3DGraphicsDevice.cpp" />
     <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3DIndexBuffer.cpp" />
@@ -104,6 +107,7 @@
     <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3DVertexBuffer.cpp" />
     <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3DVertexShader.cpp" />
     <ClCompile Include="Subsystems\Renderer\DirectXRenderer.cpp" />
+    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\OutputDimensions.cpp" />
     <ClCompile Include="Subsystems\Renderer\Lighting\AmbientLight.cpp" />
     <ClCompile Include="Subsystems\Renderer\Lighting\MainLight.cpp" />
     <ClCompile Include="Subsystems\Renderer\Lighting\PointLight.cpp" />

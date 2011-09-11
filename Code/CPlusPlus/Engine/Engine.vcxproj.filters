@@ -142,6 +142,12 @@
     <ClCompile Include="Subsystems\FileSystem\StreamReader.cpp">
       <Filter>Subsystems\FileSystem</Filter>
     </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3D11DeviceWrapper.cpp">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\OutputDimensions.cpp">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Interfaces\IEngine.h">
@@ -321,6 +327,12 @@
     </ClInclude>
     <ClInclude Include="Interfaces\StreamReader.h">
       <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3D11DeviceWrapper.h">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\OutputDimensions.h">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
