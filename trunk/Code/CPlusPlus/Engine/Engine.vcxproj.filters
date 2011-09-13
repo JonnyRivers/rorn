@@ -142,10 +142,25 @@
     <ClCompile Include="Subsystems\FileSystem\StreamReader.cpp">
       <Filter>Subsystems\FileSystem</Filter>
     </ClCompile>
-    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3D11DeviceWrapper.cpp">
+    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\OutputDimensions.cpp">
       <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
     </ClCompile>
-    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\OutputDimensions.cpp">
+    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3D11Device.cpp">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3D11RenderTargetView.cpp">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3D11Texture2D.cpp">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3D11BlendState.cpp">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3D11DepthStencilView.cpp">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3D11Viewport.cpp">
       <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
     </ClCompile>
   </ItemGroup>
@@ -328,10 +343,25 @@
     <ClInclude Include="Interfaces\StreamReader.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
-    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3D11DeviceWrapper.h">
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\OutputDimensions.h">
       <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
     </ClInclude>
-    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\OutputDimensions.h">
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3D11Device.h">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3D11RenderTargetView.h">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3D11Texture2D.h">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3D11BlendState.h">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3D11DepthStencilView.h">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3D11Viewport.h">
       <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
     </ClInclude>
   </ItemGroup>

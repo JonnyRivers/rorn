@@ -12,7 +12,13 @@
 
 #include "IGraphicsDevice.h"
 
-#include "D3D11DeviceWrapper.h"
+#include "D3D11Device.h"
+#include "D3D11RenderTargetView.h"
+#include "D3D11Texture2D.h"
+#include "D3D11DepthStencilView.h"
+#include "D3D11BlendState.h"
+#include "D3D11Viewport.h"
+
 #include "D3DConstantBuffer.h"
 #include "D3DIndexBuffer.h"
 #include "D3DPixelShader.h"
@@ -69,11 +75,12 @@ namespace Rorn
 			IDiagnostics* diagnostics_;
 
 			OutputDimensions outputDimensions_;
-			D3D11DeviceWrapper d3d11DeviceWrapper_;
-			ID3D11RenderTargetView* renderTargetView_;
-			ID3D11Texture2D* depthStencil_;
-			ID3D11DepthStencilView* depthStencilView_;
-			ID3D11BlendState* blendState_;
+			D3D11Device device_;
+			D3D11RenderTargetView renderTargetView_;
+			D3D11Texture2D depthStencilTexture_;
+			D3D11DepthStencilView depthStencilView_;
+			D3D11BlendState blendState_;
+			D3D11Viewport viewport_;
 
 			std::map<unsigned int, std::unique_ptr<D3DConstantBuffer>> constantBuffers_;
 			std::map<unsigned int, std::unique_ptr<D3DIndexBuffer>> indexBuffers_;

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "D3D11DeviceWrapper.h"
+#include "D3D11Device.h"
 
 #include "../../../Exceptions/initialisation_exception.h"
 
@@ -8,8 +8,7 @@
 
 using namespace Rorn::Engine;
 
-D3D11DeviceWrapper::D3D11DeviceWrapper(HWND applicationWindowHandle, IDiagnostics* diagnostics, UINT outputWidth, UINT outputHeight)
-	: diagnostics_(diagnostics)
+D3D11Device::D3D11Device(IDiagnostics* diagnostics, HWND applicationWindowHandle, UINT outputWidth, UINT outputHeight)
 {
 	UINT createDeviceFlags = 0;
 #ifdef _DEBUG
@@ -71,9 +70,8 @@ D3D11DeviceWrapper::D3D11DeviceWrapper(HWND applicationWindowHandle, IDiagnostic
 	}
 }
 
-D3D11DeviceWrapper::~D3D11DeviceWrapper()
+D3D11Device::~D3D11Device()
 {
-	//DeviceContext->ClearState();// required?
 	SwapChain->Release();
 	DeviceContext->Release();
 	Device->Release();
