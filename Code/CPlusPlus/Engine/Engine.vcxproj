@@ -50,7 +50,12 @@
     <ClInclude Include="Subsystems\Renderer\Camera\FreeCamera.h" />
     <ClInclude Include="Subsystems\Renderer\Font\Font.h" />
     <ClInclude Include="Subsystems\Renderer\Font\Glyph.h" />
-    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3D11DeviceWrapper.h" />
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3D11BlendState.h" />
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3D11DepthStencilView.h" />
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3D11Device.h" />
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3D11RenderTargetView.h" />
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3D11Texture2D.h" />
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3D11Viewport.h" />
     <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3DConstantBuffer.h" />
     <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3DGraphicsDevice.h" />
     <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3DIndexBuffer.h" />
@@ -97,7 +102,12 @@
     <ClCompile Include="Subsystems\Renderer\Camera\FreeCamera.cpp" />
     <ClCompile Include="Subsystems\Renderer\Font\Font.cpp" />
     <ClCompile Include="Subsystems\Renderer\Font\Glyph.cpp" />
-    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3D11DeviceWrapper.cpp" />
+    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3D11BlendState.cpp" />
+    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3D11DepthStencilView.cpp" />
+    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3D11Device.cpp" />
+    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3D11RenderTargetView.cpp" />
+    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3D11Texture2D.cpp" />
+    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3D11Viewport.cpp" />
     <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3DConstantBuffer.cpp" />
     <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3DGraphicsDevice.cpp" />
     <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3DIndexBuffer.cpp" />
