@@ -12,20 +12,17 @@
 
 #include "IGraphicsDevice.h"
 
-#include "D3D11Device.h"
-#include "D3D11RenderTargetView.h"
-#include "D3D11Texture2D.h"
-#include "D3D11DepthStencilView.h"
 #include "D3D11BlendState.h"
+#include "D3D11Buffer.h"
+#include "D3D11DepthStencilView.h"
+#include "D3D11Device.h"
+#include "D3D11PixelShader.h"
+#include "D3D11RenderTargetView.h"
+#include "D3D11SamplerState.h"
+#include "D3D11ShaderResourceView.h"
+#include "D3D11Texture2D.h"
+#include "D3D11VertexShader.h"
 #include "D3D11Viewport.h"
-
-#include "D3DConstantBuffer.h"
-#include "D3DIndexBuffer.h"
-#include "D3DPixelShader.h"
-#include "D3DSamplerState.h"
-#include "D3DTexture.h"
-#include "D3DVertexBuffer.h"
-#include "D3DVertexShader.h"
 #include "OutputDimensions.h"
 
 namespace Rorn
@@ -70,10 +67,9 @@ namespace Rorn
 			D3DGraphicsDevice(D3DGraphicsDevice&);
 			D3DGraphicsDevice& operator=(D3DGraphicsDevice&);
 
-			ID3DBlob* CompileShaderFromFile(const wchar_t* fileName, const char* entryPoint, const char* shaderModel);
-
 			IDiagnostics* diagnostics_;
 
+			// Core, 'fixed' data
 			OutputDimensions outputDimensions_;
 			D3D11Device device_;
 			D3D11RenderTargetView renderTargetView_;
@@ -82,13 +78,14 @@ namespace Rorn
 			D3D11BlendState blendState_;
 			D3D11Viewport viewport_;
 
-			std::map<unsigned int, std::unique_ptr<D3DConstantBuffer>> constantBuffers_;
-			std::map<unsigned int, std::unique_ptr<D3DIndexBuffer>> indexBuffers_;
-			std::map<unsigned int, std::unique_ptr<D3DPixelShader>> pixelShaders_;
-			std::map<unsigned int, std::unique_ptr<D3DSamplerState>> samplerStates_;
-			std::map<unsigned int, std::unique_ptr<D3DTexture>> textures_;
-			std::map<unsigned int, std::unique_ptr<D3DVertexBuffer>> vertexBuffers_;
-			std::map<unsigned int, std::unique_ptr<D3DVertexShader>> vertexShaders_;
+			// Data created at the request of clients
+			std::map<unsigned int, std::unique_ptr<D3D11Buffer>> constantBuffers_;
+			std::map<unsigned int, std::unique_ptr<D3D11Buffer>> indexBuffers_;
+			std::map<unsigned int, std::unique_ptr<D3D11PixelShader>> pixelShaders_;
+			std::map<unsigned int, std::unique_ptr<D3D11SamplerState>> samplerStates_;
+			std::map<unsigned int, std::unique_ptr<D3D11ShaderResourceView>> textures_;
+			std::map<unsigned int, std::unique_ptr<D3D11Buffer>> vertexBuffers_;
+			std::map<unsigned int, std::unique_ptr<D3D11VertexShader>> vertexShaders_;
 		};
 	}
 }

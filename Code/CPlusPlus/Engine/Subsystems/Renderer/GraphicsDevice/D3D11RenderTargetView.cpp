@@ -2,9 +2,9 @@
 
 #include "D3D11RenderTargetView.h"
 
-#include "../../../Exceptions/initialisation_exception.h"
-
 #include "../../../../Shared/ErrorCodes/HResultFormatter.h"
+
+#include "../../../Exceptions/initialisation_exception.h"
 
 using namespace Rorn::Engine;
 
