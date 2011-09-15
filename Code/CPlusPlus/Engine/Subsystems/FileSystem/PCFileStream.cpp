@@ -19,10 +19,14 @@ PCFileStream::PCFileStream(const wchar_t* const pathname)
 
 	if( fileHandle_ == INVALID_HANDLE_VALUE )
 	{
-		std::stringstream exceptionMessageStream;
+		std::wstringstream exceptionMessageStream;
 		exceptionMessageStream << "Unable to open file for reading at '" << pathname << "'.";
 
-		throw filesystem_exception(exceptionMessageStream.str().c_str());
+		char exceptionMessage[512];
+		size_t numCharsConverted;
+		wcstombs_s(&numCharsConverted, exceptionMessage, sizeof(exceptionMessage), exceptionMessageStream.str().c_str(), sizeof(exceptionMessage));
+
+		throw filesystem_exception(exceptionMessage);
 	}
 }
 

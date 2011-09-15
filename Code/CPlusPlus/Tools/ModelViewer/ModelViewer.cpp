@@ -13,6 +13,12 @@ int APIENTRY _tWinMain(HINSTANCE instanceHandle,
 {
 	UNREFERENCED_PARAMETER(previousInstanceHandle);
 
+	if( wcslen(commandLine) == 0 )
+	{
+		::MessageBox(NULL, L"You must specify a valid model file path on the command line when running the Model Viewer", L"Invalid command line arguments", MB_OK);
+		return FALSE;
+	}
+
 	ModelViewerApp application;
 	if (!application.InitInstance(instanceHandle, commandLine, cmdShow))
 	{
