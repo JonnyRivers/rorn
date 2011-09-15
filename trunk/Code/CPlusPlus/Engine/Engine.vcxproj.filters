@@ -73,29 +73,11 @@
     <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3DGraphicsDevice.cpp">
       <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
     </ClCompile>
-    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3DPixelShader.cpp">
-      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3DVertexShader.cpp">
-      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3DConstantBuffer.cpp">
-      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
-    </ClCompile>
     <ClCompile Include="Subsystems\Renderer\DirectXRenderer.cpp">
       <Filter>Subsystems\Renderer</Filter>
     </ClCompile>
     <ClCompile Include="Subsystems\FileSystem\PCFileSystem.cpp">
       <Filter>Subsystems\FileSystem</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3DTexture.cpp">
-      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3DIndexBuffer.cpp">
-      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3DVertexBuffer.cpp">
-      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
     </ClCompile>
     <ClCompile Include="Subsystems\Renderer\Camera\Camera.cpp">
       <Filter>Subsystems\Renderer\Camera</Filter>
@@ -126,9 +108,6 @@
     </ClCompile>
     <ClCompile Include="Subsystems\Timekeeper\PCTimekeeper.cpp">
       <Filter>Subsystems\Timekeeper</Filter>
-    </ClCompile>
-    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3DSamplerState.cpp">
-      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
     </ClCompile>
     <ClCompile Include="Subsystems\Renderer\Font\Font.cpp">
       <Filter>Subsystems\Renderer\Font</Filter>
@@ -161,6 +140,21 @@
       <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
     </ClCompile>
     <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3D11Viewport.cpp">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3D11Buffer.cpp">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3D11PixelShader.cpp">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3D11SamplerState.cpp">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3D11ShaderResourceView.cpp">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3D11VertexShader.cpp">
       <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
     </ClCompile>
   </ItemGroup>
@@ -208,24 +202,6 @@
     <ClInclude Include="Subsystems\Renderer\GraphicsDevice\IGraphicsDevice.h">
       <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
     </ClInclude>
-    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3DPixelShader.h">
-      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3DVertexShader.h">
-      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\IPixelShader.h">
-      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\IVertexShader.h">
-      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3DConstantBuffer.h">
-      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\IConstantBuffer.h">
-      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
-    </ClInclude>
     <ClInclude Include="Subsystems\Renderer\DirectXRenderer.h">
       <Filter>Subsystems\Renderer</Filter>
     </ClInclude>
@@ -234,24 +210,6 @@
     </ClInclude>
     <ClInclude Include="Subsystems\FileSystem\PCFileSystem.h">
       <Filter>Subsystems\FileSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3DTexture.h">
-      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\ITexture.h">
-      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\IIndexBuffer.h">
-      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\IVertexBuffer.h">
-      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3DIndexBuffer.h">
-      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3DVertexBuffer.h">
-      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
     </ClInclude>
     <ClInclude Include="Exceptions\filesystem_exception.h">
       <Filter>Exceptions</Filter>
@@ -313,12 +271,6 @@
     <ClInclude Include="Subsystems\Renderer\Material\MaterialType.h">
       <Filter>Subsystems\Renderer\Material</Filter>
     </ClInclude>
-    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3DSamplerState.h">
-      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
-    </ClInclude>
-    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\ISamplerState.h">
-      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
-    </ClInclude>
     <ClInclude Include="Interfaces\ICamera.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
@@ -362,6 +314,21 @@
       <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
     </ClInclude>
     <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3D11Viewport.h">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3D11Buffer.h">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3D11PixelShader.h">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3D11SamplerState.h">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3D11ShaderResourceView.h">
+      <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3D11VertexShader.h">
       <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
     </ClInclude>
   </ItemGroup>
