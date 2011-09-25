@@ -1,11 +1,11 @@
 #pragma once
 
-#include "UnitDirection.h"
-
 namespace Rorn
 {
 	namespace Maths
 	{
+		class UnitDirection;
+
 		class Direction
 		{
 		public:

@@ -49,14 +49,14 @@ namespace Rorn
 			virtual IModelInstance* GetModelInstance(unsigned int modelInstanceId);
 
 			// Camera interface
-			virtual unsigned int CreateFreeCamera(const Rorn::Maths::Vector3& position, const Rorn::Maths::EulerAngles& eulerAngles);
+			virtual unsigned int CreateFreeCamera(const Rorn::Maths::Position& position, const Rorn::Maths::EulerAngles& eulerAngles);
 			virtual void SetCurrentCamera(unsigned int cameraId);
 			virtual ICamera* GetCamera(unsigned int cameraId);
 
 			// Light interface
 			virtual void SetAmbientLight(const Rorn::Maths::Float4& colour);
-			virtual void SetMainLight(const Rorn::Maths::Vector3& direction, const Rorn::Maths::Float4& colour);
-			virtual unsigned int CreatePointLight(const Rorn::Maths::Vector3& position, const Rorn::Maths::Float4& colour, float luminosity);
+			virtual void SetMainLight(const Rorn::Maths::UnitDirection& direction, const Rorn::Maths::Float4& colour);
+			virtual unsigned int CreatePointLight(const Rorn::Maths::Position& position, const Rorn::Maths::Float4& colour, float luminosity);
 
 			// Debug rendering interface
 			virtual void AddDebugText(const char* text, float x, float y);

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Direction.h"
+
 namespace Rorn
 {
 	namespace Maths
@@ -35,6 +37,22 @@ namespace Rorn
 		static bool operator!=(const UnitDirection& lhs, const UnitDirection& rhs)
 		{
 			return (lhs.X != rhs.X) || (lhs.Y != rhs.Y) || (lhs.Z != rhs.Z);
+		}
+
+		static Rorn::Maths::Direction operator*(const UnitDirection& lhs, float rhs)
+		{
+			return Rorn::Maths::Direction(
+				lhs.X * rhs,
+				lhs.Y * rhs,
+				lhs.Z * rhs);
+		}
+
+		static Rorn::Maths::Direction operator*(float lhs, const UnitDirection& rhs)
+		{
+			return Rorn::Maths::Direction(
+				lhs * rhs.X,
+				lhs * rhs.Y,
+				lhs * rhs.Z);
 		}
 	}
 }

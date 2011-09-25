@@ -2,6 +2,9 @@
 
 #include <cmath>
 
+#include "Direction.h"
+#include "UnitDirection.h"
+
 using namespace Rorn::Maths;
 
 // Construction
@@ -30,7 +33,7 @@ Position& Position::operator=(const Position& source)
 }
 
 // In-place binary operations
-Position& Position::operator+=(const Position& rhs)
+Position& Position::operator+=(const Direction& rhs)
 {
 	X += rhs.X;
 	Y += rhs.Y;
@@ -39,31 +42,11 @@ Position& Position::operator+=(const Position& rhs)
 	return *this;
 }
 
-Position& Position::operator-=(const Position& rhs)
+Position& Position::operator-=(const Direction& rhs)
 {
 	X -= rhs.X;
 	Y -= rhs.Y;
 	Z -= rhs.Z;
-
-	return *this;
-}
-
-Position& Position::operator*=(float rhs)
-{
-	X *= rhs;
-	Y *= rhs;
-	Z *= rhs;
-
-	return *this;
-}
-
-Position& Position::operator/=(float rhs)
-{
-	float rhsReciprocal = 1.0f / rhs;
-
-	X *= rhsReciprocal;
-	Y *= rhsReciprocal;
-	Z *= rhsReciprocal;
 
 	return *this;
 }
@@ -74,4 +57,8 @@ float Position::GetLength() const
 	return sqrt(X * X + Y * Y + Z * Z);
 }
 
-
+// Static member operations
+/*static*/ float Position::DotProduct(const Position& lhs, const UnitDirection& rhs)
+{
+	return lhs.X * rhs.X + lhs.Y * rhs.Y + lhs.Z * rhs.Z;// Assumes that rhs.W is 0
+}

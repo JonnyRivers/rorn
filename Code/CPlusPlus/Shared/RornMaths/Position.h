@@ -4,6 +4,9 @@ namespace Rorn
 {
 	namespace Maths
 	{
+		class Direction;
+		class UnitDirection;
+
 		class Position
 		{
 		public:
@@ -22,13 +25,14 @@ namespace Rorn
 			Position& operator=(const Position& source);
 
 			// In-place binary operations
-			Position& operator+=(const Position& rhs);
-			Position& operator-=(const Position& rhs);
-			Position& operator*=(float rhs);
-			Position& operator/=(float rhs);
+			Position& operator+=(const Direction& rhs);
+			Position& operator-=(const Direction& rhs);
 
 			// Member operations
 			float GetLength() const;
+
+			// Static member operations
+			static float DotProduct(const Position& lhs, const UnitDirection& rhs);
 		};
 
 		// Unary non-member operations
@@ -101,4 +105,3 @@ namespace Rorn
 		}
 	}
 }
-

@@ -3,11 +3,12 @@
 #include "FreeCamera.h"
 
 #include "../../../../Shared/RornMaths/Constants.h"
+#include "../../../../Shared/RornMaths/UnitDirection.h"
 
 using namespace Rorn::Engine;
 using namespace Rorn::Maths;
 
-FreeCamera::FreeCamera(const Rorn::Maths::Vector3& position, const Rorn::Maths::EulerAngles& eulerAngles)
+FreeCamera::FreeCamera(const Position& position, const EulerAngles& eulerAngles)
 	: position_(position), eulerAngles_(eulerAngles)
 {
 }
@@ -17,13 +18,13 @@ FreeCamera::~FreeCamera()
 	
 }
 
-/*virtual*/ void FreeCamera::Translate(const Vector3& translation)
+/*virtual*/ void FreeCamera::Translate(const Direction& translation)
 {
 	Matrix4x4 xRotationMatrix = Matrix4x4::BuildXRotationMatrix(eulerAngles_.Pitch);
 	Matrix4x4 yRotationMatrix = Matrix4x4::BuildYRotationMatrix(eulerAngles_.Heading);
-	Vector3 xAxis(1.0f, 0.0f, 0.0f);
-	Vector3 yAxis(0.0f, 1.0f, 0.0f);
-	Vector3 zAxis(0.0f, 0.0f, 1.0f);
+	UnitDirection xAxis(1.0f, 0.0f, 0.0f);
+	UnitDirection yAxis(0.0f, 1.0f, 0.0f);
+	UnitDirection zAxis(0.0f, 0.0f, 1.0f);
 	xAxis = xAxis * xRotationMatrix;
 	xAxis = xAxis * yRotationMatrix;
 	yAxis = yAxis * xRotationMatrix;
@@ -73,9 +74,9 @@ FreeCamera::~FreeCamera()
 {
 	Matrix4x4 xRotationMatrix = Matrix4x4::BuildXRotationMatrix(eulerAngles_.Pitch);
 	Matrix4x4 yRotationMatrix = Matrix4x4::BuildYRotationMatrix(eulerAngles_.Heading);
-	Vector3 xAxis(1.0f, 0.0f, 0.0f);
-	Vector3 yAxis(0.0f, 1.0f, 0.0f);
-	Vector3 zAxis(0.0f, 0.0f, 1.0f);
+	UnitDirection xAxis(1.0f, 0.0f, 0.0f);
+	UnitDirection yAxis(0.0f, 1.0f, 0.0f);
+	UnitDirection zAxis(0.0f, 0.0f, 1.0f);
 	xAxis = xAxis * xRotationMatrix;
 	xAxis = xAxis * yRotationMatrix;
 	yAxis = yAxis * xRotationMatrix;
@@ -84,10 +85,10 @@ FreeCamera::~FreeCamera()
 	zAxis = zAxis * yRotationMatrix;
 
 	// Calculate the translation
-	Vector3 negatedEyePosition = -position_;
-	float translationX = Vector3::DotProduct(xAxis, negatedEyePosition);
-	float translationY = Vector3::DotProduct(yAxis, negatedEyePosition);
-	float translationZ = Vector3::DotProduct(zAxis, negatedEyePosition);
+	Position negatedEyePosition = -position_;
+	float translationX = Position::DotProduct(negatedEyePosition, xAxis);
+	float translationY = Position::DotProduct(negatedEyePosition, yAxis);
+	float translationZ = Position::DotProduct(negatedEyePosition, zAxis);
 
 	return Matrix4x4(
 		xAxis.X, yAxis.X, zAxis.X, 0.0f,

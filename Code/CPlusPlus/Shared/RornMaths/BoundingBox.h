@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Vector3.h"
+#include "Position.h"
 
 namespace Rorn
 {
@@ -13,12 +13,12 @@ namespace Rorn
 			BoundingBox(float minX, float minY, float minZ, float maxX, float maxY, float maxZ);
 
 			float GetBoundingRadius() const;
-			Vector3 GetMinimum() const;
-			Vector3 GetMaximum() const;
-			Vector3 GetCentre() const;
+			Position GetMinimum() const;
+			Position GetMaximum() const;
+			Position GetCentre() const;
 		private:
-			Vector3 minimum_;
-			Vector3 maximum_;
+			Position minimum_;
+			Position maximum_;
 		};
 	}
 }

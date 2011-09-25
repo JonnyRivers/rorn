@@ -11,7 +11,6 @@
 #include "../../Shared/RornMaths/BoundingBox.h"
 #include "../../Shared/RornMaths/Float4.h"
 #include "../../Shared/RornMaths/Matrix4x4.h"
-#include "../../Shared/RornMaths/Vector3.h"
 
 #include "resource.h"
 
@@ -61,7 +60,7 @@ BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* comma
 		const Rorn::Maths::BoundingBox& modelBoundingBox = model->GetBoundingBox();
 		
 		cameraId_ = theEngine_->GetRenderer()->CreateFreeCamera(
-			Vector3(0.0f, modelBoundingBox.GetMaximum().Y * 2.0f, modelBoundingBox.GetMinimum().Z * 4.0f),
+			Position(0.0f, modelBoundingBox.GetMaximum().Y * 2.0f, modelBoundingBox.GetMinimum().Z * 4.0f),
 			EulerAngles(0.0f, 0.35f, 0.0f));
 		theEngine_->GetRenderer()->SetCurrentCamera(cameraId_);
 
@@ -69,16 +68,16 @@ BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* comma
 			Float4(0.05f, 0.05f, 0.05f, 1.0f));
 
 		theEngine_->GetRenderer()->SetMainLight(
-			Vector3(0.0f, -sin(Rorn::Maths::PiOverFour), sin(Rorn::Maths::PiOverFour)),
+			UnitDirection(0.0f, -sin(Rorn::Maths::PiOverFour), sin(Rorn::Maths::PiOverFour)),
 			Float4(0.0f, 0.0f, 0.0f, 1.0f));
 
 		// TEMP - point lighting test
 		unsigned int pointLight1Id = theEngine_->GetRenderer()->CreatePointLight(
-			Vector3(-600.0f, 1270.0f, 0.0f),
+			Position(-600.0f, 1270.0f, 0.0f),
 			Float4(1.0f, 1.0f, 1.0f, 1.0f),
 			60000000.0f);// distances are in mm, so luminosity is 60W * 1000^2
 		unsigned int pointLight2Id = theEngine_->GetRenderer()->CreatePointLight(
-			Vector3(600.0f, 1270.0f, 0.0f),
+			Position(600.0f, 1270.0f, 0.0f),
 			Float4(1.0f, 1.0f, 1.0f, 1.0f),
 			60000000.0f);// distances are is in mm, so luminosity is 60W * 1000^2
 	}
@@ -131,7 +130,7 @@ VOID ModelViewerApp::Step()
 		translationSpeed *= 0.2f;
 	}
 
-	Vector3 translation(0.0f, 0.0f, 0.0f);
+	Direction translation(0.0f, 0.0f, 0.0f);
 
 	if( theEngine_->GetKeyboard()->IsKeyDown(DIK_D) )
 	{

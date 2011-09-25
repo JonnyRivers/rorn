@@ -16,12 +16,13 @@ cbuffer ConstantBuffer : register( b0 )
 	float4 SpecularColor;
 	float4 AmbientLightColor;
 	float PhongExponent;
-	float3 MainLightDir;
+	float4 MainLightDir;
 	float4 MainLightColor;
-	float3 EyeDir;
+	float4 EyeDir;
 	unsigned int NumActivePointLights;
 	float4 PointLightPositions[16];
 	float4 PointLightColors[16];
+	float4 PointLightLuminosities[16];
 }
 
 //--------------------------------------------------------------------------------------
@@ -73,8 +74,7 @@ float4 PS( VS_OUTPUT input ) : SV_Target
 		// diffuse		
 		float4 pointLightPosition = PointLightPositions[pointLightIndex];
 		float4 pointLightColor = PointLightColors[pointLightIndex];
-		float pointLightIntensity = pointLightPosition.w;
-		pointLightPosition.w = 1;
+		float pointLightIntensity = PointLightLuminosities[pointLightIndex].x;
 		float distanceToPointLight = distance( pointLightPosition, input.WorldPosition );
 		float lightIntensity = pointLightIntensity / (12.5663701 * distanceToPointLight * distanceToPointLight);
 		float4 lightColor = lightIntensity * pointLightColor;

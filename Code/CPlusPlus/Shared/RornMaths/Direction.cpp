@@ -2,6 +2,8 @@
 
 #include <cmath>
 
+#include "UnitDirection.h"
+
 using namespace Rorn::Maths;
 
 // Construction
