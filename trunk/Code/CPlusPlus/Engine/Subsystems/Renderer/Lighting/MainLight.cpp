@@ -9,7 +9,7 @@ MainLight::MainLight()
 {
 }
 
-MainLight::MainLight(const Rorn::Maths::Vector3& direction, const Rorn::Maths::Float4& colour)
+MainLight::MainLight(const Rorn::Maths::UnitDirection& direction, const Rorn::Maths::Float4& colour)
 	: direction_(direction), colour_(colour)
 {
 }
@@ -19,7 +19,7 @@ MainLight::~MainLight()
 	
 }
 
-void MainLight::SetDirection(const Rorn::Maths::Vector3& direction)
+void MainLight::SetDirection(const Rorn::Maths::UnitDirection& direction)
 {
 	direction_ = direction;
 }

@@ -234,7 +234,7 @@ void DirectXRenderer::Draw()
 }
 
 // Camera interface
-/*virtual*/ unsigned int DirectXRenderer::CreateFreeCamera(const Rorn::Maths::Vector3& position, const Rorn::Maths::EulerAngles& eulerAngles)
+/*virtual*/ unsigned int DirectXRenderer::CreateFreeCamera(const Rorn::Maths::Position& position, const Rorn::Maths::EulerAngles& eulerAngles)
 {
 	unsigned int newId = static_cast<unsigned int>(cameras_.size());
 	Camera* newCamera = new FreeCamera(position, eulerAngles);
@@ -259,13 +259,13 @@ void DirectXRenderer::Draw()
 	ambientLight_.SetColour(colour);
 }
 
-/*virtual*/ void DirectXRenderer::SetMainLight(const Rorn::Maths::Vector3& direction, const Rorn::Maths::Float4& colour)
+/*virtual*/ void DirectXRenderer::SetMainLight(const Rorn::Maths::UnitDirection& direction, const Rorn::Maths::Float4& colour)
 {
 	mainLight_.SetDirection(direction);
 	mainLight_.SetColour(colour);
 }
 
-/*virtual*/ unsigned int DirectXRenderer::CreatePointLight(const Rorn::Maths::Vector3& position, const Rorn::Maths::Float4& colour, float luminosity)
+/*virtual*/ unsigned int DirectXRenderer::CreatePointLight(const Rorn::Maths::Position& position, const Rorn::Maths::Float4& colour, float luminosity)
 {
 	unsigned int newId = static_cast<unsigned int>(pointLights_.size());
 	PointLight* newPointLight = new PointLight(position, colour, luminosity);
@@ -414,7 +414,7 @@ void DirectXRenderer::DrawRenderCommand(unsigned int renderCommandId, const Matr
 		constantBuffer.AmbientLightColor = ambientLight_.GetColour();
 		constantBuffer.MainLightDir = mainLight_.GetDirection();
 		constantBuffer.MainLightColor = mainLight_.GetColour();
-		constantBuffer.EyeDir = Vector3(worldToViewMatrix.M31, worldToViewMatrix.M32, worldToViewMatrix.M33);
+		constantBuffer.EyeDir = UnitDirection(worldToViewMatrix.M31, worldToViewMatrix.M32, worldToViewMatrix.M33);
 		constantBuffer.NumActivePointLights = static_cast<unsigned int>(pointLights_.size());
 
 		std::map<unsigned int, std::unique_ptr<PointLight>>::const_iterator pointLightIter;
@@ -422,11 +422,9 @@ void DirectXRenderer::DrawRenderCommand(unsigned int renderCommandId, const Matr
 		for(pointLightIter = pointLights_.begin() ; pointLightIter != pointLights_.end() ; ++pointLightIter)
 		{
 			PointLight* pointLight = pointLightIter->second.get();
-			constantBuffer.PointLightPositions[pointLightIndex].X = pointLight->GetPosition().X;
-			constantBuffer.PointLightPositions[pointLightIndex].Y = pointLight->GetPosition().Y;
-			constantBuffer.PointLightPositions[pointLightIndex].Z = pointLight->GetPosition().Z;
-			constantBuffer.PointLightPositions[pointLightIndex].W = pointLight->GetLuminosity();
+			constantBuffer.PointLightPositions[pointLightIndex] = pointLight->GetPosition();
 			constantBuffer.PointLightColors[pointLightIndex] = pointLight->GetColour();
+			constantBuffer.PointLightLuminosities[pointLightIndex].X = pointLight->GetLuminosity();
 
 			++pointLightIndex;
 		}

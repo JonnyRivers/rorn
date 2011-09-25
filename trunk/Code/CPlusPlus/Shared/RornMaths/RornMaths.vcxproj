@@ -27,7 +27,6 @@
     <ClCompile Include="Matrix4x4.cpp" />
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="UnitDirection.cpp" />
-    <ClCompile Include="Vector3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BoundingBox.h" />
@@ -39,7 +38,6 @@
     <ClInclude Include="Matrix4x4.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="UnitDirection.h" />
-    <ClInclude Include="Vector3.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B5BF596E-4215-4AD8-A8F1-9DDCF7C87050}</ProjectGuid>

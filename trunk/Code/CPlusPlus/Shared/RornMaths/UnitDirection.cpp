@@ -2,20 +2,24 @@
 
 #include <cmath>
 
+#include "Direction.h"
+
 using namespace Rorn::Maths;
 
 // Construction
 UnitDirection::UnitDirection(void)
 {
+	// We should ensure unit-ness really
 }
 
 UnitDirection::UnitDirection(float x, float y, float z) : X(x), Y(y), Z(z), W(0.0f)
 {
+	// We should ensure unit-ness really
 }
 
 UnitDirection::UnitDirection(const UnitDirection& source) : X(source.X), Y(source.Y), Z(source.Z), W(source.W)
 {
-
+	// We should ensure unit-ness really
 }
 
 // Assignemnt

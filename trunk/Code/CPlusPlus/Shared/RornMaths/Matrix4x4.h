@@ -1,6 +1,8 @@
 #pragma once
 
-#include "Vector3.h"
+#include "Direction.h"
+#include "Position.h"
+#include "UnitDirection.h"
 
 namespace Rorn
 {
@@ -21,13 +23,12 @@ namespace Rorn
 					  float m21, float m22, float m23, float m24,
 					  float m31, float m32, float m33, float m34,
 					  float m41, float m42, float m43, float m44);
-			Matrix4x4(const Vector3& row1, const Vector3& row2, const Vector3& row3, const Vector3& row4);
 
 			// In-place binary operations
 			Matrix4x4& operator*=(const Matrix4x4& rhs);
 
 			// Static member operations
-			static Matrix4x4 BuildRotationMatrix(const Vector3& axis, float angle);
+			static Matrix4x4 BuildRotationMatrix(const UnitDirection& axis, float angle);
 			static Matrix4x4 BuildXRotationMatrix(float angle);
 			static Matrix4x4 BuildYRotationMatrix(float angle);
 			static Matrix4x4 BuildZRotationMatrix(float angle);
@@ -60,9 +61,28 @@ namespace Rorn
 				(lhs.M41 * rhs.M14) + (lhs.M42 * rhs.M24) + (lhs.M43 * rhs.M34) + (lhs.M44 * rhs.M44));
 		}
 
-		static Vector3 operator*(const Vector3& lhs, const Matrix4x4& rhs)
+		static UnitDirection operator*(const UnitDirection& lhs, const Matrix4x4& rhs)
 		{
-			return Vector3(
+			// assumes that lhs.W is 0.
+			return UnitDirection(
+				(lhs.X * rhs.M11) + (lhs.Y * rhs.M21) + (lhs.Z * rhs.M31),
+				(lhs.X * rhs.M12) + (lhs.Y * rhs.M22) + (lhs.Z * rhs.M32),
+				(lhs.X * rhs.M13) + (lhs.Y * rhs.M23) + (lhs.Z * rhs.M33));
+		}
+
+		static Direction operator*(const Direction& lhs, const Matrix4x4& rhs)
+		{
+			// assumes that lhs.W is 0.
+			return Direction(
+				(lhs.X * rhs.M11) + (lhs.Y * rhs.M21) + (lhs.Z * rhs.M31),
+				(lhs.X * rhs.M12) + (lhs.Y * rhs.M22) + (lhs.Z * rhs.M32),
+				(lhs.X * rhs.M13) + (lhs.Y * rhs.M23) + (lhs.Z * rhs.M33));
+		}
+
+		static Position operator*(const Position& lhs, const Matrix4x4& rhs)
+		{
+			// assumes that lhs.W is 1.
+			return Position(
 				(lhs.X * rhs.M11) + (lhs.Y * rhs.M21) + (lhs.Z * rhs.M31) + rhs.M41,
 				(lhs.X * rhs.M12) + (lhs.Y * rhs.M22) + (lhs.Z * rhs.M32) + rhs.M42,
 				(lhs.X * rhs.M13) + (lhs.Y * rhs.M23) + (lhs.Z * rhs.M33) + rhs.M43);

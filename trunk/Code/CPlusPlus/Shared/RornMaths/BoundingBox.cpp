@@ -24,19 +24,19 @@ float BoundingBox::GetBoundingRadius() const
 	return (std::max(sizeX, std::max(sizeY, sizeZ) ) * 0.5f);
 }
 
-Vector3 BoundingBox::GetMinimum() const
+Position BoundingBox::GetMinimum() const
 {
 	return minimum_;
 }
 
-Vector3 BoundingBox::GetMaximum() const
+Position BoundingBox::GetMaximum() const
 {
 	return maximum_;
 }
 
-Vector3 BoundingBox::GetCentre() const
+Position BoundingBox::GetCentre() const
 {
-	return Vector3(
+	return Position(
 		minimum_.X + ((maximum_.X - minimum_.X) / 2.0f),
 		minimum_.Y + ((maximum_.Y - minimum_.Y) / 2.0f),
 		minimum_.Z + ((maximum_.Z - minimum_.Z) / 2.0f));

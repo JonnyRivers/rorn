@@ -21,14 +21,6 @@ Matrix4x4::Matrix4x4(float m11, float m12, float m13, float m14,
 {
 }
 
-Matrix4x4::Matrix4x4(const Vector3& row1, const Vector3& row2, const Vector3& row3, const Vector3& row4)
-	: M11(row1.X), M12(row1.Y), M13(row1.Z), M14(0.0f),
-	  M21(row2.X), M22(row2.Y), M23(row2.Z), M24(0.0f),
-	  M31(row3.X), M32(row3.Y), M33(row3.Z), M34(0.0f),
-	  M41(row4.X), M42(row4.Y), M43(row4.Z), M44(1.0f)
-{
-}
-
 // In-place binary operations
 Matrix4x4& Matrix4x4::operator*=(const Matrix4x4& rhs)
 {
@@ -38,7 +30,7 @@ Matrix4x4& Matrix4x4::operator*=(const Matrix4x4& rhs)
 	
 }
 
-/*static*/  Matrix4x4 Matrix4x4::BuildRotationMatrix(const Vector3& axis, float angle)
+/*static*/  Matrix4x4 Matrix4x4::BuildRotationMatrix(const UnitDirection& axis, float angle)
 {
 	assert(axis.GetLength() - 1.0f < 0.001f);// check the axis is a unit vector
 
