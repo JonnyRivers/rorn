@@ -32,8 +32,6 @@ Matrix4x4& Matrix4x4::operator*=(const Matrix4x4& rhs)
 
 /*static*/  Matrix4x4 Matrix4x4::BuildRotationMatrix(const UnitDirection& axis, float angle)
 {
-	assert(axis.GetLength() - 1.0f < 0.001f);// check the axis is a unit vector
-
 	float sinAngle = sin(angle);
 	float cosAngle = cos(angle);
 
