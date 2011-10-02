@@ -10,12 +10,38 @@ OrientationQuaternion::OrientationQuaternion(float w, float x, float y, float z)
 {
 }
 
-OrientationQuaternion::OrientationQuaternion(const UnitDirection& axis, float theta)
+float OrientationQuaternion::GetLength() const
 {
-	float halfTheta = theta * 0.5f;
-	W = cos(theta * 0.5f);
-	float sinHalfTheta = sin(halfTheta);
-	X = axis.X * sinHalfTheta;
-	Y = axis.Y * sinHalfTheta;
-	Z = axis.Z * sinHalfTheta;
+	return sqrt(W * W + X * X + Y * Y + Z * Z);
+}
+
+/*static*/ OrientationQuaternion OrientationQuaternion::Normalise(const OrientationQuaternion& source)
+{
+	float length = source.GetLength();
+	return OrientationQuaternion(source.W / length, source.X / length, source.Y / length, source.Z / length);
+}
+
+void OrientationQuaternion::ToAxisAngle(UnitDirection& axis, float& angle)
+{
+	angle = acosf(W);
+
+	float sinAngleReciprocal = 1.0f/sinf(angle);
+	axis = UnitDirection(
+		X * sinAngleReciprocal,
+		Y * sinAngleReciprocal,
+		Z * sinAngleReciprocal);
+
+	angle *= 2;
+}
+
+/*static*/ OrientationQuaternion OrientationQuaternion::CreateFromAxisAngle(const UnitDirection& axis, float angle)
+{
+	float halfAngle = angle * 0.5f;
+	float sinHalfAngle = sin(halfAngle);
+
+	return OrientationQuaternion(
+		cos(halfAngle),
+		axis.X * sinHalfAngle,
+		axis.Y * sinHalfAngle,
+		axis.Z * sinHalfAngle);
 }
