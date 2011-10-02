@@ -9,6 +9,8 @@
     <ClCompile Include="Direction.cpp" />
     <ClCompile Include="Position.cpp" />
     <ClCompile Include="UnitDirection.cpp" />
+    <ClCompile Include="OrientationQuaternion.cpp" />
+    <ClCompile Include="RotationQuaternion.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Matrix4x4.h" />
@@ -20,5 +22,7 @@
     <ClInclude Include="Direction.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="UnitDirection.h" />
+    <ClInclude Include="OrientationQuaternion.h" />
+    <ClInclude Include="RotationQuaternion.h" />
   </ItemGroup>
 </Project>

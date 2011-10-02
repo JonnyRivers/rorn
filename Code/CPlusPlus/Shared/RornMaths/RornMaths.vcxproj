@@ -25,7 +25,9 @@
     <ClCompile Include="Float2.cpp" />
     <ClCompile Include="Float4.cpp" />
     <ClCompile Include="Matrix4x4.cpp" />
+    <ClCompile Include="OrientationQuaternion.cpp" />
     <ClCompile Include="Position.cpp" />
+    <ClCompile Include="RotationQuaternion.cpp" />
     <ClCompile Include="UnitDirection.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -36,7 +38,9 @@
     <ClInclude Include="Float2.h" />
     <ClInclude Include="Float4.h" />
     <ClInclude Include="Matrix4x4.h" />
+    <ClInclude Include="OrientationQuaternion.h" />
     <ClInclude Include="Position.h" />
+    <ClInclude Include="RotationQuaternion.h" />
     <ClInclude Include="UnitDirection.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
