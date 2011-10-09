@@ -19,28 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BoundingBox.cpp" />
-    <ClCompile Include="EulerAngles.cpp" />
-    <ClCompile Include="Float2.cpp" />
-    <ClCompile Include="Float4.cpp" />
-    <ClCompile Include="Matrix4x4.cpp" />
-    <ClCompile Include="Quaternion.cpp" />
-    <ClCompile Include="Vector4.cpp" />
+    <ClInclude Include="RigidBody.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BoundingBox.h" />
-    <ClInclude Include="Constants.h" />
-    <ClInclude Include="EulerAngles.h" />
-    <ClInclude Include="Float2.h" />
-    <ClInclude Include="Float4.h" />
-    <ClInclude Include="Matrix4x4.h" />
-    <ClInclude Include="Quaternion.h" />
-    <ClInclude Include="Vector4.h" />
+    <ClCompile Include="RigidBody.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{B5BF596E-4215-4AD8-A8F1-9DDCF7C87050}</ProjectGuid>
+    <ProjectGuid>{410593C3-8209-454A-BD72-CD700CA5152C}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>RornMaths</RootNamespace>
+    <RootNamespace>RornPhysics</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -81,12 +68,7 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <TargetName>$(ProjectName)D</TargetName>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <TargetName>$(ProjectName)D</TargetName>
-  </PropertyGroup>
+  <PropertyGroup />
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>
@@ -99,9 +81,6 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <Lib>
-      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -115,9 +94,6 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <Lib>
-      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
-    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>

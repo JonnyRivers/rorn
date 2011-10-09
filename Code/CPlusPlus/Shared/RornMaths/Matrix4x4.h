@@ -1,8 +1,6 @@
 #pragma once
 
-#include "Direction.h"
-#include "Position.h"
-#include "UnitDirection.h"
+#include "Vector4.h"
 
 namespace Rorn
 {
@@ -28,7 +26,7 @@ namespace Rorn
 			Matrix4x4& operator*=(const Matrix4x4& rhs);
 
 			// Static member operations
-			static Matrix4x4 BuildRotationMatrix(const UnitDirection& axis, float angle);
+			static Matrix4x4 BuildRotationMatrix(const Vector4& axis, float angle);
 			static Matrix4x4 BuildXRotationMatrix(float angle);
 			static Matrix4x4 BuildYRotationMatrix(float angle);
 			static Matrix4x4 BuildZRotationMatrix(float angle);
@@ -61,31 +59,13 @@ namespace Rorn
 				(lhs.M41 * rhs.M14) + (lhs.M42 * rhs.M24) + (lhs.M43 * rhs.M34) + (lhs.M44 * rhs.M44));
 		}
 
-		static UnitDirection operator*(const UnitDirection& lhs, const Matrix4x4& rhs)
+		static Vector4 operator*(const Vector4& lhs, const Matrix4x4& rhs)
 		{
-			// assumes that lhs.W is 0.
-			return UnitDirection(
-				(lhs.X * rhs.M11) + (lhs.Y * rhs.M21) + (lhs.Z * rhs.M31),
-				(lhs.X * rhs.M12) + (lhs.Y * rhs.M22) + (lhs.Z * rhs.M32),
-				(lhs.X * rhs.M13) + (lhs.Y * rhs.M23) + (lhs.Z * rhs.M33));
-		}
-
-		static Direction operator*(const Direction& lhs, const Matrix4x4& rhs)
-		{
-			// assumes that lhs.W is 0.
-			return Direction(
-				(lhs.X * rhs.M11) + (lhs.Y * rhs.M21) + (lhs.Z * rhs.M31),
-				(lhs.X * rhs.M12) + (lhs.Y * rhs.M22) + (lhs.Z * rhs.M32),
-				(lhs.X * rhs.M13) + (lhs.Y * rhs.M23) + (lhs.Z * rhs.M33));
-		}
-
-		static Position operator*(const Position& lhs, const Matrix4x4& rhs)
-		{
-			// assumes that lhs.W is 1.
-			return Position(
-				(lhs.X * rhs.M11) + (lhs.Y * rhs.M21) + (lhs.Z * rhs.M31) + rhs.M41,
-				(lhs.X * rhs.M12) + (lhs.Y * rhs.M22) + (lhs.Z * rhs.M32) + rhs.M42,
-				(lhs.X * rhs.M13) + (lhs.Y * rhs.M23) + (lhs.Z * rhs.M33) + rhs.M43);
+			return Vector4(
+				(lhs.X * rhs.M11) + (lhs.Y * rhs.M21) + (lhs.Z * rhs.M31) + (lhs.W * rhs.M41),
+				(lhs.X * rhs.M12) + (lhs.Y * rhs.M22) + (lhs.Z * rhs.M32) + (lhs.W * rhs.M42),
+				(lhs.X * rhs.M13) + (lhs.Y * rhs.M23) + (lhs.Z * rhs.M33) + (lhs.W * rhs.M43),
+				(lhs.X * rhs.M14) + (lhs.Y * rhs.M24) + (lhs.Z * rhs.M34) + (lhs.W * rhs.M44));
 		}
 	}
 }

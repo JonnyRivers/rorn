@@ -30,7 +30,7 @@ Matrix4x4& Matrix4x4::operator*=(const Matrix4x4& rhs)
 	
 }
 
-/*static*/  Matrix4x4 Matrix4x4::BuildRotationMatrix(const UnitDirection& axis, float angle)
+/*static*/  Matrix4x4 Matrix4x4::BuildRotationMatrix(const Vector4& axis, float angle)
 {
 	float sinAngle = sin(angle);
 	float cosAngle = cos(angle);

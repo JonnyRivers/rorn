@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Shared/RornMaths/Direction.h"
+#include "../../Shared/RornMaths/Vector4.h"
 
 namespace Rorn
 {
@@ -12,7 +12,7 @@ namespace Rorn
 			virtual void AlterHeading(float deltaHeading) = 0;
 			virtual void AlterPitch(float deltaPitch) = 0;
 			virtual void AlterBank(float deltaBank) = 0;
-			virtual void Translate(const Maths::Direction& translation) = 0;
+			virtual void Translate(const Maths::Vector4& translation) = 0;
 		};
 	}
 }
