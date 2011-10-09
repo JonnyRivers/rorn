@@ -4,6 +4,7 @@
 #include <sstream>
 
 #include "../../Engine/PCEngine.h"
+#include "../../Engine/Interfaces/IModelInstance.h"
 #include "../../Engine/Exceptions/model_load_exception.h"
 #include "../../Engine/Exceptions/rorn_engine_exception.h"
 
@@ -17,6 +18,7 @@
 
 using namespace Rorn::Engine;
 using namespace Rorn::Maths;
+using namespace Rorn::Physics;
 
 /*static*/ HINSTANCE BaizeOfGloryApp::instanceHandle_ = NULL;
 
@@ -29,7 +31,7 @@ BaizeOfGloryApp::~BaizeOfGloryApp(void)
 {
 }
 
-BOOL BaizeOfGloryApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* commandLine, int cmdShow)
+BOOL BaizeOfGloryApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* /*commandLine*/, int cmdShow)
 {
 	instanceHandle_ = instanceHandle; // Store instance handle in our global variable
 	::LoadString(instanceHandle_, IDS_APP_TITLE, title_, maxLoadString_);
@@ -52,35 +54,34 @@ BOOL BaizeOfGloryApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* comm
 	{
 		theEngine_ = PCEngine::Startup(windowHandle_);
 
-		theEngine_->GetDiagnostics()->GetLoggingStream() << "The Model Viewer says: 'Hello world!'" << std::endl;
+		theEngine_->GetDiagnostics()->GetLoggingStream() << "Baize fo Glory starting up" << std::endl;
 
-		modelId_ = theEngine_->GetRenderer()->LoadModel(commandLine);
-		modelInstanceId_ = theEngine_->GetRenderer()->CreateModelInstance(modelId_, Matrix4x4::BuildIdentity());
+		poolCueBallModelId_ = theEngine_->GetRenderer()->LoadModel(L"PoolCueBall.model");
+		poolCueBallInstanceId_ = theEngine_->GetRenderer()->CreateModelInstance(poolCueBallModelId_, Matrix4x4::BuildIdentity());
+		float tensorValue = 1.0f / (0.4f * 0.156f * (0.0238f * 0.0238f));// 2/5 * m * r^2
+		cueBallPhysicsObject_ = RigidBody(
+			Vector4(0.0f, 0.0f, 0.0f, 0.0f),
+			Quaternion::CreateFromAxisAngle(Vector4(0.0f, 1.0f, 0.0f, 0.0f), 0.0f),
+			0.156f,
+			Matrix4x4(tensorValue,        0.0f,        0.0f, 0.0f,
+					         0.0f, tensorValue,        0.0f, 0.0f,
+					         0.0f,        0.0f, tensorValue, 0.0f,
+					         0.0f,        0.0f,        0.0f, 0.0f));
 
-		IModel* model = theEngine_->GetRenderer()->GetModel(modelId_);
+		IModel* model = theEngine_->GetRenderer()->GetModel(poolCueBallModelId_);
 		const Rorn::Maths::BoundingBox& modelBoundingBox = model->GetBoundingBox();
 		
 		cameraId_ = theEngine_->GetRenderer()->CreateFreeCamera(
-			Vector4(0.0f, modelBoundingBox.GetMaximum().Y * 2.0f, modelBoundingBox.GetMinimum().Z * 4.0f, 1.0f),
+			Vector4(0.0f, modelBoundingBox.GetMaximum().Y * 2.0f, modelBoundingBox.GetMinimum().Z * 16.0f, 1.0f),
 			EulerAngles(0.0f, 0.35f, 0.0f));
 		theEngine_->GetRenderer()->SetCurrentCamera(cameraId_);
 
 		theEngine_->GetRenderer()->SetAmbientLight(
-			Float4(0.05f, 0.05f, 0.05f, 1.0f));
+			Float4(0.2f, 0.2f, 0.2f, 1.0f));
 
 		theEngine_->GetRenderer()->SetMainLight(
 			Vector4(0.0f, -sin(Rorn::Maths::PiOverFour), sin(Rorn::Maths::PiOverFour), 0.0f),
-			Float4(0.0f, 0.0f, 0.0f, 1.0f));
-
-		// TEMP - point lighting test
-		unsigned int pointLight1Id = theEngine_->GetRenderer()->CreatePointLight(
-			Vector4(-600.0f, 1270.0f, 0.0f, 1.0f),
-			Float4(1.0f, 1.0f, 1.0f, 1.0f),
-			60000000.0f);// distances are in mm, so luminosity is 60W * 1000^2
-		unsigned int pointLight2Id = theEngine_->GetRenderer()->CreatePointLight(
-			Vector4(600.0f, 1270.0f, 0.0f, 1.0f),
-			Float4(1.0f, 1.0f, 1.0f, 1.0f),
-			60000000.0f);// distances are is in mm, so luminosity is 60W * 1000^2
+			Float4(0.7f, 0.7f, 0.7f, 1.0f));
 	}
 	catch(Rorn::Engine::model_load_exception& ex)
 	{
@@ -106,25 +107,57 @@ VOID BaizeOfGloryApp::Step()
 	float timeElapsed = theEngine_->StartFrame();
 
 	ICamera* camera = theEngine_->GetRenderer()->GetCamera(cameraId_);
-	IModel* model = theEngine_->GetRenderer()->GetModel(modelId_);
-	IModelInstance* modelInstance = theEngine_->GetRenderer()->GetModelInstance(modelInstanceId_);
+	IModel* model = theEngine_->GetRenderer()->GetModel(poolCueBallModelId_);
+	IModelInstance* modelInstance = theEngine_->GetRenderer()->GetModelInstance(poolCueBallInstanceId_);
 
-	if( theEngine_->GetKeyboard()->IsKeyDown(DIK_COMMA) )
+	if( theEngine_->GetKeyboard()->IsKeyDown(DIK_NUMPAD5) )// dead centre
 	{
-		modelInstance->RotateY(timeElapsed);
+		cueBallPhysicsObject_.AddForce(
+			Vector4(0.0f, 0.0f, 0.05f, 0.0f),
+			Vector4(0.0f, 0.0f, -0.0238f, 0.0f));
 	}
-	else if( theEngine_->GetKeyboard()->IsKeyDown(DIK_PERIOD) )
+	else if( theEngine_->GetKeyboard()->IsKeyDown(DIK_NUMPAD8) )// Wee bit topspin
 	{
-		modelInstance->RotateY(-timeElapsed);
+		cueBallPhysicsObject_.AddForce(
+			Vector4(0.0f, 0.0f, 0.05f, 0.0f),
+			Vector4(0.0f, -0.016829f, -0.016829f, 0.0f));// mmmm, this should be +ve :-S
 	}
+	else if( theEngine_->GetKeyboard()->IsKeyDown(DIK_NUMPAD2) )// Wee bit bottomspin
+	{
+		cueBallPhysicsObject_.AddForce(
+			Vector4(0.0f, 0.0f, 0.05f, 0.0f),
+			Vector4(0.0f, 0.016829f, -0.016829f, 0.0f));// mmmm, this should be +ve :-S
+	}
+	else if( theEngine_->GetKeyboard()->IsKeyDown(DIK_NUMPAD4) )// Wee bit topspin
+	{
+		cueBallPhysicsObject_.AddForce(
+			Vector4(0.0f, 0.0f, 0.05f, 0.0f),
+			Vector4(0.016829f, 0.0f, -0.016829f, 0.0f));// mmmm, this should be +ve :-S
+	}
+	else if( theEngine_->GetKeyboard()->IsKeyDown(DIK_NUMPAD6) )// Wee bit bottomspin
+	{
+		cueBallPhysicsObject_.AddForce(
+			Vector4(0.0f, 0.0f, 0.05f, 0.0f),
+			Vector4(-0.016829f, 0.0f, -0.016829f, 0.0f));// mmmm, this should be +ve :-S
+	}
+	else if( theEngine_->GetKeyboard()->IsKeyDown(DIK_NUMPAD0) )// dead centre
+	{
+		cueBallPhysicsObject_.AddForce(
+			Vector4(0.0f, 0.0f, -0.05f, 0.0f),
+			Vector4(0.0f, 0.0f, 0.0238f, 0.0f));
+	}
+
+	cueBallPhysicsObject_.Step(timeElapsed);
+
+	modelInstance->SetInstanceToWorldMatrix(cueBallPhysicsObject_.GetInstanceToWorldMatrix());
 
 	//// TODO - refactor this out into some sort of 'camera controller'
 	//// Move the camera
 	//// base translation speed is quarter of the instance's bouding radius per second
-	float translationSpeed = model->GetBoundingBox().GetBoundingRadius() * 0.25f;
+	float translationSpeed = model->GetBoundingBox().GetBoundingRadius() * 10.0f;
 	if( theEngine_->GetKeyboard()->IsKeyDown(DIK_LSHIFT) )
 	{
-		translationSpeed *= 5.0f;
+		translationSpeed *= 10.0f;
 	}
 	else if( theEngine_->GetKeyboard()->IsKeyDown(DIK_LCONTROL) )
 	{
