@@ -22,6 +22,8 @@ namespace Rorn
 
 			void ToAxisAngle(Vector4& axis, float& angle);
 
+			void AddScaledVector(const Vector4& vector, float scale);
+
 			static Quaternion CreateFromAxisAngle(const Vector4& axis, float angle);
 			static Quaternion Normalise(const Quaternion& source);
 		};
@@ -38,10 +40,10 @@ namespace Rorn
 		static Quaternion operator*(const Quaternion& lhs, const Quaternion& rhs)
 		{
 			return Quaternion(
-				- lhs.X * rhs.X - lhs.Y * rhs.Y - lhs.Z * rhs.Z,
-				  lhs.X * rhs.W + lhs.Y * rhs.Z - lhs.Z * rhs.Y,
-				- lhs.X * rhs.Z + lhs.Y * rhs.W + lhs.Z * rhs.X,
-				  lhs.X * rhs.Y - lhs.Y * rhs.X - lhs.Z * rhs.W);// Is this an orientation?
+				lhs.W * rhs.W - lhs.X * rhs.X - lhs.Y * rhs.Y - lhs.Z * rhs.Z,
+				lhs.X * rhs.X + lhs.X * rhs.W + lhs.Z * rhs.Y - lhs.Y * rhs.X,
+				lhs.Y * rhs.Y + lhs.Y * rhs.W + lhs.X * rhs.Z - lhs.Z * rhs.X,
+				lhs.Z * rhs.Z + lhs.Z * rhs.W + lhs.Y * rhs.X - lhs.X * rhs.Y);
 		}
 
 		static Quaternion operator*(const Quaternion& lhs, float rhs)

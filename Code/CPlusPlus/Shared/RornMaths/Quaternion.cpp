@@ -39,6 +39,16 @@ void Quaternion::ToAxisAngle(Vector4& axis, float& angle)
 	angle *= 2;
 }
 
+void Quaternion::AddScaledVector(const Vector4& vector, float scale)
+{
+	Quaternion q(0.0f, vector.X * scale, vector.Y * scale, vector.Z * scale);
+	q = q * *this;
+	W += q.W * 0.5f;
+	X += q.X * 0.5f;
+	Y += q.Y * 0.5f;
+	Z += q.Z * 0.5f;
+}
+
 /*static*/ Quaternion Quaternion::CreateFromAxisAngle(const Vector4& axis, float angle)
 {
 	float halfAngle = angle * 0.5f;

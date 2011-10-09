@@ -84,7 +84,7 @@ void DirectXRenderer::Draw()
 	graphicsDevice_.ClearView(Rorn::Maths::Float4(0.0f, 0.125f, 0.3f, 1.0f));
 
 	Matrix4x4 worldToViewMatrix = cameras_[currentCameraId_]->BuildWorldToViewMatrix();
-	Matrix4x4 viewToProjectionMatrix = BuildViewToProjectionMatrix( PiOverFour, graphicsDevice_.GetOutputAspectRatio(), 0.1f, 10000.0f );
+	Matrix4x4 viewToProjectionMatrix = BuildViewToProjectionMatrix( PiOverFour, graphicsDevice_.GetOutputAspectRatio(), 0.001f, 100.0f );
 	Matrix4x4 worldToProjectionMatrix = worldToViewMatrix * viewToProjectionMatrix;
 
 	std::map<unsigned int, std::unique_ptr<ModelInstance>>::const_iterator modelInstanceIter;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../../Shared/RornMaths/Matrix4x4.h"
+
 namespace Rorn
 {
 	namespace Engine
@@ -7,7 +9,7 @@ namespace Rorn
 		struct IModelInstance
 		{
 		public:
-			virtual void RotateY(float angle) = 0;
+			virtual void SetInstanceToWorldMatrix(const Maths::Matrix4x4& instanceToWorldMatrix) = 0;
 		};
 	}
 }

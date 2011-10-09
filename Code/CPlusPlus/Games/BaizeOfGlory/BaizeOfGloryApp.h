@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../Engine/Interfaces/IEngine.h"
+#include "../../Shared/RornPhysics/RigidBody.h"
 
 #include <windows.h>
 
@@ -27,6 +28,7 @@ private:
 
 	Rorn::Engine::IEngine* theEngine_;
 	unsigned int cameraId_;
-	unsigned int modelId_;
-	unsigned int modelInstanceId_;
+	unsigned int poolCueBallModelId_;
+	unsigned int poolCueBallInstanceId_;
+	Rorn::Physics::RigidBody cueBallPhysicsObject_;
 };

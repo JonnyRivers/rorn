@@ -16,7 +16,7 @@ namespace Rorn
 			ModelInstance(unsigned int modelId, const Rorn::Maths::Matrix4x4& instanceToWorldMatrix);
 			~ModelInstance();
 
-			virtual void RotateY(float angle);
+			virtual void SetInstanceToWorldMatrix(const Maths::Matrix4x4& instanceToWorldMatrix);
 
 			unsigned int GetModelId() const { return modelId_; }
 			const Maths::Matrix4x4& GetInstanceToWorldMatrix() const { return instanceToWorldMatrix_; }

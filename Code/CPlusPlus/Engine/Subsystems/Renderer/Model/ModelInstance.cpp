@@ -14,8 +14,7 @@ ModelInstance::~ModelInstance()
 {
 }
 
-void ModelInstance::RotateY(float angle)
+/*virtual*/ void ModelInstance::SetInstanceToWorldMatrix(const Matrix4x4& instanceToWorldMatrix)
 {
-	Matrix4x4 rotationMatrix = Matrix4x4::BuildYRotationMatrix(angle);
-	instanceToWorldMatrix_ = rotationMatrix * instanceToWorldMatrix_;
+	instanceToWorldMatrix_ = instanceToWorldMatrix;
 }
