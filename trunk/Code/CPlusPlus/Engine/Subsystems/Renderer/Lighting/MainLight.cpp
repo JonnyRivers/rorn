@@ -5,11 +5,11 @@
 using namespace Rorn::Engine;
 
 MainLight::MainLight()
-	: direction_(0.0f, -1.0f, 0.0f), colour_(0.0f, 0.0f, 0.0f, 1.0f)
+	: direction_(0.0f, -1.0f, 0.0f, 0.0f), colour_(0.0f, 0.0f, 0.0f, 1.0f)
 {
 }
 
-MainLight::MainLight(const Rorn::Maths::UnitDirection& direction, const Rorn::Maths::Float4& colour)
+MainLight::MainLight(const Rorn::Maths::Vector4& direction, const Rorn::Maths::Float4& colour)
 	: direction_(direction), colour_(colour)
 {
 }
@@ -19,7 +19,7 @@ MainLight::~MainLight()
 	
 }
 
-void MainLight::SetDirection(const Rorn::Maths::UnitDirection& direction)
+void MainLight::SetDirection(const Rorn::Maths::Vector4& direction)
 {
 	direction_ = direction;
 }

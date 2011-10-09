@@ -5,12 +5,12 @@
 using namespace Rorn::Maths;
 
 BoundingBox::BoundingBox()
-	: minimum_(0.0f, 0.0f, 0.0f), maximum_(0.0f, 0.0f, 0.0f)
+	: minimum_(0.0f, 0.0f, 0.0f, 1.0f), maximum_(0.0f, 0.0f, 0.0f, 1.0f)
 {
 }
 
 BoundingBox::BoundingBox(float minX, float minY, float minZ, float maxX, float maxY, float maxZ)
-	: minimum_(minX, minY, minZ), maximum_(maxX, maxY, maxZ)
+	: minimum_(minX, minY, minZ, 1.0f), maximum_(maxX, maxY, maxZ, 1.0f)
 {
 }
 
@@ -24,20 +24,21 @@ float BoundingBox::GetBoundingRadius() const
 	return (std::max(sizeX, std::max(sizeY, sizeZ) ) * 0.5f);
 }
 
-Position BoundingBox::GetMinimum() const
+Vector4 BoundingBox::GetMinimum() const
 {
 	return minimum_;
 }
 
-Position BoundingBox::GetMaximum() const
+Vector4 BoundingBox::GetMaximum() const
 {
 	return maximum_;
 }
 
-Position BoundingBox::GetCentre() const
+Vector4 BoundingBox::GetCentre() const
 {
-	return Position(
+	return Vector4(
 		minimum_.X + ((maximum_.X - minimum_.X) / 2.0f),
 		minimum_.Y + ((maximum_.Y - minimum_.Y) / 2.0f),
-		minimum_.Z + ((maximum_.Z - minimum_.Z) / 2.0f));
+		minimum_.Z + ((maximum_.Z - minimum_.Z) / 2.0f),
+		1.0f);
 }

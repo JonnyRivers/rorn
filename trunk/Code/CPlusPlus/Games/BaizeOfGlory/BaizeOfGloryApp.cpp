@@ -1,5 +1,5 @@
 #include "StdAfx.h"
-#include "ModelViewerApp.h"
+#include "BaizeOfGloryApp.h"
 
 #include <sstream>
 
@@ -18,22 +18,22 @@
 using namespace Rorn::Engine;
 using namespace Rorn::Maths;
 
-/*static*/ HINSTANCE ModelViewerApp::instanceHandle_ = NULL;
+/*static*/ HINSTANCE BaizeOfGloryApp::instanceHandle_ = NULL;
 
-ModelViewerApp::ModelViewerApp(void) : theEngine_(NULL)
+BaizeOfGloryApp::BaizeOfGloryApp(void) : theEngine_(NULL)
 {
 	
 }
 
-ModelViewerApp::~ModelViewerApp(void)
+BaizeOfGloryApp::~BaizeOfGloryApp(void)
 {
 }
 
-BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* commandLine, int cmdShow)
+BOOL BaizeOfGloryApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* commandLine, int cmdShow)
 {
 	instanceHandle_ = instanceHandle; // Store instance handle in our global variable
 	::LoadString(instanceHandle_, IDS_APP_TITLE, title_, maxLoadString_);
-	::LoadString(instanceHandle_, IDC_MODELVIEWER, windowClassName_, maxLoadString_);
+	::LoadString(instanceHandle_, IDC_BAIZEOFGLORY, windowClassName_, maxLoadString_);
 	RegisterClass();
    
 	// Create window
@@ -96,12 +96,12 @@ BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* comma
 	return TRUE;
 }
 
-VOID ModelViewerApp::ExitInstance()
+VOID BaizeOfGloryApp::ExitInstance()
 {
 	PCEngine::Shutdown(theEngine_);
 }
 
-VOID ModelViewerApp::Step()
+VOID BaizeOfGloryApp::Step()
 {
 	float timeElapsed = theEngine_->StartFrame();
 
@@ -184,28 +184,28 @@ VOID ModelViewerApp::Step()
 	theEngine_->EndFrame();
 }
 
-ATOM ModelViewerApp::RegisterClass()
+ATOM BaizeOfGloryApp::RegisterClass()
 {
 	WNDCLASSEX wcex;
 
 	wcex.cbSize = sizeof(WNDCLASSEX);
 
 	wcex.style			= CS_HREDRAW | CS_VREDRAW;
-	wcex.lpfnWndProc	= ModelViewerApp::WndProc;
+	wcex.lpfnWndProc	= BaizeOfGloryApp::WndProc;
 	wcex.cbClsExtra		= 0;
 	wcex.cbWndExtra		= 0;
 	wcex.hInstance		= instanceHandle_;
-	wcex.hIcon			= LoadIcon(instanceHandle_, MAKEINTRESOURCE(IDI_MODELVIEWER));
+	wcex.hIcon			= LoadIcon(instanceHandle_, MAKEINTRESOURCE(IDI_BAIZEOFGLORY));
 	wcex.hCursor		= LoadCursor(NULL, IDC_ARROW);
 	wcex.hbrBackground	= (HBRUSH)(COLOR_WINDOW+1);
-	wcex.lpszMenuName	= MAKEINTRESOURCE(IDC_MODELVIEWER);
+	wcex.lpszMenuName	= MAKEINTRESOURCE(IDC_BAIZEOFGLORY);
 	wcex.lpszClassName	= windowClassName_;
 	wcex.hIconSm		= LoadIcon(wcex.hInstance, MAKEINTRESOURCE(IDI_SMALL));
 
 	return RegisterClassEx(&wcex);
 }
 
-LRESULT CALLBACK ModelViewerApp::WndProc(HWND windowHandle, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK BaizeOfGloryApp::WndProc(HWND windowHandle, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	int wmId, wmEvent;
 	PAINTSTRUCT ps;
@@ -220,7 +220,7 @@ LRESULT CALLBACK ModelViewerApp::WndProc(HWND windowHandle, UINT message, WPARAM
 		switch (wmId)
 		{
 		case IDM_ABOUT:
-			::DialogBox(instanceHandle_, MAKEINTRESOURCE(IDD_ABOUTBOX), windowHandle, &ModelViewerApp::About);
+			::DialogBox(instanceHandle_, MAKEINTRESOURCE(IDD_ABOUTBOX), windowHandle, &BaizeOfGloryApp::About);
 			break;
 		case IDM_EXIT:
 			DestroyWindow(windowHandle);
@@ -242,7 +242,7 @@ LRESULT CALLBACK ModelViewerApp::WndProc(HWND windowHandle, UINT message, WPARAM
 	return 0;
 }
 
-INT_PTR CALLBACK ModelViewerApp::About(HWND windowHandle, UINT message, WPARAM wParam, LPARAM lParam)
+INT_PTR CALLBACK BaizeOfGloryApp::About(HWND windowHandle, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	UNREFERENCED_PARAMETER(lParam);
 	switch (message)

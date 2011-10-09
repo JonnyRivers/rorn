@@ -234,7 +234,7 @@ void DirectXRenderer::Draw()
 }
 
 // Camera interface
-/*virtual*/ unsigned int DirectXRenderer::CreateFreeCamera(const Rorn::Maths::Position& position, const Rorn::Maths::EulerAngles& eulerAngles)
+/*virtual*/ unsigned int DirectXRenderer::CreateFreeCamera(const Vector4& position, const EulerAngles& eulerAngles)
 {
 	unsigned int newId = static_cast<unsigned int>(cameras_.size());
 	Camera* newCamera = new FreeCamera(position, eulerAngles);
@@ -259,13 +259,13 @@ void DirectXRenderer::Draw()
 	ambientLight_.SetColour(colour);
 }
 
-/*virtual*/ void DirectXRenderer::SetMainLight(const Rorn::Maths::UnitDirection& direction, const Rorn::Maths::Float4& colour)
+/*virtual*/ void DirectXRenderer::SetMainLight(const Vector4& direction, const Rorn::Maths::Float4& colour)
 {
 	mainLight_.SetDirection(direction);
 	mainLight_.SetColour(colour);
 }
 
-/*virtual*/ unsigned int DirectXRenderer::CreatePointLight(const Rorn::Maths::Position& position, const Rorn::Maths::Float4& colour, float luminosity)
+/*virtual*/ unsigned int DirectXRenderer::CreatePointLight(const Vector4& position, const Rorn::Maths::Float4& colour, float luminosity)
 {
 	unsigned int newId = static_cast<unsigned int>(pointLights_.size());
 	PointLight* newPointLight = new PointLight(position, colour, luminosity);
@@ -414,7 +414,7 @@ void DirectXRenderer::DrawRenderCommand(unsigned int renderCommandId, const Matr
 		constantBuffer.AmbientLightColor = ambientLight_.GetColour();
 		constantBuffer.MainLightDir = mainLight_.GetDirection();
 		constantBuffer.MainLightColor = mainLight_.GetColour();
-		constantBuffer.EyeDir = UnitDirection(worldToViewMatrix.M31, worldToViewMatrix.M32, worldToViewMatrix.M33);
+		constantBuffer.EyeDir = Vector4(worldToViewMatrix.M31, worldToViewMatrix.M32, worldToViewMatrix.M33, 0.0f);
 		constantBuffer.NumActivePointLights = static_cast<unsigned int>(pointLights_.size());
 
 		std::map<unsigned int, std::unique_ptr<PointLight>>::const_iterator pointLightIter;

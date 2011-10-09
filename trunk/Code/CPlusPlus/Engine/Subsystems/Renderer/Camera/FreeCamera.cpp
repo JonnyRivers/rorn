@@ -3,12 +3,12 @@
 #include "FreeCamera.h"
 
 #include "../../../../Shared/RornMaths/Constants.h"
-#include "../../../../Shared/RornMaths/UnitDirection.h"
+#include "../../../../Shared/RornMaths/Vector4.h"
 
 using namespace Rorn::Engine;
 using namespace Rorn::Maths;
 
-FreeCamera::FreeCamera(const Position& position, const EulerAngles& eulerAngles)
+FreeCamera::FreeCamera(const Vector4& position, const EulerAngles& eulerAngles)
 	: position_(position), eulerAngles_(eulerAngles)
 {
 }
@@ -18,13 +18,13 @@ FreeCamera::~FreeCamera()
 	
 }
 
-/*virtual*/ void FreeCamera::Translate(const Direction& translation)
+/*virtual*/ void FreeCamera::Translate(const Vector4& translation)
 {
 	Matrix4x4 xRotationMatrix = Matrix4x4::BuildXRotationMatrix(eulerAngles_.Pitch);
 	Matrix4x4 yRotationMatrix = Matrix4x4::BuildYRotationMatrix(eulerAngles_.Heading);
-	UnitDirection xAxis(1.0f, 0.0f, 0.0f);
-	UnitDirection yAxis(0.0f, 1.0f, 0.0f);
-	UnitDirection zAxis(0.0f, 0.0f, 1.0f);
+	Vector4 xAxis(1.0f, 0.0f, 0.0f, 0.0f);
+	Vector4 yAxis(0.0f, 1.0f, 0.0f, 0.0f);
+	Vector4 zAxis(0.0f, 0.0f, 1.0f, 0.0f);
 	xAxis = xAxis * xRotationMatrix;
 	xAxis = xAxis * yRotationMatrix;
 	yAxis = yAxis * xRotationMatrix;
@@ -74,9 +74,9 @@ FreeCamera::~FreeCamera()
 {
 	Matrix4x4 xRotationMatrix = Matrix4x4::BuildXRotationMatrix(eulerAngles_.Pitch);
 	Matrix4x4 yRotationMatrix = Matrix4x4::BuildYRotationMatrix(eulerAngles_.Heading);
-	UnitDirection xAxis(1.0f, 0.0f, 0.0f);
-	UnitDirection yAxis(0.0f, 1.0f, 0.0f);
-	UnitDirection zAxis(0.0f, 0.0f, 1.0f);
+	Vector4 xAxis(1.0f, 0.0f, 0.0f, 0.0f);
+	Vector4 yAxis(0.0f, 1.0f, 0.0f, 0.0f);
+	Vector4 zAxis(0.0f, 0.0f, 1.0f, 0.0f);
 	xAxis = xAxis * xRotationMatrix;
 	xAxis = xAxis * yRotationMatrix;
 	yAxis = yAxis * xRotationMatrix;
@@ -85,10 +85,10 @@ FreeCamera::~FreeCamera()
 	zAxis = zAxis * yRotationMatrix;
 
 	// Calculate the translation
-	Position negatedEyePosition = -position_;
-	float translationX = Position::DotProduct(negatedEyePosition, xAxis);
-	float translationY = Position::DotProduct(negatedEyePosition, yAxis);
-	float translationZ = Position::DotProduct(negatedEyePosition, zAxis);
+	Vector4 negatedEyePosition = -position_;
+	float translationX = Vector4::DotProduct(negatedEyePosition, xAxis);
+	float translationY = Vector4::DotProduct(negatedEyePosition, yAxis);
+	float translationZ = Vector4::DotProduct(negatedEyePosition, zAxis);
 
 	return Matrix4x4(
 		xAxis.X, yAxis.X, zAxis.X, 0.0f,
