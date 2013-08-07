@@ -42,6 +42,14 @@ struct Float4
 	float w;
 };
 
+struct Matrix4x4
+{
+	float row1[4];
+	float row2[4];
+	float row3[4];
+	float row4[4];
+};
+
 struct UntexturedVertex
 {
 	Float4 position;
@@ -78,10 +86,25 @@ struct RenderCommand
 	unsigned int indices[numIndices];
 };
 
+struct PhysicsPrimitive
+{
+	float mass;
+	Matrix4x4 primitiveToModelTransform;
+	unsigned int type;
+	if(type == 0)
+	{
+		float width;
+		float length;
+		float height;
+	}
+};
+
 char fileId[8];
 unsigned int versionNumber;
 BoundingBox boundingBox;
 unsigned int numTextures;
 unsigned int numRenderCommands;
+unsigned int numPhysicsPrimitives;
 Texture textures[numTextures] <optimize=false>;
 RenderCommand renderCommand[numRenderCommands] <optimize=false>;
+PhysicsPrimitive physicsPrimitives[numPhysicsPrimitives] <optimize=false>;

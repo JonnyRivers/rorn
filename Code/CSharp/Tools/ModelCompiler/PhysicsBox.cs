@@ -9,8 +9,8 @@ namespace Rorn.Tools.ModelCompiler
 {
     internal class PhysicsBox : PhysicsPrimitive
     {
-        internal PhysicsBox(Matrix4x4 nodeToSceneMatrix, float width, float length, float height)
-            : base(nodeToSceneMatrix, PrimitiveType.Box)
+        internal PhysicsBox(float mass, Matrix4x4 nodeToSceneMatrix, float width, float length, float height)
+            : base(mass, nodeToSceneMatrix, PrimitiveType.Box)
         {
             Width = width;
             Length = length;
