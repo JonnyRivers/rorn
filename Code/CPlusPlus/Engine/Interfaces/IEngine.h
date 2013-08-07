@@ -4,6 +4,7 @@
 #include "IFileSystem.h"
 #include "IKeyboard.h"
 #include "IMouse.h"
+#include "IPhysicsSystem.h"
 #include "IRenderer.h"
 
 namespace Rorn
@@ -19,6 +20,7 @@ namespace Rorn
 			virtual IFileSystem* GetFileSystem() = 0;
 			virtual const IKeyboard* GetKeyboard() const = 0;
 			virtual const IMouse* GetMouse() const = 0;
+			virtual IPhysicsSystem* GetPhysicsSystem() = 0;
 			virtual IRenderer* GetRenderer() = 0;
 
 			virtual float StartFrame() = 0;

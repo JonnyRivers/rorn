@@ -49,6 +49,9 @@
     <Filter Include="Subsystems\Renderer\Font">
       <UniqueIdentifier>{e246d76c-39b3-4ba2-9ebc-5905991f6a9a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Subsystems\Physics">
+      <UniqueIdentifier>{c94904b7-7836-4a71-99fc-379b0fdb2b64}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="PCEngine.cpp" />
@@ -156,6 +159,9 @@
     </ClCompile>
     <ClCompile Include="Subsystems\Renderer\GraphicsDevice\D3D11VertexShader.cpp">
       <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Physics\BulletPhysicsSystem.cpp">
+      <Filter>Subsystems\Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -330,6 +336,12 @@
     </ClInclude>
     <ClInclude Include="Subsystems\Renderer\GraphicsDevice\D3D11VertexShader.h">
       <Filter>Subsystems\Renderer\GraphicsDevice</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\IPhysicsSystem.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Physics\BulletPhysicsSystem.h">
+      <Filter>Subsystems\Physics</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

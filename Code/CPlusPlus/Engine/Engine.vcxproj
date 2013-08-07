@@ -34,6 +34,7 @@
     <ClInclude Include="Interfaces\IModel.h" />
     <ClInclude Include="Interfaces\IModelInstance.h" />
     <ClInclude Include="Interfaces\IMouse.h" />
+    <ClInclude Include="Interfaces\IPhysicsSystem.h" />
     <ClInclude Include="Interfaces\IRenderer.h" />
     <ClInclude Include="Interfaces\Stream.h" />
     <ClInclude Include="Interfaces\StreamReader.h" />
@@ -46,6 +47,7 @@
     <ClInclude Include="Subsystems\Input\DirectXInputManager.h" />
     <ClInclude Include="Subsystems\Input\DirectXKeyboard.h" />
     <ClInclude Include="Subsystems\Input\DirectXMouse.h" />
+    <ClInclude Include="Subsystems\Physics\BulletPhysicsSystem.h" />
     <ClInclude Include="Subsystems\Renderer\Camera\Camera.h" />
     <ClInclude Include="Subsystems\Renderer\Camera\FreeCamera.h" />
     <ClInclude Include="Subsystems\Renderer\Font\Font.h" />
@@ -89,6 +91,7 @@
     <ClCompile Include="Subsystems\Input\DirectXInputManager.cpp" />
     <ClCompile Include="Subsystems\Input\DirectXKeyboard.cpp" />
     <ClCompile Include="Subsystems\Input\DirectXMouse.cpp" />
+    <ClCompile Include="Subsystems\Physics\BulletPhysicsSystem.cpp" />
     <ClCompile Include="Subsystems\Renderer\Camera\Camera.cpp" />
     <ClCompile Include="Subsystems\Renderer\Camera\FreeCamera.cpp" />
     <ClCompile Include="Subsystems\Renderer\Font\Font.cpp" />
