@@ -17,6 +17,7 @@ PCEngine::PCEngine(HWND windowHandle)
 	  fileSystem_(&diagnostics_),
 	  timekeeper_(&diagnostics_),
 	  inputManager_(windowHandle, &diagnostics_),
+	  physicsSystem_(&diagnostics_),
 	  renderer_(windowHandle, &diagnostics_, &fileSystem_)
 {
 }
@@ -43,6 +44,11 @@ PCEngine::~PCEngine()
 /*virtual*/ const IMouse* PCEngine::GetMouse() const
 {
 	return inputManager_.GetMouse();
+}
+
+/*virtual*/ IPhysicsSystem* PCEngine::GetPhysicsSystem()
+{
+	return &physicsSystem_;
 }
 
 /*virtual*/ IRenderer* PCEngine::GetRenderer()

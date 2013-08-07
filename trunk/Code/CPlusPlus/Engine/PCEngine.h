@@ -7,6 +7,7 @@
 #include "Subsystems/Diagnostics/PCDiagnostics.h"
 #include "Subsystems/FileSystem/PCFileSystem.h"
 #include "Subsystems/Input/DirectXInputManager.h"
+#include "Subsystems/Physics/BulletPhysicsSystem.h"
 #include "Subsystems/Renderer/DirectXRenderer.h"
 #include "Subsystems/Timekeeper/PCTimekeeper.h"
 
@@ -24,6 +25,7 @@ namespace Rorn
 			virtual IFileSystem* GetFileSystem();
 			virtual const IKeyboard* GetKeyboard() const;
 			virtual const IMouse* GetMouse() const;
+			virtual IPhysicsSystem* GetPhysicsSystem();
 			virtual IRenderer* GetRenderer();
 
 			virtual float StartFrame();
@@ -40,6 +42,7 @@ namespace Rorn
 			PCDiagnostics diagnostics_;
 			PCTimekeeper timekeeper_;
 			PCFileSystem fileSystem_;
+			BulletPhysicsSystem physicsSystem_;
 			DirectXInputManager inputManager_;
 			DirectXRenderer renderer_;
 		};
