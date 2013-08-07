@@ -17,6 +17,7 @@ private:
 	void ValidateNodeRecursive(INode* parentNode);
 	void ValidateNode(INode* node);
 	void ValidateMeshNode(INode* meshNode);
+	bool ValidatePhysicsNode(INode* physicsNode);
 	void ValidateMaterial(Mtl* material, INode* meshNode);
 	void ValidateStandardMaterial(StdMat* standardMaterial);
 

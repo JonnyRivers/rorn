@@ -3,6 +3,9 @@
 #include <sstream>
 
 #include "../../../Shared/3DSMax/SDKHelper.h"
+#include "../../../Shared/3DSMax/BoxPrimitive.h"
+#include "../../../Shared/3DSMax/CylinderPrimitive.h"
+#include "../../../Shared/3DSMax/SpherePrimitive.h"
 #include "../../../Shared/Text/Path.h"
 
 namespace
@@ -74,7 +77,11 @@ void SceneExporter::ExportNode(INode* node, Rorn::XML::HierarchyElement& nodeEle
 	nodeElement.AddChildValueElement("Id", idStream.str().c_str());
 	ExportMatrix3("NodeToSceneMatrix", node->GetNodeTM(0), nodeElement);
 
-	if(Rorn::Max::IsMeshNode(node))
+	if( Rorn::Max::IsPhysicsNode(node) )
+	{
+		ExportPhysics(node, nodeElement);
+	}
+	else if(Rorn::Max::IsMeshNode(node))
 	{
 		Mesh& mesh = Rorn::Max::GetMeshFromNode(node);
 		Rorn::XML::HierarchyElement& meshElement = nodeElement.AddChildHierarchyElement("Mesh");
@@ -179,6 +186,56 @@ void SceneExporter::ExportPoint3(const char* name, const Point3& point, Rorn::XM
 	std::stringstream valueStream;
 	valueStream << point.x << "," << point.y << "," << point.z;
 	parentElement.AddChildValueElement(name, valueStream.str().c_str());
+}
+
+void SceneExporter::ExportPhysics(INode* node, Rorn::XML::HierarchyElement& nodeElement)
+{
+	if( Rorn::Max::IsBoxNode(node) )
+	{
+		Rorn::Max::BoxPrimitive boxPrimitive(node);
+
+		Rorn::XML::HierarchyElement& boxElement = nodeElement.AddChildHierarchyElement("Box");
+
+		std::stringstream widthValueStream;
+		widthValueStream << boxPrimitive.GetWidth();
+		boxElement.AddChildValueElement("Width", widthValueStream.str().c_str());
+
+		std::stringstream lengthValueStream;
+		lengthValueStream << boxPrimitive.GetLength();
+		boxElement.AddChildValueElement("Length", lengthValueStream.str().c_str());
+
+		std::stringstream heightValueStream;
+		heightValueStream << boxPrimitive.GetHeight();
+		boxElement.AddChildValueElement("Height", heightValueStream.str().c_str());
+	}
+	else if( Rorn::Max::IsCylinderNode(node) )
+	{
+		Rorn::Max::CylinderPrimitive cylinderPrimitive(node);
+
+		Rorn::XML::HierarchyElement& cylinderElement = nodeElement.AddChildHierarchyElement("Cylinder");
+
+		std::stringstream radiusValueStream;
+		radiusValueStream << cylinderPrimitive.GetRadius();
+		cylinderElement.AddChildValueElement("Radius", radiusValueStream.str().c_str());
+
+		std::stringstream heightValueStream;
+		heightValueStream << cylinderPrimitive.GetHeight();
+		cylinderElement.AddChildValueElement("Height", heightValueStream.str().c_str());
+	}
+	else if( Rorn::Max::IsMeshNode(node) )
+	{
+		Mesh& mesh = Rorn::Max::GetMeshFromNode(node);
+	}
+	else if( Rorn::Max::IsSphereNode(node) )
+	{
+		Rorn::Max::SpherePrimitive spherePrimitive(node);
+
+		Rorn::XML::HierarchyElement& sphereElement = nodeElement.AddChildHierarchyElement("Sphere");
+
+		std::stringstream radiusValueStream;
+		radiusValueStream << spherePrimitive.GetRadius();
+		sphereElement.AddChildValueElement("Radius", radiusValueStream.str().c_str());
+	}
 }
 
 void SceneExporter::ExportMaterials(Rorn::XML::HierarchyElement& parentElement)

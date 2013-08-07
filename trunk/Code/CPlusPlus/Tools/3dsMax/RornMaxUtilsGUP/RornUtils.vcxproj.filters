@@ -82,6 +82,18 @@
     <ClCompile Include="..\..\..\Shared\Process\Process.cpp">
       <Filter>Shared\Process</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\Shared\3DSMax\BoxPrimitive.cpp">
+      <Filter>Shared\3DSMax</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Shared\3DSMax\CylinderPrimitive.cpp">
+      <Filter>Shared\3DSMax</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Shared\3DSMax\OmniLight.cpp">
+      <Filter>Shared\3DSMax</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Shared\3DSMax\SpherePrimitive.cpp">
+      <Filter>Shared\3DSMax</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\Shared\3DSMax\SDKHelper.h">
@@ -131,6 +143,18 @@
     </ClInclude>
     <ClInclude Include="..\..\..\Shared\Process\Process.h">
       <Filter>Shared\Process</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Shared\3DSMax\BoxPrimitive.h">
+      <Filter>Shared\3DSMax</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Shared\3DSMax\CylinderPrimitive.h">
+      <Filter>Shared\3DSMax</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Shared\3DSMax\OmniLight.h">
+      <Filter>Shared\3DSMax</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Shared\3DSMax\SpherePrimitive.h">
+      <Filter>Shared\3DSMax</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,7 @@
 #include "SDKHelper.h"
 
+#include <string>
+
 bool Rorn::Max::NodeIsToBeIgnored(INode* node)
 {
 	// Nodes whose names start with an '_' are ignored by the exporter.
@@ -8,10 +10,51 @@ bool Rorn::Max::NodeIsToBeIgnored(INode* node)
 	return (nodeName[0] == '_');
 }
 
+bool Rorn::Max::IsBoxNode(INode* node)
+{
+	Object* nodeObject = node->EvalWorldState(0).obj;
+
+	return (nodeObject->SuperClassID() == GEOMOBJECT_CLASS_ID &&
+		    nodeObject->ClassID() == Class_ID(BOXOBJ_CLASS_ID, 0));
+}
+
+bool Rorn::Max::IsCylinderNode(INode* node)
+{
+	Object* nodeObject = node->EvalWorldState(0).obj;
+
+	return (nodeObject->SuperClassID() == GEOMOBJECT_CLASS_ID &&
+		    nodeObject->ClassID() == Class_ID(CYLINDER_CLASS_ID, 0));
+}
+
 bool Rorn::Max::IsMeshNode(INode* node)
 {
 	Object* nodeObject = node->EvalWorldState(0).obj;
-	return (nodeObject->CanConvertToType(triObjectClassID) != 0);
+
+	return (nodeObject->SuperClassID() == GEOMOBJECT_CLASS_ID &&
+		    nodeObject->ClassID() == Class_ID(EDITTRIOBJ_CLASS_ID, 0));
+}
+
+bool Rorn::Max::IsOmniLightNode(INode* node)
+{
+	Object* nodeObject = node->GetObjectRef();
+
+	return (nodeObject->SuperClassID() == LIGHT_CLASS_ID &&
+		    nodeObject->ClassID() == Class_ID(OMNI_LIGHT_CLASS_ID, 0));
+}
+
+bool Rorn::Max::IsPhysicsNode(INode* node)
+{
+	std::string nodeName(node->GetName());
+
+	return (nodeName.compare(0, 7, "physics") == 0);
+}
+
+bool Rorn::Max::IsSphereNode(INode* node)
+{
+	Object* nodeObject = node->EvalWorldState(0).obj;
+
+	return (nodeObject->SuperClassID() == GEOMOBJECT_CLASS_ID &&
+		    nodeObject->ClassID() == Class_ID(SPHERE_CLASS_ID, 0));
 }
 
 Mesh& Rorn::Max::GetMeshFromNode(INode* node)

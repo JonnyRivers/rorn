@@ -78,6 +78,26 @@ namespace Rorn.Tools.Maths
             throw new FormatException("text must contain 12 or 16 floats");
         }
 
+        public void Save(System.IO.BinaryWriter binaryWriter)
+        {
+            binaryWriter.Write(M11);
+            binaryWriter.Write(M12);
+            binaryWriter.Write(M13);
+            binaryWriter.Write(M14);
+            binaryWriter.Write(M21);
+            binaryWriter.Write(M22);
+            binaryWriter.Write(M23);
+            binaryWriter.Write(M24);
+            binaryWriter.Write(M31);
+            binaryWriter.Write(M32);
+            binaryWriter.Write(M33);
+            binaryWriter.Write(M34);
+            binaryWriter.Write(M41);
+            binaryWriter.Write(M42);
+            binaryWriter.Write(M43);
+            binaryWriter.Write(M44);
+        }
+
         public static Vector4 operator*(Matrix4x4 matrix, Vector4 vector)
         {
             return new Vector4(

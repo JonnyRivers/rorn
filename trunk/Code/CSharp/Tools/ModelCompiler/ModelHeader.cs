@@ -9,7 +9,7 @@ namespace Rorn.Tools.ModelCompiler
 {
     public struct ModelHeader
     {
-        public ModelHeader(BoundingBox boundingBox, int numCompiledTextures, int numRenderCommands)
+        public ModelHeader(BoundingBox boundingBox, int numCompiledTextures, int numRenderCommands, int numPhysicsPrimitives)
         {
             FileIdentifier = new byte[8];
             FileIdentifier[0] = (byte)'R';
@@ -24,6 +24,7 @@ namespace Rorn.Tools.ModelCompiler
             BoundingBox = boundingBox;
             NumCompiledTextures = numCompiledTextures;
             NumRenderCommands = numRenderCommands;
+            NumPhysicsPrimitives = numPhysicsPrimitives;
         }
 
         public void Save(System.IO.BinaryWriter binaryWriter)
@@ -33,6 +34,7 @@ namespace Rorn.Tools.ModelCompiler
             BoundingBox.Save(binaryWriter);
             binaryWriter.Write(NumCompiledTextures);
             binaryWriter.Write(NumRenderCommands);
+            binaryWriter.Write(NumPhysicsPrimitives);
         }
 
         public static int CurrentVersionNumber = 1;
@@ -42,5 +44,6 @@ namespace Rorn.Tools.ModelCompiler
         public BoundingBox BoundingBox;
         public int NumCompiledTextures;
         public int NumRenderCommands;
+        public int NumPhysicsPrimitives;
     }
 }

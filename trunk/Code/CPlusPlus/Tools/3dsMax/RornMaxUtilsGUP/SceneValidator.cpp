@@ -66,7 +66,11 @@ void SceneValidator::ValidateNode(INode* node)
 	if(Rorn::Max::NodeIsToBeIgnored(node))
 		return;
 
-	if(Rorn::Max::IsMeshNode(node))
+	if(Rorn::Max::IsPhysicsNode(node))
+	{
+		ValidatePhysicsNode(node);
+	}
+	else if(Rorn::Max::IsMeshNode(node))
 	{
 		ValidateMeshNode(node);
 	}
@@ -129,6 +133,23 @@ void SceneValidator::ValidateMaterial(Mtl* material, INode* meshNode)
 					<< "Material '" << material->GetName() << "' is not a standard material.";
 		errors_.push_back(errorStream.str());
 	}
+}
+
+bool SceneValidator::ValidatePhysicsNode(INode* physicsNode)
+{
+	if( !Rorn::Max::IsBoxNode(physicsNode) &&
+		!Rorn::Max::IsCylinderNode(physicsNode) &&
+		!Rorn::Max::IsMeshNode(physicsNode) &&
+		!Rorn::Max::IsSphereNode(physicsNode))
+	{
+		std::stringstream errorStream;
+		errorStream << "Unable to export node '" << physicsNode->GetName() << "' as only boxes, cylinders, meshes and spheres can be exported as physics objects.";
+		errors_.push_back(errorStream.str());
+
+		return false;
+	}
+
+	return true;
 }
 
 void SceneValidator::ValidateStandardMaterial(StdMat* standardMaterial)
