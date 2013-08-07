@@ -66,21 +66,21 @@ BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* comma
 		theEngine_->GetRenderer()->SetCurrentCamera(cameraId_);
 
 		theEngine_->GetRenderer()->SetAmbientLight(
-			Float4(0.05f, 0.05f, 0.05f, 1.0f));
+			Float4(0.4f, 0.4f, 0.4f, 1.0f));
 
 		theEngine_->GetRenderer()->SetMainLight(
 			Vector4(0.0f, -sin(Rorn::Maths::PiOverFour), sin(Rorn::Maths::PiOverFour), 0.0f),
-			Float4(0.0f, 0.0f, 0.0f, 1.0f));
+			Float4(0.4f, 0.4f, 0.4f, 1.0f));
 
 		// TEMP - point lighting test
-		unsigned int pointLight1Id = theEngine_->GetRenderer()->CreatePointLight(
-			Vector4(-600.0f, 1270.0f, 0.0f, 1.0f),
-			Float4(1.0f, 1.0f, 1.0f, 1.0f),
-			60000000.0f);// distances are in mm, so luminosity is 60W * 1000^2
-		unsigned int pointLight2Id = theEngine_->GetRenderer()->CreatePointLight(
-			Vector4(600.0f, 1270.0f, 0.0f, 1.0f),
-			Float4(1.0f, 1.0f, 1.0f, 1.0f),
-			60000000.0f);// distances are is in mm, so luminosity is 60W * 1000^2
+		//unsigned int pointLight1Id = theEngine_->GetRenderer()->CreatePointLight(
+		//	Vector4(-600.0f, 1270.0f, 0.0f, 1.0f),
+		//	Float4(1.0f, 1.0f, 1.0f, 1.0f),
+		//	60000000.0f);// distances are in mm, so luminosity is 60W * 1000^2
+		//unsigned int pointLight2Id = theEngine_->GetRenderer()->CreatePointLight(
+		//	Vector4(600.0f, 1270.0f, 0.0f, 1.0f),
+		//	Float4(1.0f, 1.0f, 1.0f, 1.0f),
+		//	60000000.0f);// distances are is in mm, so luminosity is 60W * 1000^2
 	}
 	catch(Rorn::Engine::model_load_exception& ex)
 	{
@@ -109,14 +109,14 @@ VOID ModelViewerApp::Step()
 	IModel* model = theEngine_->GetRenderer()->GetModel(modelId_);
 	IModelInstance* modelInstance = theEngine_->GetRenderer()->GetModelInstance(modelInstanceId_);
 
-	if( theEngine_->GetKeyboard()->IsKeyDown(DIK_COMMA) )
-	{
-		modelInstance->RotateY(timeElapsed);
-	}
-	else if( theEngine_->GetKeyboard()->IsKeyDown(DIK_PERIOD) )
-	{
-		modelInstance->RotateY(-timeElapsed);
-	}
+	//if( theEngine_->GetKeyboard()->IsKeyDown(DIK_COMMA) )
+	//{
+	//	modelInstance->RotateY(timeElapsed);
+	//}
+	//else if( theEngine_->GetKeyboard()->IsKeyDown(DIK_PERIOD) )
+	//{
+	//	modelInstance->RotateY(-timeElapsed);
+	//}
 
 	//// TODO - refactor this out into some sort of 'camera controller'
 	//// Move the camera

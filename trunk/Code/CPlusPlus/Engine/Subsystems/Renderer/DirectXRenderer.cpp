@@ -130,6 +130,7 @@ void DirectXRenderer::Draw()
 	Maths::BoundingBox boundingBox = Maths::BoundingBox(bbMinX, bbMinY, bbMinZ, bbMaxX, bbMaxY, bbMaxZ);
 	unsigned int numCompiledTextures = fileReader.ReadUInt();
 	unsigned int numRenderCommands = fileReader.ReadUInt();
+	unsigned int numPhysicsPrimitives = fileReader.ReadUInt();
 
 	std::map<unsigned int, unsigned int> textureIdMap;// map from this model's texture index to the engine's texture id
 
