@@ -151,10 +151,11 @@ namespace Rorn.Tools.ModelCompiler
 
         private void CompilePhysicsBox(Matrix4x4 nodeToSceneMatrix, XElement physicsBoxElement)
         {
+            float mass = Single.Parse(physicsBoxElement.Element("Mass").Value);
             float width = Single.Parse(physicsBoxElement.Element("Width").Value);
             float length = Single.Parse(physicsBoxElement.Element("Length").Value);
             float height = Single.Parse(physicsBoxElement.Element("Height").Value);
-            physicsPrimitives_.Add(new PhysicsBox(nodeToSceneMatrix, width, length, height));
+            physicsPrimitives_.Add(new PhysicsBox(mass, nodeToSceneMatrix, width, length, height));
         }
 
         private void SaveModel(string destinationPathName)

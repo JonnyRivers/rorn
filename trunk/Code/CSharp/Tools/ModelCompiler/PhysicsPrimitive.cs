@@ -9,8 +9,9 @@ namespace Rorn.Tools.ModelCompiler
 {
     internal abstract class PhysicsPrimitive
     {
-        internal PhysicsPrimitive(Matrix4x4 nodeToSceneMatrix, PrimitiveType type)
+        internal PhysicsPrimitive(float mass, Matrix4x4 nodeToSceneMatrix, PrimitiveType type)
         {
+            Mass = mass;
             NodeToSceneMatrix = nodeToSceneMatrix;
             Type = type;
         }
@@ -25,11 +26,13 @@ namespace Rorn.Tools.ModelCompiler
 
         internal void Save(System.IO.BinaryWriter binaryWriter)
         {
+            binaryWriter.Write(this.Mass);
             NodeToSceneMatrix.Save(binaryWriter);
             binaryWriter.Write((uint)this.Type);
             SaveInternal(binaryWriter);
         }
 
+        internal float Mass { get; private set; }
         internal Matrix4x4 NodeToSceneMatrix { get; private set; }
         internal PrimitiveType Type { get; private set; }
 
