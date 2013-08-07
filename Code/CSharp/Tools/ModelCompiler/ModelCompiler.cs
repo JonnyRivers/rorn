@@ -18,6 +18,7 @@ namespace Rorn.Tools.ModelCompiler
             // for each material, parse the details and make a render command of the appropriate type
             renderCommands_ = new Dictionary<int, RenderCommand>();
             compiledTextures_ = new Dictionary<string, CompiledTexture>();
+            physicsPrimitives_ = new List<PhysicsPrimitive>();
 
             string texturesDirectory = System.IO.Path.GetDirectoryName(sourcePathName);
             foreach (var materialElement in sceneElement.Elements("Material"))
@@ -107,14 +108,16 @@ namespace Rorn.Tools.ModelCompiler
         private void CompileNode(XElement nodeElement)
         {
             // Parse node to model matrix
-            var nodeToSceneMatrixElement = nodeElement.Element("NodeToSceneMatrix");
+            XElement nodeToSceneMatrixElement = nodeElement.Element("NodeToSceneMatrix");
             Matrix4x4 nodeToSceneMatrix = Matrix4x4.Parse(nodeElement.Element("NodeToSceneMatrix").Value);
 
-            var meshElement = nodeElement.Element("Mesh");
+            XElement meshElement = nodeElement.Element("Mesh");
             if (meshElement != null)
-            {
                 CompileMesh(nodeToSceneMatrix, meshElement);
-            }
+
+            XElement physicsBoxElement = nodeElement.Element("Box");
+            if (physicsBoxElement != null)
+                CompilePhysicsBox(nodeToSceneMatrix, physicsBoxElement);
         }
 
         private void CompileMesh(Matrix4x4 nodeToSceneMatrix, XElement meshElement)
@@ -146,13 +149,21 @@ namespace Rorn.Tools.ModelCompiler
             }
         }
 
+        private void CompilePhysicsBox(Matrix4x4 nodeToSceneMatrix, XElement physicsBoxElement)
+        {
+            float width = Single.Parse(physicsBoxElement.Element("Width").Value);
+            float length = Single.Parse(physicsBoxElement.Element("Length").Value);
+            float height = Single.Parse(physicsBoxElement.Element("Height").Value);
+            physicsPrimitives_.Add(new PhysicsBox(nodeToSceneMatrix, width, length, height));
+        }
+
         private void SaveModel(string destinationPathName)
         {
             // Generate header information
             BoundingBox boundingBox = new BoundingBox();
             foreach (KeyValuePair<int, RenderCommand> kvp in renderCommands_)
                 kvp.Value.IncorporatePointIntoBoundingBox(boundingBox);
-            ModelHeader modelHeader = new ModelHeader(boundingBox, compiledTextures_.Count, renderCommands_.Count);
+            ModelHeader modelHeader = new ModelHeader(boundingBox, compiledTextures_.Count, renderCommands_.Count, physicsPrimitives_.Count);
 
             using (var binaryWriter = new System.IO.BinaryWriter(System.IO.File.Create(destinationPathName)))
             {
@@ -163,10 +174,14 @@ namespace Rorn.Tools.ModelCompiler
 
                 foreach (KeyValuePair<int, RenderCommand> kvp in renderCommands_)
                     kvp.Value.Save(binaryWriter);
+
+                foreach (PhysicsPrimitive physicsPrimitive in physicsPrimitives_)
+                    physicsPrimitive.Save(binaryWriter);
             }
         }
 
         private Dictionary<int, RenderCommand> renderCommands_;
         private Dictionary<string, CompiledTexture> compiledTextures_;
+        private List<PhysicsPrimitive> physicsPrimitives_;
     }
 }

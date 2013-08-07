@@ -333,7 +333,11 @@
     </BuildLog>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\Shared\3DSMax\BoxPrimitive.cpp" />
+    <ClCompile Include="..\..\..\Shared\3DSMax\CylinderPrimitive.cpp" />
+    <ClCompile Include="..\..\..\Shared\3DSMax\OmniLight.cpp" />
     <ClCompile Include="..\..\..\Shared\3DSMax\SDKHelper.cpp" />
+    <ClCompile Include="..\..\..\Shared\3DSMax\SpherePrimitive.cpp" />
     <ClCompile Include="..\..\..\Shared\FileIO\XML\DocumentBuilder.cpp" />
     <ClCompile Include="..\..\..\Shared\FileIO\XML\Element.cpp" />
     <ClCompile Include="..\..\..\Shared\FileIO\XML\ElementAttribute.cpp" />
@@ -352,7 +356,11 @@
     <ClCompile Include="TextureExporter.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Shared\3DSMax\BoxPrimitive.h" />
+    <ClInclude Include="..\..\..\Shared\3DSMax\CylinderPrimitive.h" />
+    <ClInclude Include="..\..\..\Shared\3DSMax\OmniLight.h" />
     <ClInclude Include="..\..\..\Shared\3DSMax\SDKHelper.h" />
+    <ClInclude Include="..\..\..\Shared\3DSMax\SpherePrimitive.h" />
     <ClInclude Include="..\..\..\Shared\FileIO\XML\DocumentBuilder.h" />
     <ClInclude Include="..\..\..\Shared\FileIO\XML\Element.h" />
     <ClInclude Include="..\..\..\Shared\FileIO\XML\ElementAttribute.h" />
