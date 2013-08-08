@@ -54,6 +54,9 @@ BOOL ModelViewerApp::InitInstance(HINSTANCE instanceHandle, const wchar_t* comma
 
 		theEngine_->GetDiagnostics()->GetLoggingStream() << "The Model Viewer says: 'Hello world!'" << std::endl;
 
+		// Disable physics simulation
+		theEngine_->GetPhysicsSystem()->SetEnabled(false);
+
 		modelId_ = theEngine_->GetRenderer()->LoadModel(commandLine);
 		modelInstanceId_ = theEngine_->GetRenderer()->CreateModelInstance(modelId_, Matrix4x4::BuildIdentity());
 
