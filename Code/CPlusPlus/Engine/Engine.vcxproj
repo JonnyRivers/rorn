@@ -51,7 +51,11 @@
     <ClInclude Include="Subsystems\Physics\BulletBounds.h" />
     <ClInclude Include="Subsystems\Physics\BulletBoundsInstance.h" />
     <ClInclude Include="Subsystems\Physics\BulletBoxPrimitive.h" />
+    <ClInclude Include="Subsystems\Physics\BulletCylinderPrimitive.h" />
+    <ClInclude Include="Subsystems\Physics\BulletMeshPrimitive.h" />
+    <ClInclude Include="Subsystems\Physics\BulletMeshPrimitiveBuilder.h" />
     <ClInclude Include="Subsystems\Physics\BulletPhysicsSystem.h" />
+    <ClInclude Include="Subsystems\Physics\BulletSpherePrimitive.h" />
     <ClInclude Include="Subsystems\Renderer\Camera\Camera.h" />
     <ClInclude Include="Subsystems\Renderer\Camera\FreeCamera.h" />
     <ClInclude Include="Subsystems\Renderer\Font\Font.h" />
@@ -98,7 +102,11 @@
     <ClCompile Include="Subsystems\Physics\BulletBounds.cpp" />
     <ClCompile Include="Subsystems\Physics\BulletBoundsInstance.cpp" />
     <ClCompile Include="Subsystems\Physics\BulletBoxPrimitive.cpp" />
+    <ClCompile Include="Subsystems\Physics\BulletCylinderPrimitive.cpp" />
+    <ClCompile Include="Subsystems\Physics\BulletMeshPrimitive.cpp" />
+    <ClCompile Include="Subsystems\Physics\BulletMeshPrimitiveBuilder.cpp" />
     <ClCompile Include="Subsystems\Physics\BulletPhysicsSystem.cpp" />
+    <ClCompile Include="Subsystems\Physics\BulletSpherePrimitive.cpp" />
     <ClCompile Include="Subsystems\Renderer\Camera\Camera.cpp" />
     <ClCompile Include="Subsystems\Renderer\Camera\FreeCamera.cpp" />
     <ClCompile Include="Subsystems\Renderer\Font\Font.cpp" />

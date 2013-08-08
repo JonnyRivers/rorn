@@ -8,6 +8,10 @@
 
 #include "BulletPhysicsSystem.h"
 #include "BulletBoxPrimitive.h"
+#include "BulletCylinderPrimitive.h"
+#include "BulletMeshPrimitive.h"
+#include "BulletMeshPrimitiveBuilder.h"
+#include "BulletSpherePrimitive.h"
 
 using namespace Rorn::Engine;
 
@@ -101,6 +105,46 @@ void BulletPhysicsSystem::Step(float timeElapsed)
 
 		unsigned int newId = static_cast<unsigned int>(bounds_.size()) + 1;
 		BulletBoxPrimitive* newPrimitive = new BulletBoxPrimitive(mass, width, length, height);
+		bounds_.insert(std::make_pair<unsigned int, std::unique_ptr<BulletBounds>>(newId, std::unique_ptr<BulletBounds>(newPrimitive)));
+
+		return newId;
+	}
+	else if(primitiveType == 1)
+	{
+		float radius = fileReader.ReadFloat();
+		float height = fileReader.ReadFloat();
+
+		unsigned int newId = static_cast<unsigned int>(bounds_.size()) + 1;
+		BulletCylinderPrimitive* newPrimitive = new BulletCylinderPrimitive(mass, radius, height);
+		bounds_.insert(std::make_pair<unsigned int, std::unique_ptr<BulletBounds>>(newId, std::unique_ptr<BulletBounds>(newPrimitive)));
+
+		return newId;
+	}
+	else if(primitiveType == 2)
+	{
+		unsigned int newId = static_cast<unsigned int>(bounds_.size()) + 1;
+
+		BulletMeshPrimitiveBuilder meshPrimitiveBuilder(mass);
+		unsigned int numVerts = fileReader.ReadUInt();
+		for(unsigned int vertIndex = 0 ; vertIndex < numVerts ; vertIndex += 3)
+		{
+			meshPrimitiveBuilder.AddTriangle(
+				fileReader.ReadFloat(), fileReader.ReadFloat(), fileReader.ReadFloat(),
+				fileReader.ReadFloat(), fileReader.ReadFloat(), fileReader.ReadFloat(),
+				fileReader.ReadFloat(), fileReader.ReadFloat(), fileReader.ReadFloat());
+		}
+
+		BulletMeshPrimitive* newPrimitive = meshPrimitiveBuilder.ToMeshPrimitive();
+		bounds_.insert(std::make_pair<unsigned int, std::unique_ptr<BulletBounds>>(newId, std::unique_ptr<BulletBounds>(newPrimitive)));
+
+		return newId;
+	}
+	else if(primitiveType == 3)
+	{
+		float radius = fileReader.ReadFloat();
+
+		unsigned int newId = static_cast<unsigned int>(bounds_.size()) + 1;
+		BulletSpherePrimitive* newPrimitive = new BulletSpherePrimitive(mass, radius);
 		bounds_.insert(std::make_pair<unsigned int, std::unique_ptr<BulletBounds>>(newId, std::unique_ptr<BulletBounds>(newPrimitive)));
 
 		return newId;

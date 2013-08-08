@@ -73,7 +73,10 @@ BOOL PhysicsDemo001App::InitInstance(HINSTANCE instanceHandle, const wchar_t* co
 			}
 		}
 
-		projectileBoxModelId_ = theEngine_->GetRenderer()->LoadModel(_T("ProjectileBox001.model"));
+		currentProjectileModelId_ = projectileBoxModelId_ = theEngine_->GetRenderer()->LoadModel(_T("ProjectileBox001.model"));
+		projectileCylinderModelId_ = theEngine_->GetRenderer()->LoadModel(_T("ProjectileCylinder001.model"));
+		projectileMeshModelId_ = theEngine_->GetRenderer()->LoadModel(_T("ProjectileMesh001.model"));
+		projectileSphereModelId_ = theEngine_->GetRenderer()->LoadModel(_T("ProjectileSphere001.model"));
 		
 		cameraId_ = theEngine_->GetRenderer()->CreateFreeCamera(
 			Vector4(0.0f, 60.0f, -90.0f, 1.0f),
@@ -163,6 +166,23 @@ VOID PhysicsDemo001App::Step()
 		translation.Z -= timeElapsed * translationSpeed;
 	}
 
+	if( theEngine_->GetKeyboard()->IsKeyDown(DIK_U) )
+	{
+		currentProjectileModelId_ = projectileBoxModelId_;
+	}
+	else if( theEngine_->GetKeyboard()->IsKeyDown(DIK_I) )
+	{
+		currentProjectileModelId_ = projectileCylinderModelId_;
+	}
+	else if( theEngine_->GetKeyboard()->IsKeyDown(DIK_O) )
+	{
+		currentProjectileModelId_ = projectileMeshModelId_;
+	}
+	else if( theEngine_->GetKeyboard()->IsKeyDown(DIK_P) )
+	{
+		currentProjectileModelId_ = projectileSphereModelId_;
+	}
+
 	if( readyToFire_ )
 	{
 		if( theEngine_->GetKeyboard()->IsKeyDown(DIK_SPACE) )
@@ -180,7 +200,7 @@ VOID PhysicsDemo001App::Step()
 			projectileToWorldTransform.M41 = cameraPosition.X;
 			projectileToWorldTransform.M42 = cameraPosition.Y;
 			projectileToWorldTransform.M43 = cameraPosition.Z;
-			unsigned int projectileModelInstanceId = theEngine_->GetRenderer()->CreateModelInstance(projectileBoxModelId_, projectileToWorldTransform);
+			unsigned int projectileModelInstanceId = theEngine_->GetRenderer()->CreateModelInstance(currentProjectileModelId_, projectileToWorldTransform);
 			IModelInstance* projectileModelInstance = theEngine_->GetRenderer()->GetModelInstance(projectileModelInstanceId);
 			projectileModelInstance->SetLinearVelocity(linearVelocity);
 			readyToFire_ = false;

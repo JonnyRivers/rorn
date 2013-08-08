@@ -118,6 +118,18 @@ namespace Rorn.Tools.ModelCompiler
             XElement physicsBoxElement = nodeElement.Element("Box");
             if (physicsBoxElement != null)
                 CompilePhysicsBox(nodeToSceneMatrix, physicsBoxElement);
+
+            XElement physicsCylinderElement = nodeElement.Element("Cylinder");
+            if (physicsCylinderElement != null)
+                CompilePhysicsCylinder(nodeToSceneMatrix, physicsCylinderElement);
+
+            XElement physicsSphereElement = nodeElement.Element("Sphere");
+            if (physicsSphereElement != null)
+                CompilePhysicsSphere(nodeToSceneMatrix, physicsSphereElement);
+
+            XElement physicsMeshElement = nodeElement.Element("CollisionMesh");
+            if (physicsMeshElement != null)
+                CompilePhysicsMesh(nodeToSceneMatrix, physicsMeshElement);
         }
 
         private void CompileMesh(Matrix4x4 nodeToSceneMatrix, XElement meshElement)
@@ -156,6 +168,53 @@ namespace Rorn.Tools.ModelCompiler
             float length = Single.Parse(physicsBoxElement.Element("Length").Value);
             float height = Single.Parse(physicsBoxElement.Element("Height").Value);
             physicsPrimitives_.Add(new PhysicsBox(mass, nodeToSceneMatrix, width, length, height));
+        }
+
+        private void CompilePhysicsCylinder(Matrix4x4 nodeToSceneMatrix, XElement physicsCylinderElement)
+        {
+            float mass = Single.Parse(physicsCylinderElement.Element("Mass").Value);
+            float radius = Single.Parse(physicsCylinderElement.Element("Radius").Value);
+            float height = Single.Parse(physicsCylinderElement.Element("Height").Value);
+            physicsPrimitives_.Add(new PhysicsCylinder(mass, nodeToSceneMatrix, radius, height));
+        }
+
+        private void CompilePhysicsSphere(Matrix4x4 nodeToSceneMatrix, XElement physicsSphereElement)
+        {
+            float mass = Single.Parse(physicsSphereElement.Element("Mass").Value);
+            float radius = Single.Parse(physicsSphereElement.Element("Radius").Value);
+            physicsPrimitives_.Add(new PhysicsSphere(mass, nodeToSceneMatrix, radius));
+        }
+
+        private void CompilePhysicsMesh(Matrix4x4 nodeToSceneMatrix, XElement physicsMeshElement)
+        {
+            float mass = Single.Parse(physicsMeshElement.Element("Mass").Value);
+
+            XElement[] vertexElements = physicsMeshElement.Elements("Vertex").ToArray();
+            Vector4[] vertices = new Vector4[vertexElements.Length];
+            for (int vertIndex = 0; vertIndex < vertexElements.Length; ++vertIndex)
+            {
+                string[] vertexTokens = vertexElements[vertIndex].Element("Position").Value.Split(',');
+                float x = Single.Parse(vertexTokens[0]);
+                float y = Single.Parse(vertexTokens[1]);
+                float z = Single.Parse(vertexTokens[2]);
+                vertices[vertIndex] = new Vector4(x, y, z, 1);
+            }
+
+            XElement[] triangleElements = physicsMeshElement.Elements("Triangle").ToArray();
+            List<Vector4> expandedVertices = new List<Vector4>(triangleElements.Length * 3);
+            foreach (XElement triangleElement in triangleElements)
+            {
+                // Parse triangle data
+                string[] triangleData = triangleElement.Value.Split(',');
+                int vert0Index = int.Parse(triangleData[0]);
+                int vert1Index = int.Parse(triangleData[1]);
+                int vert2Index = int.Parse(triangleData[2]);
+                expandedVertices.Add(vertices[vert0Index]);
+                expandedVertices.Add(vertices[vert1Index]);
+                expandedVertices.Add(vertices[vert2Index]);
+            }
+
+            physicsPrimitives_.Add(new PhysicsMesh(mass, nodeToSceneMatrix, expandedVertices));
         }
 
         private void SaveModel(string destinationPathName)

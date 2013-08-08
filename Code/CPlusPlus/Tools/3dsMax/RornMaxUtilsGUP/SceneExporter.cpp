@@ -233,7 +233,33 @@ void SceneExporter::ExportPhysics(INode* node, Rorn::XML::HierarchyElement& node
 	{
 		Mesh& mesh = Rorn::Max::GetMeshFromNode(node);
 
-		//meshElement.AddChildValueElement("Mass", massAsString);
+		Rorn::XML::HierarchyElement& collisionMeshElement = nodeElement.AddChildHierarchyElement("CollisionMesh");
+
+		collisionMeshElement.AddChildValueElement("Mass", massAsString);
+
+		// Export vertices
+		int vertsExported = 0;
+		for(int faceIndex = 0 ; faceIndex < mesh.numFaces ; ++faceIndex)
+		{
+			for(int vertIndex = 0 ; vertIndex < 3 ; ++vertIndex)
+			{
+				Rorn::XML::HierarchyElement& vertexElement = collisionMeshElement.AddChildHierarchyElement("Vertex");
+				std::stringstream indexStream;
+				indexStream << vertsExported++;
+				vertexElement.AddChildValueElement("Index", indexStream.str().c_str());
+				ExportPoint3("Position", mesh.verts[mesh.faces[faceIndex].v[vertIndex]], vertexElement);
+			}
+		}
+
+		// export triangles
+		vertsExported = 0; 
+		for(int faceIndex = 0 ; faceIndex < mesh.numFaces ; ++faceIndex)
+		{
+			std::stringstream valueStream;
+			valueStream << vertsExported << "," << vertsExported + 1 << "," << vertsExported + 2;
+			vertsExported += 3;
+			collisionMeshElement.AddChildValueElement("Triangle", valueStream.str().c_str());
+		}
 	}
 	else if( Rorn::Max::IsSphereNode(node) )
 	{
