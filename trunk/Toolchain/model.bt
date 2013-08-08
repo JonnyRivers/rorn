@@ -34,6 +34,13 @@ struct Float2
 	float y;
 };
 
+struct Float3
+{
+	float x;
+	float y;
+	float z;
+};
+
 struct Float4
 {
 	float x;
@@ -96,6 +103,20 @@ struct PhysicsPrimitive
 		float width;
 		float length;
 		float height;
+	}
+	else if(type == 1)
+	{
+		float radius;
+		float height;
+	}
+	else if(type == 2)
+	{
+		unsigned int numVertices;
+		Float3 verts[numVertices] <optimize=false>;
+	}
+	else if(type == 3)
+	{
+		float radius;
 	}
 };
 
