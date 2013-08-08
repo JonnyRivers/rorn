@@ -27,4 +27,6 @@ private:
 
 	Rorn::Engine::IEngine* theEngine_;
 	unsigned int cameraId_;
+	unsigned int projectileBoxModelId_;
+	bool readyToFire_;
 };

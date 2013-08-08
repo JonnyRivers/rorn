@@ -10,6 +10,7 @@ namespace Rorn
 		{
 		public:
 			virtual void SetInstanceToWorldMatrix(const Maths::Matrix4x4& instanceToWorldMatrix) = 0;
+			virtual void SetLinearVelocity(const Maths::Vector4& linearVelocity) = 0;
 		};
 	}
 }

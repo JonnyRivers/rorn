@@ -1,5 +1,7 @@
 #pragma once
 
+#include <cassert>
+
 #include "../../Interfaces/StreamReader.h"
 
 #include "../../Exceptions/bounds_load_exception.h"
@@ -32,16 +34,39 @@ void BulletPhysicsSystem::Step(float timeElapsed)
 		dynamicsWorld_.stepSimulation(timeElapsed);
 }
 
+/*virtual*/ void BulletPhysicsSystem::GetBoundsInstanceToWorldTransform(unsigned int boundsInstanceId, Rorn::Maths::Matrix4x4& instanceToWorldMatrix) const
+{
+	std::map<unsigned int, std::unique_ptr<BulletBoundsInstance>>::const_iterator boundsInstanceIter = boundsInstances_.find(boundsInstanceId);
+	assert(boundsInstanceIter != boundsInstances_.end());
+	boundsInstanceIter->second->GetInstanceToWorldMatrix(instanceToWorldMatrix);
+}
+
+/*virtual*/ void BulletPhysicsSystem::SetBoundsInstanceLinearVelocity(unsigned int boundsInstanceId, const Rorn::Maths::Vector4& linearVelocity)
+{
+	std::map<unsigned int, std::unique_ptr<BulletBoundsInstance>>::const_iterator boundsInstanceIter = boundsInstances_.find(boundsInstanceId);
+	assert(boundsInstanceIter != boundsInstances_.end());
+	boundsInstanceIter->second->SetLinearVelocity(linearVelocity);
+}
+
+/*virtual*/ void BulletPhysicsSystem::SetBoundsInstanceToWorldTransform(unsigned int boundsInstanceId, const Rorn::Maths::Matrix4x4& instanceToWorldMatrix)
+{
+	std::map<unsigned int, std::unique_ptr<BulletBoundsInstance>>::const_iterator boundsInstanceIter = boundsInstances_.find(boundsInstanceId);
+	assert(boundsInstanceIter != boundsInstances_.end());
+	boundsInstanceIter->second->SetInstanceToWorldMatrix(instanceToWorldMatrix);
+}
+
 /*virtual*/ unsigned int BulletPhysicsSystem::CreateBoundsInstance(unsigned int boundsId, const Rorn::Maths::Matrix4x4& instanceToWorldMatrix)
 {
-	BulletBounds* bounds = bounds_[boundsId].get();
-	btCollisionShape* collisionShape = bounds->GetCollisionShape();
-	float mass = bounds->GetMass();
+	std::map<unsigned int, std::unique_ptr<BulletBounds>>::const_iterator boundsIter = bounds_.find(boundsId);
+	assert(boundsIter != bounds_.end());
+	btCollisionShape* collisionShape = boundsIter->second->GetCollisionShape();
+	float mass = boundsIter->second->GetMass();
 	bool isDynamic = (mass != 0.0f);
 	btVector3 localInertia(0,0,0);
 	if (isDynamic)
 		collisionShape->calculateLocalInertia(mass,localInertia);
 
+	// need to refactor math type conversions
 	btTransform instanceToWorldTransform;
 	instanceToWorldTransform.setOrigin(btVector3(instanceToWorldMatrix.M41, instanceToWorldMatrix.M42, instanceToWorldMatrix.M43));
 	instanceToWorldTransform.setBasis(
@@ -54,12 +79,6 @@ void BulletPhysicsSystem::Step(float timeElapsed)
 	boundsInstances_.insert(std::make_pair<unsigned int, std::unique_ptr<BulletBoundsInstance>>(newId, std::unique_ptr<BulletBoundsInstance>(newPrimitive)));
 
 	return newId;
-}
-
-/*virtual*/ void BulletPhysicsSystem::GetBoundsInstanceToWorldTransform(unsigned int boundsInstanceId, Rorn::Maths::Matrix4x4& instanceToWorldMatrix)
-{
-	BulletBoundsInstance* boundsInstance = boundsInstances_[boundsInstanceId].get();
-	boundsInstance->GetInstanceToWorldMatrix(instanceToWorldMatrix);
 }
 
 /*virtual*/ unsigned int BulletPhysicsSystem::LoadBounds(unsigned int numPhysicsPrimitives, StreamReader& fileReader)

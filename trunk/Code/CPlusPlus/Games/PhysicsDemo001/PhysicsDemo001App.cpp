@@ -20,7 +20,7 @@ using namespace Rorn::Maths;
 
 /*static*/ HINSTANCE PhysicsDemo001App::instanceHandle_ = NULL;
 
-PhysicsDemo001App::PhysicsDemo001App(void) : theEngine_(NULL)
+PhysicsDemo001App::PhysicsDemo001App(void) : theEngine_(NULL), readyToFire_(true)
 {
 	
 }
@@ -72,6 +72,8 @@ BOOL PhysicsDemo001App::InitInstance(HINSTANCE instanceHandle, const wchar_t* co
 				}
 			}
 		}
+
+		projectileBoxModelId_ = theEngine_->GetRenderer()->LoadModel(_T("ProjectileBox001.model"));
 		
 		cameraId_ = theEngine_->GetRenderer()->CreateFreeCamera(
 			Vector4(0.0f, 60.0f, -90.0f, 1.0f),
@@ -122,14 +124,14 @@ VOID PhysicsDemo001App::Step()
 	//// TODO - refactor this out into some sort of 'camera controller'
 	//// Move the camera
 	//// base translation speed is quarter of the instance's bouding radius per second
-	float translationSpeed = 1.0f;
+	float translationSpeed = 10.0f;
 	if( theEngine_->GetKeyboard()->IsKeyDown(DIK_LSHIFT) )
 	{
-		translationSpeed *= 5.0f;
+		translationSpeed *= 50.0f;
 	}
 	else if( theEngine_->GetKeyboard()->IsKeyDown(DIK_LCONTROL) )
 	{
-		translationSpeed *= 0.2f;
+		translationSpeed *= 2.0f;
 	}
 
 	Vector4 translation(0.0f, 0.0f, 0.0f, 0.0f);
@@ -159,6 +161,37 @@ VOID PhysicsDemo001App::Step()
 	else if( theEngine_->GetKeyboard()->IsKeyDown(DIK_S) )
 	{
 		translation.Z -= timeElapsed * translationSpeed;
+	}
+
+	if( readyToFire_ )
+	{
+		if( theEngine_->GetKeyboard()->IsKeyDown(DIK_SPACE) )
+		{
+			// fire a box
+			Rorn::Maths::Vector4 cameraPosition;
+			camera->GetPosition(cameraPosition);
+
+			Rorn::Maths::Vector4 cameraEyeDirection;
+			camera->GetEyeDirection(cameraEyeDirection);
+
+			Rorn::Maths::Vector4 linearVelocity( cameraEyeDirection * 40.0f );
+
+			Matrix4x4 projectileToWorldTransform = Matrix4x4::BuildIdentity();
+			projectileToWorldTransform.M41 = cameraPosition.X;
+			projectileToWorldTransform.M42 = cameraPosition.Y;
+			projectileToWorldTransform.M43 = cameraPosition.Z;
+			unsigned int projectileModelInstanceId = theEngine_->GetRenderer()->CreateModelInstance(projectileBoxModelId_, projectileToWorldTransform);
+			IModelInstance* projectileModelInstance = theEngine_->GetRenderer()->GetModelInstance(projectileModelInstanceId);
+			projectileModelInstance->SetLinearVelocity(linearVelocity);
+			readyToFire_ = false;
+		}
+	}
+	else
+	{
+		if( !theEngine_->GetKeyboard()->IsKeyDown(DIK_SPACE) )
+		{
+			readyToFire_ = true;
+		}
 	}
 
 	camera->Translate(translation);
