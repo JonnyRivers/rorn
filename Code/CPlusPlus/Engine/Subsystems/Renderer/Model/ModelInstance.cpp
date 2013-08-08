@@ -29,7 +29,20 @@ const Matrix4x4& ModelInstance::GetInstanceToWorldMatrix()
 	return instanceToWorldMatrix_;
 }
 
+/*virtual*/ void ModelInstance::SetLinearVelocity(const Vector4& linearVelocity)
+{
+	if(hasBounds_)
+	{
+		physicsSystem_->SetBoundsInstanceLinearVelocity(boundsInstanceId_, linearVelocity);
+	}
+}
+
 /*virtual*/ void ModelInstance::SetInstanceToWorldMatrix(const Matrix4x4& instanceToWorldMatrix)
 {
+	if(hasBounds_)
+	{
+		physicsSystem_->SetBoundsInstanceToWorldTransform(boundsInstanceId_, instanceToWorldMatrix);
+	}
+
 	instanceToWorldMatrix_ = instanceToWorldMatrix;
 }

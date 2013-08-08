@@ -26,8 +26,12 @@ namespace Rorn
 
 			void Step(float timeElapsed);
 
+			virtual void GetBoundsInstanceToWorldTransform(unsigned int boundsInstanceId, Maths::Matrix4x4& instanceToWorldMatrix) const;
+
+			virtual void SetBoundsInstanceLinearVelocity(unsigned int boundsInstanceId, const Maths::Vector4& linearVelocity);
+			virtual void SetBoundsInstanceToWorldTransform(unsigned int boundsInstanceId, const Maths::Matrix4x4& instanceToWorldMatrix);
+
 			virtual unsigned int CreateBoundsInstance(unsigned int boundsId, const Rorn::Maths::Matrix4x4& instanceToWorldMatrix);
-			virtual void GetBoundsInstanceToWorldTransform(unsigned int boundsInstanceId, Rorn::Maths::Matrix4x4& instanceToWorldMatrix);
 			virtual unsigned int LoadBounds(unsigned int numPhysicsPrimitives, StreamReader& fileReader);
 			virtual void SetEnabled(bool enabled) { isEnabled_ = enabled; }
 		private:

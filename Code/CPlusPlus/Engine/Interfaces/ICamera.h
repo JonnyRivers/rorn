@@ -9,6 +9,9 @@ namespace Rorn
 		struct ICamera
 		{
 		public:
+			virtual void GetPosition(Maths::Vector4& position) = 0;
+			virtual void GetEyeDirection(Maths::Vector4& eyeDirection) = 0;
+
 			virtual void AlterHeading(float deltaHeading) = 0;
 			virtual void AlterPitch(float deltaPitch) = 0;
 			virtual void AlterBank(float deltaBank) = 0;

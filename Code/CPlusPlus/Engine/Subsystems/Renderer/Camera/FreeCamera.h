@@ -17,6 +17,9 @@ namespace Rorn
 			FreeCamera(const Rorn::Maths::Vector4& position, const Rorn::Maths::EulerAngles& eulerAngles);
 			~FreeCamera();
 
+			virtual void GetPosition(Maths::Vector4& position);
+			virtual void GetEyeDirection(Maths::Vector4& eyeDirection);
+
 			virtual void AlterHeading(float deltaHeading);
 			virtual void AlterPitch(float deltaPitch);
 			virtual void AlterBank(float deltaBank);

@@ -22,6 +22,7 @@ namespace Rorn
 			const Maths::Matrix4x4& GetInstanceToWorldMatrix();
 			unsigned int GetModelId() const { return modelId_; }
 
+			virtual void SetLinearVelocity(const Maths::Vector4& linearVelocity);
 			virtual void SetInstanceToWorldMatrix(const Maths::Matrix4x4& instanceToWorldMatrix);
 			
 		private:

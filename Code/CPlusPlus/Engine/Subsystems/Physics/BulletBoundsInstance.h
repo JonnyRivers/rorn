@@ -15,6 +15,9 @@ namespace Rorn
 			~BulletBoundsInstance();
 
 			void GetInstanceToWorldMatrix(Rorn::Maths::Matrix4x4& instanceToWorldMatrix) const;
+
+			void SetInstanceToWorldMatrix(const Rorn::Maths::Matrix4x4& instanceToWorldMatrix);
+			void SetLinearVelocity(const Rorn::Maths::Vector4& linearVelocity);
 		private:
 			BulletBoundsInstance(BulletBoundsInstance&);
 			BulletBoundsInstance& operator=(BulletBoundsInstance&);
