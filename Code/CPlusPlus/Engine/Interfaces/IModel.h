@@ -9,7 +9,8 @@ namespace Rorn
 		struct IModel
 		{
 		public:
-			virtual const Rorn::Maths::BoundingBox& GetBoundingBox() = 0;
+			virtual unsigned int GetBoundsId() const = 0;
+			virtual const Rorn::Maths::BoundingBox& GetBoundingBox() const = 0;
 		};
 	}
 }

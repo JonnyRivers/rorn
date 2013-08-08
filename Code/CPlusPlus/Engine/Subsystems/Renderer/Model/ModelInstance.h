@@ -6,6 +6,8 @@
 
 #include "../../../Interfaces/IModelInstance.h"
 
+#include "../../../Interfaces/IPhysicsSystem.h"
+
 namespace Rorn
 {
 	namespace Engine
@@ -13,19 +15,25 @@ namespace Rorn
 		class ModelInstance : public IModelInstance
 		{
 		public:
+			ModelInstance(unsigned int modelId, IPhysicsSystem* physicsSystem, unsigned int boundsInstanceId, const Rorn::Maths::Matrix4x4& instanceToWorldMatrix);
 			ModelInstance(unsigned int modelId, const Rorn::Maths::Matrix4x4& instanceToWorldMatrix);
 			~ModelInstance();
 
-			virtual void SetInstanceToWorldMatrix(const Maths::Matrix4x4& instanceToWorldMatrix);
-
+			const Maths::Matrix4x4& GetInstanceToWorldMatrix();
 			unsigned int GetModelId() const { return modelId_; }
-			const Maths::Matrix4x4& GetInstanceToWorldMatrix() const { return instanceToWorldMatrix_; }
+
+			virtual void SetInstanceToWorldMatrix(const Maths::Matrix4x4& instanceToWorldMatrix);
+			
 		private:
 			ModelInstance(ModelInstance&);
 			ModelInstance& operator=(ModelInstance&);
 
 			unsigned int modelId_;
 			Rorn::Maths::Matrix4x4 instanceToWorldMatrix_;
+
+			bool hasBounds_;
+			IPhysicsSystem* physicsSystem_;
+			unsigned int boundsInstanceId_;
 		};
 	}
 }

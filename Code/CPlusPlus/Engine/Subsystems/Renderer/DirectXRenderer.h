@@ -10,6 +10,7 @@
 
 #include "../../Interfaces/IDiagnostics.h"
 #include "../../Interfaces/IFileSystem.h"
+#include "../../Interfaces/IPhysicsSystem.h"
 
 #include "GraphicsDevice/D3DGraphicsDevice.h"
 
@@ -36,7 +37,7 @@ namespace Rorn
 		class DirectXRenderer : public IRenderer
 		{
 		public:
-			DirectXRenderer(HWND applicationWindowHandle, IDiagnostics* diagnostics, IFileSystem* fileSystem);
+			DirectXRenderer(HWND applicationWindowHandle, IDiagnostics* diagnostics, IFileSystem* fileSystem, IPhysicsSystem* physicsSystem);
 			~DirectXRenderer();
 
 			void StartFrame();
@@ -80,6 +81,7 @@ namespace Rorn
 			// Data
 			IDiagnostics* diagnostics_;
 			IFileSystem* fileSystem_;
+			IPhysicsSystem* physicsSystem_;
 			D3DGraphicsDevice graphicsDevice_;
 
 			// Material data

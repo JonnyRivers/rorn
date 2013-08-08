@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Shared\ErrorCodes\HResultFormatter.h" />
+    <ClInclude Include="Exceptions\bounds_load_exception.h" />
     <ClInclude Include="Exceptions\filesystem_exception.h" />
     <ClInclude Include="Exceptions\font_load_exception.h" />
     <ClInclude Include="Exceptions\initialisation_exception.h" />
@@ -47,6 +48,9 @@
     <ClInclude Include="Subsystems\Input\DirectXInputManager.h" />
     <ClInclude Include="Subsystems\Input\DirectXKeyboard.h" />
     <ClInclude Include="Subsystems\Input\DirectXMouse.h" />
+    <ClInclude Include="Subsystems\Physics\BulletBounds.h" />
+    <ClInclude Include="Subsystems\Physics\BulletBoundsInstance.h" />
+    <ClInclude Include="Subsystems\Physics\BulletBoxPrimitive.h" />
     <ClInclude Include="Subsystems\Physics\BulletPhysicsSystem.h" />
     <ClInclude Include="Subsystems\Renderer\Camera\Camera.h" />
     <ClInclude Include="Subsystems\Renderer\Camera\FreeCamera.h" />
@@ -91,6 +95,9 @@
     <ClCompile Include="Subsystems\Input\DirectXInputManager.cpp" />
     <ClCompile Include="Subsystems\Input\DirectXKeyboard.cpp" />
     <ClCompile Include="Subsystems\Input\DirectXMouse.cpp" />
+    <ClCompile Include="Subsystems\Physics\BulletBounds.cpp" />
+    <ClCompile Include="Subsystems\Physics\BulletBoundsInstance.cpp" />
+    <ClCompile Include="Subsystems\Physics\BulletBoxPrimitive.cpp" />
     <ClCompile Include="Subsystems\Physics\BulletPhysicsSystem.cpp" />
     <ClCompile Include="Subsystems\Renderer\Camera\Camera.cpp" />
     <ClCompile Include="Subsystems\Renderer\Camera\FreeCamera.cpp" />

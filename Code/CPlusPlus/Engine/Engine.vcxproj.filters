@@ -163,6 +163,15 @@
     <ClCompile Include="Subsystems\Physics\BulletPhysicsSystem.cpp">
       <Filter>Subsystems\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="Subsystems\Physics\BulletBoxPrimitive.cpp">
+      <Filter>Subsystems\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Physics\BulletBounds.cpp">
+      <Filter>Subsystems\Physics</Filter>
+    </ClCompile>
+    <ClCompile Include="Subsystems\Physics\BulletBoundsInstance.cpp">
+      <Filter>Subsystems\Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Interfaces\IEngine.h">
@@ -341,6 +350,18 @@
       <Filter>Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="Subsystems\Physics\BulletPhysicsSystem.h">
+      <Filter>Subsystems\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Exceptions\bounds_load_exception.h">
+      <Filter>Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Physics\BulletBoxPrimitive.h">
+      <Filter>Subsystems\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Physics\BulletBounds.h">
+      <Filter>Subsystems\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Physics\BulletBoundsInstance.h">
       <Filter>Subsystems\Physics</Filter>
     </ClInclude>
   </ItemGroup>

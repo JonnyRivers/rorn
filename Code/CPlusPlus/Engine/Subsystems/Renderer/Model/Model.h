@@ -13,10 +13,11 @@ namespace Rorn
 		class Model : public IModel
 		{
 		public:
-			Model(const Maths::BoundingBox& boundingBox, const std::vector<unsigned int>& texturesCreated, const std::vector<unsigned int>& renderCommands);
+			Model(const Maths::BoundingBox& boundingBox, const std::vector<unsigned int>& texturesCreated, const std::vector<unsigned int>& renderCommands, unsigned int boundsId);
 			~Model();
 
-			virtual const Maths::BoundingBox& GetBoundingBox();
+			virtual const Maths::BoundingBox& GetBoundingBox() const;
+			virtual unsigned int GetBoundsId() const;
 
 			const std::vector<unsigned int>& GetRenderCommandIds() const { return renderCommands_; }
 		private:
@@ -26,6 +27,7 @@ namespace Rorn
 			Rorn::Maths::BoundingBox boundingBox_;
 			std::vector<unsigned int> texturesCreated_;
 			std::vector<unsigned int> renderCommands_;
+			unsigned int boundsId_;
 		};
 	}
 }

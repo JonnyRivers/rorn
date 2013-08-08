@@ -24,8 +24,8 @@
 using namespace Rorn::Engine;
 using namespace Rorn::Maths;
 
-DirectXRenderer::DirectXRenderer(HWND applicationWindowHandle, IDiagnostics* diagnostics, IFileSystem* fileSystem) 
-	: diagnostics_(diagnostics), fileSystem_(fileSystem), graphicsDevice_(applicationWindowHandle, diagnostics_)
+DirectXRenderer::DirectXRenderer(HWND applicationWindowHandle, IDiagnostics* diagnostics, IFileSystem* fileSystem, IPhysicsSystem* physicsSystem) 
+	: diagnostics_(diagnostics), fileSystem_(fileSystem), physicsSystem_(physicsSystem), graphicsDevice_(applicationWindowHandle, diagnostics_)
 {
 	diagnostics_->GetLoggingStream() << "Renderer instance is being created." << std::endl;
 
@@ -208,8 +208,10 @@ void DirectXRenderer::Draw()
 		renderCommandIds[renderCommandIndex] = newId;
 	}
 
+	unsigned int boundsId = physicsSystem_->LoadBounds(numPhysicsPrimitives, fileReader);
+
 	unsigned int newId = static_cast<unsigned int>(models_.size());
-	Model* newModel = new Model(boundingBox, createdTextureIds, renderCommandIds);
+	Model* newModel = new Model(boundingBox, createdTextureIds, renderCommandIds, boundsId);
 	models_.insert(std::make_pair<unsigned int, std::unique_ptr<Model>>(newId, std::unique_ptr<Model>(newModel)));
 
 	return newId;
@@ -222,11 +224,26 @@ void DirectXRenderer::Draw()
 
 /*virtual*/ unsigned int DirectXRenderer::CreateModelInstance(unsigned int modelId, const Rorn::Maths::Matrix4x4& instanceToWorldMatrix)
 {
-	unsigned int newId = static_cast<unsigned int>(models_.size());
-	ModelInstance* newModel = new ModelInstance(modelId, instanceToWorldMatrix);
-	modelInstances_.insert(std::make_pair<unsigned int, std::unique_ptr<ModelInstance>>(newId, std::unique_ptr<ModelInstance>(newModel)));
+	IModel* model = GetModel(modelId);
+	unsigned int boundsId = model->GetBoundsId();
+	if(boundsId > 0)
+	{
+		unsigned int boundsInstanceId = physicsSystem_->CreateBoundsInstance(boundsId, instanceToWorldMatrix);
 
-	return newId;
+		unsigned int newId = static_cast<unsigned int>(modelInstances_.size());
+		ModelInstance* newModel = new ModelInstance(modelId, physicsSystem_, boundsInstanceId, instanceToWorldMatrix);
+		modelInstances_.insert(std::make_pair<unsigned int, std::unique_ptr<ModelInstance>>(newId, std::unique_ptr<ModelInstance>(newModel)));
+
+		return newId;
+	}
+	else
+	{
+		unsigned int newId = static_cast<unsigned int>(modelInstances_.size());
+		ModelInstance* newModel = new ModelInstance(modelId, instanceToWorldMatrix);
+		modelInstances_.insert(std::make_pair<unsigned int, std::unique_ptr<ModelInstance>>(newId, std::unique_ptr<ModelInstance>(newModel)));
+
+		return newId;
+	}
 }
 
 /*virtual*/ IModelInstance* DirectXRenderer::GetModelInstance(unsigned int modelInstanceId)

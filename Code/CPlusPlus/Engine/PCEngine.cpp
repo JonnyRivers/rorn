@@ -18,7 +18,7 @@ PCEngine::PCEngine(HWND windowHandle)
 	  timekeeper_(&diagnostics_),
 	  inputManager_(windowHandle, &diagnostics_),
 	  physicsSystem_(&diagnostics_),
-	  renderer_(windowHandle, &diagnostics_, &fileSystem_)
+	  renderer_(windowHandle, &diagnostics_, &fileSystem_, &physicsSystem_)
 {
 }
 
@@ -61,6 +61,7 @@ PCEngine::~PCEngine()
 	float timeElpased = timekeeper_.GetTimeElapsedSinceLastRequest();
 	renderer_.StartFrame();
 	inputManager_.Step();
+	physicsSystem_.Step(timeElpased);
 
 	return timeElpased;
 }
