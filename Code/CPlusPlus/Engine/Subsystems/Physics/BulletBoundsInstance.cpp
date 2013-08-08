@@ -27,15 +27,15 @@ void BulletBoundsInstance::GetInstanceToWorldMatrix(Rorn::Maths::Matrix4x4& inst
 	const btVector3& origin = localToWorldTransform.getOrigin();
 
 	instanceToWorldMatrix.M11 = basisRow1.x();
-	instanceToWorldMatrix.M12 = basisRow1.y();
-	instanceToWorldMatrix.M13 = basisRow1.z();
+	instanceToWorldMatrix.M12 = basisRow2.x();
+	instanceToWorldMatrix.M13 = basisRow3.x();
 	instanceToWorldMatrix.M14 = 0;
-	instanceToWorldMatrix.M21 = basisRow2.x();
+	instanceToWorldMatrix.M21 = basisRow1.y();
 	instanceToWorldMatrix.M22 = basisRow2.y();
-	instanceToWorldMatrix.M23 = basisRow2.z();
+	instanceToWorldMatrix.M23 = basisRow3.y();
 	instanceToWorldMatrix.M24 = 0;
-	instanceToWorldMatrix.M31 = basisRow3.x();
-	instanceToWorldMatrix.M32 = basisRow3.y();
+	instanceToWorldMatrix.M31 = basisRow1.z();
+	instanceToWorldMatrix.M32 = basisRow2.z();
 	instanceToWorldMatrix.M33 = basisRow3.z();
 	instanceToWorldMatrix.M34 = 0;
 	instanceToWorldMatrix.M41 = origin.x();

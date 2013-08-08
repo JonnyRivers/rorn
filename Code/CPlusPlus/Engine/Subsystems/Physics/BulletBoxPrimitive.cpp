@@ -6,7 +6,7 @@ using namespace Rorn::Engine;
 
 BulletBoxPrimitive::BulletBoxPrimitive(float mass, float width, float length, float height) :
 	BulletBounds(mass), 
-	boxShape_(btVector3(width * 0.5f, length * 0.5, height * 0.5))
+	boxShape_(btVector3(width * 0.5f, height * 0.5, length * 0.5))
 {
 	
 }

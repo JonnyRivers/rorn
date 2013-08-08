@@ -18,7 +18,7 @@ BulletPhysicsSystem::BulletPhysicsSystem(IDiagnostics* diagnostics) :
 	solver_(),
 	dynamicsWorld_(&collisionDispatcher_, &broadphase_, &solver_, &collisionConfiguration_)
 {
-	dynamicsWorld_.setGravity(btVector3(0, 0, -10));
+	dynamicsWorld_.setGravity(btVector3(0, -10, 0));
 }
 
 BulletPhysicsSystem::~BulletPhysicsSystem()
