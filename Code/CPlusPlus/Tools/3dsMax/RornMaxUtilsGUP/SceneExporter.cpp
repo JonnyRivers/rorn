@@ -103,6 +103,16 @@ void SceneExporter::ExportMesh(INode* node, Mesh& mesh, Rorn::XML::HierarchyElem
 {
 	mesh.buildNormals();
 
+	int diffuseMapChannel = -1;
+	Matrix3 diffuseUVTransform;
+	Mtl* material = node->GetMtl();
+	if(material != NULL && Rorn::Max::HasDiffuseBitmap(material))
+	{
+		BitmapTex* bitmapTexture = Rorn::Max::GetDiffuseBitmap(material);
+		diffuseMapChannel = bitmapTexture->GetMapChannel();
+		bitmapTexture->GetUVTransform(diffuseUVTransform);
+	}
+
 	// Export vertices
 	int vertsExported = 0;
 	for(int faceIndex = 0 ; faceIndex < mesh.numFaces ; ++faceIndex)
@@ -148,10 +158,12 @@ void SceneExporter::ExportMesh(INode* node, Mesh& mesh, Rorn::XML::HierarchyElem
 			}
 
 			// Export texture coordinates (diffuse only for now)
-			if(mesh.maps[1].flags & MESHMAP_USED)
+			if(diffuseMapChannel != -1 && mesh.maps[diffuseMapChannel].flags & MESHMAP_USED)
 			{
-				DWORD tvIndex = mesh.maps[1].tf[faceIndex].t[vertIndex];
-				ExportPoint3("DiffuseUVW", mesh.maps[1].tv[tvIndex], vertexElement);
+				DWORD tvIndex = mesh.maps[diffuseMapChannel].tf[faceIndex].t[vertIndex];
+				UVVert& uvVert = mesh.maps[diffuseMapChannel].tv[tvIndex];
+				UVVert transformedUVVert = diffuseUVTransform * uvVert;
+				ExportPoint3("DiffuseUVW", transformedUVVert, vertexElement);
 			}
 		}
 	}
