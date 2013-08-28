@@ -14,12 +14,12 @@ namespace Rorn
 
 			virtual btCollisionShape* GetCollisionShape() = 0;
 			float GetMass() const;
+		protected:
+			float mass_;
 			
 		private:
 			BulletBounds(BulletBounds&);
 			BulletBounds& operator=(BulletBounds&);
-
-			float mass_;
 		};
 	}
 }

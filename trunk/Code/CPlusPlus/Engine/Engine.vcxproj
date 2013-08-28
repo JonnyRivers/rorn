@@ -51,6 +51,7 @@
     <ClInclude Include="Subsystems\Physics\BulletBounds.h" />
     <ClInclude Include="Subsystems\Physics\BulletBoundsInstance.h" />
     <ClInclude Include="Subsystems\Physics\BulletBoxPrimitive.h" />
+    <ClInclude Include="Subsystems\Physics\BulletCompositeBound.h" />
     <ClInclude Include="Subsystems\Physics\BulletCylinderPrimitive.h" />
     <ClInclude Include="Subsystems\Physics\BulletMeshPrimitive.h" />
     <ClInclude Include="Subsystems\Physics\BulletMeshPrimitiveBuilder.h" />
@@ -102,6 +103,7 @@
     <ClCompile Include="Subsystems\Physics\BulletBounds.cpp" />
     <ClCompile Include="Subsystems\Physics\BulletBoundsInstance.cpp" />
     <ClCompile Include="Subsystems\Physics\BulletBoxPrimitive.cpp" />
+    <ClCompile Include="Subsystems\Physics\BulletCompositeBound.cpp" />
     <ClCompile Include="Subsystems\Physics\BulletCylinderPrimitive.cpp" />
     <ClCompile Include="Subsystems\Physics\BulletMeshPrimitive.cpp" />
     <ClCompile Include="Subsystems\Physics\BulletMeshPrimitiveBuilder.cpp" />

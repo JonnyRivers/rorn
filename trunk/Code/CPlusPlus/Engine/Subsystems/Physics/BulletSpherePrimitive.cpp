@@ -8,7 +8,6 @@ BulletSpherePrimitive::BulletSpherePrimitive(float mass, float radius) :
 	BulletBounds(mass), 
 	sphereShape_(radius)
 {
-	
 }
 
 BulletSpherePrimitive::~BulletSpherePrimitive()

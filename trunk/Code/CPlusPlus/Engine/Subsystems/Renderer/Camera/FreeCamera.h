@@ -19,6 +19,8 @@ namespace Rorn
 
 			virtual void GetPosition(Maths::Vector4& position);
 			virtual void GetEyeDirection(Maths::Vector4& eyeDirection);
+			virtual void GetUpVector(Maths::Vector4& up);
+			virtual void GetRightVector(Maths::Vector4& right);
 
 			virtual void AlterHeading(float deltaHeading);
 			virtual void AlterPitch(float deltaPitch);

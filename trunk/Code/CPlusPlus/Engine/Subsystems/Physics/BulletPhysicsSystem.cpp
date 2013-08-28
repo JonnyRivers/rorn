@@ -8,6 +8,7 @@
 
 #include "BulletPhysicsSystem.h"
 #include "BulletBoxPrimitive.h"
+#include "BulletCompositeBound.h"
 #include "BulletCylinderPrimitive.h"
 #include "BulletMeshPrimitive.h"
 #include "BulletMeshPrimitiveBuilder.h"
@@ -35,7 +36,9 @@ BulletPhysicsSystem::~BulletPhysicsSystem()
 void BulletPhysicsSystem::Step(float timeElapsed)
 {
 	if(isEnabled_)
-		dynamicsWorld_.stepSimulation(timeElapsed);
+	{
+		dynamicsWorld_.stepSimulation(timeElapsed, 20);
+	}
 }
 
 /*virtual*/ void BulletPhysicsSystem::GetBoundsInstanceToWorldTransform(unsigned int boundsInstanceId, Rorn::Maths::Matrix4x4& instanceToWorldMatrix) const
@@ -91,11 +94,42 @@ void BulletPhysicsSystem::Step(float timeElapsed)
 		return nullPhysicsId_;
 
 	if(numPhysicsPrimitives > 1)
-		throw bounds_load_exception("Attempt to load model with more than one physics primitive.  This isn't supported (yet).");
+	{
+		BulletCompositeBound* newPrimitive = new BulletCompositeBound();
+
+		for(int childIndex = 0 ; childIndex < numPhysicsPrimitives ; ++childIndex)
+		{
+			float mass = fileReader.ReadFloat();
+			float primitiveToModelTransformValues[16];
+			for(int i = 0 ; i < 16 ; ++i)//skip the primitiveToModelTransform (for now)
+				primitiveToModelTransformValues[i] = fileReader.ReadFloat();
+			Maths::Matrix4x4 childToParentTransform(
+				primitiveToModelTransformValues[0], primitiveToModelTransformValues[1], primitiveToModelTransformValues[2], primitiveToModelTransformValues[3],
+				primitiveToModelTransformValues[4], primitiveToModelTransformValues[5], primitiveToModelTransformValues[6], primitiveToModelTransformValues[7],
+				primitiveToModelTransformValues[8], primitiveToModelTransformValues[9], primitiveToModelTransformValues[10], primitiveToModelTransformValues[11],
+				primitiveToModelTransformValues[12], primitiveToModelTransformValues[13], primitiveToModelTransformValues[14], primitiveToModelTransformValues[15]);
+
+			unsigned int primitiveType = fileReader.ReadUInt();
+			if(primitiveType == 0)
+			{
+				float width = fileReader.ReadFloat();
+				float length = fileReader.ReadFloat();
+				float height = fileReader.ReadFloat();
+
+				newPrimitive->AddBox(childToParentTransform, mass, width, length, height);
+			}
+		}
+
+		unsigned int newId = static_cast<unsigned int>(bounds_.size()) + 1;
+		bounds_.insert(std::make_pair<unsigned int, std::unique_ptr<BulletBounds>>(newId, std::unique_ptr<BulletBounds>(newPrimitive)));
+		return newId;
+	}
 
 	float mass = fileReader.ReadFloat();
+	float primitiveToModelTransform[16];
 	for(int i = 0 ; i < 16 ; ++i)//skip the primitiveToModelTransform (for now)
-		fileReader.ReadFloat();
+		primitiveToModelTransform[i] = fileReader.ReadFloat();
+	
 	unsigned int primitiveType = fileReader.ReadUInt();
 	if(primitiveType == 0)
 	{
@@ -128,10 +162,16 @@ void BulletPhysicsSystem::Step(float timeElapsed)
 		unsigned int numVerts = fileReader.ReadUInt();
 		for(unsigned int vertIndex = 0 ; vertIndex < numVerts ; vertIndex += 3)
 		{
-			meshPrimitiveBuilder.AddTriangle(
-				fileReader.ReadFloat(), fileReader.ReadFloat(), fileReader.ReadFloat(),
-				fileReader.ReadFloat(), fileReader.ReadFloat(), fileReader.ReadFloat(),
-				fileReader.ReadFloat(), fileReader.ReadFloat(), fileReader.ReadFloat());
+			float vert0X = fileReader.ReadFloat();
+			float vert0Y = fileReader.ReadFloat();
+			float vert0Z = fileReader.ReadFloat();
+			float vert1X = fileReader.ReadFloat();
+			float vert1Y = fileReader.ReadFloat();
+			float vert1Z = fileReader.ReadFloat();
+			float vert2X = fileReader.ReadFloat();
+			float vert2Y = fileReader.ReadFloat();
+			float vert2Z = fileReader.ReadFloat();
+			meshPrimitiveBuilder.AddTriangle(vert0X, vert0Y, vert0Z, vert1X, vert1Y, vert1Z, vert2X, vert2Y, vert2Z);
 		}
 
 		BulletMeshPrimitive* newPrimitive = meshPrimitiveBuilder.ToMeshPrimitive();

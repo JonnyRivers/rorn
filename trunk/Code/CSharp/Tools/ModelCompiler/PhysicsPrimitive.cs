@@ -11,6 +11,12 @@ namespace Rorn.Tools.ModelCompiler
     {
         internal PhysicsPrimitive(float mass, Matrix4x4 nodeToSceneMatrix, PrimitiveType type)
         {
+            // HACK to make compound shapes work for now
+            // We need to properly update nodeToSceneMatrix to take the max > Rorn transform into account
+            float m42 = nodeToSceneMatrix.M43;
+            nodeToSceneMatrix.M43 = -nodeToSceneMatrix.M42;
+            nodeToSceneMatrix.M42 = m42;
+
             Mass = mass;
             NodeToSceneMatrix = nodeToSceneMatrix;
             Type = type;
@@ -22,6 +28,11 @@ namespace Rorn.Tools.ModelCompiler
             Cylinder = 1,
             Mesh = 2,
             Sphere = 3
+        }
+
+        internal void Transform(Matrix4x4 transform)
+        {
+            NodeToSceneMatrix = NodeToSceneMatrix * transform;
         }
 
         internal void Save(System.IO.BinaryWriter binaryWriter)

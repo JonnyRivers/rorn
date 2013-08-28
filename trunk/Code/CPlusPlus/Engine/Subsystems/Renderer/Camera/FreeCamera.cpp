@@ -34,6 +34,28 @@ FreeCamera::~FreeCamera()
 	eyeDirection = zAxis;
 }
 
+/*virtual*/ void FreeCamera::GetUpVector(Vector4& up)
+{
+	Matrix4x4 xRotationMatrix = Matrix4x4::BuildXRotationMatrix(eulerAngles_.Pitch);
+	Matrix4x4 yRotationMatrix = Matrix4x4::BuildYRotationMatrix(eulerAngles_.Heading);
+	Vector4 yAxis(0.0f, 1.0f, 0.0f, 0.0f);
+	yAxis = yAxis * xRotationMatrix;
+	yAxis = yAxis * yRotationMatrix;
+
+	up = yAxis;
+}
+
+/*virtual*/ void FreeCamera::GetRightVector(Vector4& right)
+{
+	Matrix4x4 xRotationMatrix = Matrix4x4::BuildXRotationMatrix(eulerAngles_.Pitch);
+	Matrix4x4 yRotationMatrix = Matrix4x4::BuildYRotationMatrix(eulerAngles_.Heading);
+	Vector4 xAxis(1.0f, 0.0f, 0.0f, 0.0f);
+	xAxis = xAxis * xRotationMatrix;
+	xAxis = xAxis * yRotationMatrix;
+
+	right = xAxis;
+}
+
 /*virtual*/ void FreeCamera::Translate(const Vector4& translation)
 {
 	Matrix4x4 xRotationMatrix = Matrix4x4::BuildXRotationMatrix(eulerAngles_.Pitch);

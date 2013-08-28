@@ -38,10 +38,13 @@ namespace Rorn.Tools.ModelCompiler
 
             // Convert to engine-space (if necessary)
             string sceneSource = sceneElement.Element("Source").Value;
-            if (sceneSource.StartsWith("3DS Max"))
+            if (sceneSource.StartsWith("3DS Max"))// this is f***ing dubious
             {
                 foreach (KeyValuePair<int, RenderCommand> kvp in renderCommands_)
                     kvp.Value.Transform(CoordinateSystem.MaxToRornMatrix);
+
+                //foreach (PhysicsPrimitive physicsPrimitive in physicsPrimitives_)
+                //    physicsPrimitive.Transform(CoordinateSystem.MaxToRornMatrix);
             }
 
             // write to disk
@@ -197,7 +200,7 @@ namespace Rorn.Tools.ModelCompiler
                 float x = Single.Parse(vertexTokens[0]);
                 float y = Single.Parse(vertexTokens[1]);
                 float z = Single.Parse(vertexTokens[2]);
-                vertices[vertIndex] = new Vector4(x, y, z, 1);
+                vertices[vertIndex] = CoordinateSystem.MaxToRornMatrix * new Vector4(x, y, z, 1);
             }
 
             XElement[] triangleElements = physicsMeshElement.Elements("Triangle").ToArray();

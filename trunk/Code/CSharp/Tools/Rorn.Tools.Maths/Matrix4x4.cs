@@ -107,6 +107,30 @@ namespace Rorn.Tools.Maths
                 vector.X * matrix.M14 + vector.Y * matrix.M24 + vector.Z * matrix.M34 + vector.W * matrix.M44);
         }
 
+        public static Matrix4x4 operator *(Matrix4x4 lhs, Matrix4x4 rhs)
+        {
+            return new Matrix4x4(
+                (lhs.M11 * rhs.M11) + (lhs.M12 * rhs.M21) + (lhs.M13 * rhs.M31) + (lhs.M14 * rhs.M41),
+                (lhs.M11 * rhs.M12) + (lhs.M12 * rhs.M22) + (lhs.M13 * rhs.M32) + (lhs.M14 * rhs.M42),
+                (lhs.M11 * rhs.M13) + (lhs.M12 * rhs.M23) + (lhs.M13 * rhs.M33) + (lhs.M14 * rhs.M43),
+                (lhs.M11 * rhs.M14) + (lhs.M12 * rhs.M24) + (lhs.M13 * rhs.M34) + (lhs.M14 * rhs.M44),
+
+                (lhs.M21 * rhs.M11) + (lhs.M22 * rhs.M21) + (lhs.M23 * rhs.M31) + (lhs.M24 * rhs.M41),
+                (lhs.M21 * rhs.M12) + (lhs.M22 * rhs.M22) + (lhs.M23 * rhs.M32) + (lhs.M24 * rhs.M42),
+                (lhs.M21 * rhs.M13) + (lhs.M22 * rhs.M23) + (lhs.M23 * rhs.M33) + (lhs.M24 * rhs.M43),
+                (lhs.M21 * rhs.M14) + (lhs.M22 * rhs.M24) + (lhs.M23 * rhs.M34) + (lhs.M24 * rhs.M44),
+
+                (lhs.M31 * rhs.M11) + (lhs.M32 * rhs.M21) + (lhs.M33 * rhs.M31) + (lhs.M34 * rhs.M41),
+                (lhs.M31 * rhs.M12) + (lhs.M32 * rhs.M22) + (lhs.M33 * rhs.M32) + (lhs.M34 * rhs.M42),
+                (lhs.M31 * rhs.M13) + (lhs.M32 * rhs.M23) + (lhs.M33 * rhs.M33) + (lhs.M34 * rhs.M43),
+                (lhs.M31 * rhs.M14) + (lhs.M32 * rhs.M24) + (lhs.M33 * rhs.M34) + (lhs.M34 * rhs.M44),
+
+                (lhs.M41 * rhs.M11) + (lhs.M42 * rhs.M21) + (lhs.M43 * rhs.M31) + (lhs.M44 * rhs.M41),
+                (lhs.M41 * rhs.M12) + (lhs.M42 * rhs.M22) + (lhs.M43 * rhs.M32) + (lhs.M44 * rhs.M42),
+                (lhs.M41 * rhs.M13) + (lhs.M42 * rhs.M23) + (lhs.M43 * rhs.M33) + (lhs.M44 * rhs.M43),
+                (lhs.M41 * rhs.M14) + (lhs.M42 * rhs.M24) + (lhs.M43 * rhs.M34) + (lhs.M44 * rhs.M44));
+        }
+
         public float M11;
         public float M12;
         public float M13;

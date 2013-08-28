@@ -20,7 +20,7 @@ void BulletMeshPrimitiveBuilder::AddTriangle(float vert0X, float vert0Y, float v
 											 float vert1X, float vert1Y, float vert1Z,
 											 float vert2X, float vert2Y, float vert2Z)
 {
-	triangleMesh_->addTriangle(btVector3(vert0X, vert0Y, vert0Z), btVector3(vert1X, vert1Y, vert1Z), btVector3(vert2X, vert2Y, vert2Z), true);
+	triangleMesh_->addTriangle(btVector3(vert0X, vert0Y, vert0Z), btVector3(vert1X, vert1Y, vert1Z), btVector3(vert2X, vert2Y, vert2Z), false);
 }
 
 BulletMeshPrimitive* BulletMeshPrimitiveBuilder::ToMeshPrimitive()
