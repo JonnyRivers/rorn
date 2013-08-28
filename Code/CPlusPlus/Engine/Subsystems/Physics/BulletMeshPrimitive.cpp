@@ -9,7 +9,6 @@ BulletMeshPrimitive::BulletMeshPrimitive(float mass, btTriangleMesh* triangleMes
 	triangleMesh_(triangleMesh),
 	meshShape_(triangleMesh)
 {
-	
 }
 
 BulletMeshPrimitive::~BulletMeshPrimitive()

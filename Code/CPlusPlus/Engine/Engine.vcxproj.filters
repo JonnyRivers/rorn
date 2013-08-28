@@ -184,6 +184,9 @@
     <ClCompile Include="Subsystems\Physics\BulletMeshPrimitiveBuilder.cpp">
       <Filter>Subsystems\Physics</Filter>
     </ClCompile>
+    <ClCompile Include="Subsystems\Physics\BulletCompositeBound.cpp">
+      <Filter>Subsystems\Physics</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Interfaces\IEngine.h">
@@ -386,6 +389,9 @@
       <Filter>Subsystems\Physics</Filter>
     </ClInclude>
     <ClInclude Include="Subsystems\Physics\BulletMeshPrimitiveBuilder.h">
+      <Filter>Subsystems\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="Subsystems\Physics\BulletCompositeBound.h">
       <Filter>Subsystems\Physics</Filter>
     </ClInclude>
   </ItemGroup>

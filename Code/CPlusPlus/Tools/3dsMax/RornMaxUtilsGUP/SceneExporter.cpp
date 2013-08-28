@@ -103,14 +103,40 @@ void SceneExporter::ExportMesh(INode* node, Mesh& mesh, Rorn::XML::HierarchyElem
 {
 	mesh.buildNormals();
 
-	int diffuseMapChannel = -1;
-	Matrix3 diffuseUVTransform;
+	std::map<MtlID, int> materialDiffuseMapChannelMap;
+	std::map<MtlID, Matrix3> materialDiffuseUVTransformMap;
+
 	Mtl* material = node->GetMtl();
-	if(material != NULL && Rorn::Max::HasDiffuseBitmap(material))
+	if(material->IsMultiMtl())
 	{
-		BitmapTex* bitmapTexture = Rorn::Max::GetDiffuseBitmap(material);
-		diffuseMapChannel = bitmapTexture->GetMapChannel();
-		bitmapTexture->GetUVTransform(diffuseUVTransform);
+		for(int i = 0 ; i < material->NumSubMtls() ; ++i)
+		{
+			Mtl* subMaterial = material->GetSubMtl(i);
+
+			if(subMaterial != NULL && Rorn::Max::HasDiffuseBitmap(subMaterial))
+			{
+				BitmapTex* bitmapTexture = Rorn::Max::GetDiffuseBitmap(subMaterial);
+				int diffuseMapChannel = bitmapTexture->GetMapChannel();
+				materialDiffuseMapChannelMap.insert(std::make_pair<MtlID, int>(i, diffuseMapChannel));
+
+				Matrix3 diffuseUVTransform;
+				bitmapTexture->GetUVTransform(diffuseUVTransform);
+				materialDiffuseUVTransformMap.insert(std::make_pair<MtlID, Matrix3>(i, diffuseUVTransform));
+			}
+		}
+	}
+	else
+	{
+		if(material != NULL && Rorn::Max::HasDiffuseBitmap(material))
+		{
+			BitmapTex* bitmapTexture = Rorn::Max::GetDiffuseBitmap(material);
+			int diffuseMapChannel = bitmapTexture->GetMapChannel();
+			materialDiffuseMapChannelMap.insert(std::make_pair<MtlID, int>(0, diffuseMapChannel));
+
+			Matrix3 diffuseUVTransform;
+			bitmapTexture->GetUVTransform(diffuseUVTransform);
+			materialDiffuseUVTransformMap.insert(std::make_pair<MtlID, Matrix3>(0, diffuseUVTransform));
+		}
 	}
 
 	// Export vertices
@@ -157,12 +183,16 @@ void SceneExporter::ExportMesh(INode* node, Mesh& mesh, Rorn::XML::HierarchyElem
 				}
 			}
 
+			int materialID = mesh.faces[faceIndex].getMatID();
+			std::map<MtlID, int>::iterator diffuseChannelIter = materialDiffuseMapChannelMap.find(materialID);
+			std::map<MtlID, Matrix3>::iterator diffuseUVTransformIter = materialDiffuseUVTransformMap.find(materialID);
+
 			// Export texture coordinates (diffuse only for now)
-			if(diffuseMapChannel != -1 && mesh.maps[diffuseMapChannel].flags & MESHMAP_USED)
+			if(diffuseChannelIter != materialDiffuseMapChannelMap.end() && diffuseUVTransformIter != materialDiffuseUVTransformMap.end() && mesh.maps[diffuseChannelIter->second].flags & MESHMAP_USED)
 			{
-				DWORD tvIndex = mesh.maps[diffuseMapChannel].tf[faceIndex].t[vertIndex];
-				UVVert& uvVert = mesh.maps[diffuseMapChannel].tv[tvIndex];
-				UVVert transformedUVVert = diffuseUVTransform * uvVert;
+				DWORD tvIndex = mesh.maps[diffuseChannelIter->second].tf[faceIndex].t[vertIndex];
+				UVVert& uvVert = mesh.maps[diffuseChannelIter->second].tv[tvIndex];
+				UVVert transformedUVVert = diffuseUVTransformIter->second * uvVert;
 				ExportPoint3("DiffuseUVW", transformedUVVert, vertexElement);
 			}
 		}
