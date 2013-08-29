@@ -16,6 +16,8 @@ namespace Rorn
 			virtual void SetBoundsInstanceLinearVelocity(unsigned int boundsInstanceId, const Maths::Vector4& linearVelocity) = 0;
 			virtual void SetBoundsInstanceToWorldTransform(unsigned int boundsInstanceId, const Maths::Matrix4x4& instanceToWorldMatrix) = 0;
 
+			virtual bool GetNumActiveObjects() const = 0;
+
 			virtual unsigned int CreateBoundsInstance(unsigned int boundsId, const Maths::Matrix4x4& instanceToWorldMatrix) = 0;
 			virtual unsigned int LoadBounds(unsigned int numPhysicsPrimitives, StreamReader& fileReader) = 0;
 			virtual void SetEnabled(bool enabled) = 0;

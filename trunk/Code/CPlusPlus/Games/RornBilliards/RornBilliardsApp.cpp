@@ -252,6 +252,7 @@ VOID RornBilliardsApp::Step()
 			Rorn::Maths::Vector4 cameraUp;
 			camera->GetUpVector(cameraUp);
 			Rorn::Maths::Vector4 linearVelocity(cameraUp * 2.5f);
+			linearVelocity.Y = 0;
 			IModelInstance* cueBallModelInstance = theEngine_->GetRenderer()->GetModelInstance(cueBallModelInstanceId_);
 			cueBallModelInstance->SetLinearVelocity(linearVelocity);
 			readyToFire_ = false;
@@ -285,6 +286,11 @@ VOID RornBilliardsApp::Step()
 	char fpsText[64];
 	sprintf_s(fpsText, sizeof(fpsText), "FPS: %f", theEngine_->GetFramerate());
 	theEngine_->GetRenderer()->AddDebugText(fpsText, -1.0f, 1.0f);
+
+	char physicsText[64];
+	int numActiveObjects = theEngine_->GetPhysicsSystem()->GetNumActiveObjects();
+	sprintf_s(physicsText, sizeof(physicsText), "# active objects: %d", numActiveObjects);
+	theEngine_->GetRenderer()->AddDebugText(physicsText, -1.0f, 0.95f);
 
 	theEngine_->EndFrame();
 }

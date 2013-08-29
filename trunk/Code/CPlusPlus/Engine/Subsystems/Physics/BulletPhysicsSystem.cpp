@@ -62,6 +62,19 @@ void BulletPhysicsSystem::Step(float timeElapsed)
 	boundsInstanceIter->second->SetInstanceToWorldMatrix(instanceToWorldMatrix);
 }
 
+/*virtual*/ bool BulletPhysicsSystem::GetNumActiveObjects() const
+{
+	int numActiveObjects = 0;
+	std::map<unsigned int, std::unique_ptr<BulletBoundsInstance>>::const_iterator boundsInstanceIter;
+	for(boundsInstanceIter = boundsInstances_.cbegin() ; boundsInstanceIter != boundsInstances_.cend() ; ++boundsInstanceIter)
+	{
+		if(boundsInstanceIter->second.get()->IsActive())
+			++numActiveObjects;
+	}
+
+	return numActiveObjects;
+}
+
 /*virtual*/ unsigned int BulletPhysicsSystem::CreateBoundsInstance(unsigned int boundsId, const Rorn::Maths::Matrix4x4& instanceToWorldMatrix)
 {
 	std::map<unsigned int, std::unique_ptr<BulletBounds>>::const_iterator boundsIter = bounds_.find(boundsId);
