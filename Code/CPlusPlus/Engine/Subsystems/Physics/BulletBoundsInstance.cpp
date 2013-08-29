@@ -8,6 +8,8 @@ BulletBoundsInstance::BulletBoundsInstance(btDiscreteDynamicsWorld& dynamicsWorl
 	motionState_(instanceToWorldTransform),
 	rigidBody_( btRigidBody::btRigidBodyConstructionInfo(mass, &motionState_, collisionShape, localInertia) )
 {
+	rigidBody_.setDamping(0.1, 0.75);
+
 	//add the body to the dynamics world
 	dynamicsWorld.addRigidBody(&rigidBody_);
 }
@@ -43,6 +45,11 @@ void BulletBoundsInstance::GetInstanceToWorldMatrix(Rorn::Maths::Matrix4x4& inst
 	instanceToWorldMatrix.M42 = origin.y();
 	instanceToWorldMatrix.M43 = origin.z();
 	instanceToWorldMatrix.M44 = 1;
+}
+
+bool BulletBoundsInstance::IsActive() const
+{
+	return rigidBody_.isActive();
 }
 
 void BulletBoundsInstance::SetInstanceToWorldMatrix(const Rorn::Maths::Matrix4x4& instanceToWorldMatrix)
