@@ -136,6 +136,11 @@
     <ClCompile Include="Subsystems\Renderer\Model\RenderCommand.cpp" />
     <ClCompile Include="Subsystems\Timekeeper\PCTimekeeper.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Shared\RornMaths\RornMaths.vcxproj">
+      <Project>{b5bf596e-4215-4ad8-a8f1-9ddcf7c87050}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{3324AF49-C7A6-411C-8BD7-A2E7EFC38498}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -211,15 +216,15 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_XM_NO_INTRINSICS_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
-      <AdditionalIncludeDirectories>$(ConfigurationName)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\3rdParty\DXSDK\Include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>d3d11.lib;d3dx11d.lib;dinput8.lib;dxguid.lib;RornMathsD.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;d3dx11d.lib;dinput8.lib;dxguid.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\3rdParty\DXSDK\Lib</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -231,15 +236,15 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;_XM_NO_INTRINSICS_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
       <FloatingPointModel>Fast</FloatingPointModel>
-      <AdditionalIncludeDirectories>$(ConfigurationName)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\3rdParty\DXSDK\Include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalDependencies>d3d11.lib;d3dx11d.lib;dinput8.lib;dxguid.lib;RornMathsD.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;d3dx11d.lib;dinput8.lib;dxguid.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\3rdParty\DXSDK\Lib\x64</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -251,7 +256,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_XM_NO_INTRINSICS_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ConfigurationName)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\3rdParty\DXSDK\Include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -260,8 +265,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>d3d11.lib;d3dx11.lib;dinput8.lib;dxguid.lib;RornMaths.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;d3dx11.lib;dinput8.lib;dxguid.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\3rdParty\DXSDK\Lib</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -273,7 +278,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;_XM_NO_INTRINSICS_;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ConfigurationName)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\3rdParty\DXSDK\Include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -282,8 +287,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <Lib>
-      <AdditionalDependencies>d3d11.lib;d3dx11.lib;dinput8.lib;dxguid.lib;RornMaths.lib</AdditionalDependencies>
-      <AdditionalLibraryDirectories>$(OutDir)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>d3d11.lib;d3dx11.lib;dinput8.lib;dxguid.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\3rdParty\DXSDK\Lib\x64</AdditionalLibraryDirectories>
     </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

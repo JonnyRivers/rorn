@@ -16,8 +16,13 @@ PCDiagnostics::PCDiagnostics(HWND applicationWindowHandle)
 	if( FAILED( hr ) )
 		throw initialisation_exception("Unable to retrieve application data directory.");
 
+    std::wstringstream logFileDirectoryStream;
+	logFileDirectoryStream << appDataDirectory << "\\Rorn";
+
+    ::SHCreateDirectory(applicationWindowHandle_, logFileDirectoryStream.str().c_str());
+
 	std::wstringstream logFilePathnameStream;
-	logFilePathnameStream << appDataDirectory << "\\Rorn\\EngineLog.txt";
+	logFilePathnameStream << logFileDirectoryStream.str().c_str() << "\\EngineLog.txt";
 
 	loggingStream_.open(logFilePathnameStream.str().c_str());
 	if(!loggingStream_.is_open())
