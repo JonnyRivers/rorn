@@ -1,0 +1,36 @@
+﻿  {{xgTaskID=00000077}}
+  btAlignedAllocator.cpp
+  {{xgTaskID=00000000}}
+  {{xgTaskID=0000007B}}
+  btPolarDecomposition.cpp
+F:\dev\home\rorn\trunk\Code\3rdParty\bullet-2.81-rev2613\src\LinearMath\btPolarDecomposition.cpp(63): warning C4244: 'initializing' : conversion from 'double' to 'const btScalar', possible loss of data
+F:\dev\home\rorn\trunk\Code\3rdParty\bullet-2.81-rev2613\src\LinearMath\btPolarDecomposition.cpp(66): warning C4244: 'argument' : conversion from 'double' to 'const btScalar', possible loss of data
+  {{xgTaskID=00000000}}
+  {{xgTaskID=0000007A}}
+  btGeometryUtil.cpp
+  {{xgTaskID=00000000}}
+  {{xgTaskID=0000007E}}
+  btVector3.cpp
+F:\dev\home\rorn\trunk\Code\3rdParty\bullet-2.81-rev2613\src\LinearMath\btVector3.cpp(171): warning C4267: '=' : conversion from 'size_t' to 'long', possible loss of data
+F:\dev\home\rorn\trunk\Code\3rdParty\bullet-2.81-rev2613\src\LinearMath\btVector3.cpp(176): warning C4267: '-=' : conversion from 'size_t' to 'unsigned long', possible loss of data
+F:\dev\home\rorn\trunk\Code\3rdParty\bullet-2.81-rev2613\src\LinearMath\btVector3.cpp(419): warning C4267: '=' : conversion from 'size_t' to 'long', possible loss of data
+F:\dev\home\rorn\trunk\Code\3rdParty\bullet-2.81-rev2613\src\LinearMath\btVector3.cpp(556): warning C4267: '=' : conversion from 'size_t' to 'long', possible loss of data
+F:\dev\home\rorn\trunk\Code\3rdParty\bullet-2.81-rev2613\src\LinearMath\btVector3.cpp(561): warning C4267: '-=' : conversion from 'size_t' to 'unsigned long', possible loss of data
+F:\dev\home\rorn\trunk\Code\3rdParty\bullet-2.81-rev2613\src\LinearMath\btVector3.cpp(807): warning C4267: '=' : conversion from 'size_t' to 'long', possible loss of data
+  {{xgTaskID=00000000}}
+  {{xgTaskID=0000007D}}
+  btSerializer.cpp
+  {{xgTaskID=00000000}}
+  {{xgTaskID=0000007C}}
+  btQuickprof.cpp
+  {{xgTaskID=00000000}}
+  {{xgTaskID=00000079}}
+  btConvexHullComputer.cpp
+  {{xgTaskID=00000000}}
+  {{xgTaskID=00000078}}
+  btConvexHull.cpp
+  {{xgTaskID=00000000}}
+  {{xgTaskID=00000089}}
+  
+  {{xgTaskID=00000000}}
+  LinearMath.vcxproj -> F:\dev\home\rorn\trunk\Code\3rdParty\bullet-2.81-rev2613\build\vs2010\..\..\lib\LinearMath_vs2010_x64_debug.lib
